@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">timmyPOS</string>
+
+    <!--LOGIN ACTIVITY-->
+    <string name="login_welcome_title">Welcome!</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="loging_button_text">Log In</string>
+
+    <!--MAIN ACTIVITY-->
+    <string name="main_nav_home_title">Home</string>
+    <string name="main_nav_orders_title">Orders</string>
+    <string name="main_nav_financials_title">Financials</string>
+    <string name="main_nav_history_title">History</string>
+
+</resources>
