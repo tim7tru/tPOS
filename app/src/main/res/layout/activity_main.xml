@@ -14,18 +14,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view" />
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/secondary"
-        app:itemIconSize="48dp"
+        app:itemIconSize="@dimen/icon_medium"
         app:itemIconTint="@drawable/bottom_nav_bar_colours"
         app:itemTextColor="@drawable/bottom_nav_bar_colours"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

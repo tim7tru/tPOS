@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/margin_xsmall"
+    app:cardBackgroundColor="@color/primaryLight"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/card_radius_large"
+    app:cardElevation="@dimen/card_radius_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small_medium"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/item_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_image_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toEndOf="@id/item_picture"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:text="@string/test_item_title"
+                android:textSize="@dimen/text_small_medium"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/item_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/test_item_descripton"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:textSize="@dimen/text_small_medium"
+                app:layout_constraintEnd_toStartOf="@id/add_to_order_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_name"/>
+
+            <Button
+                android:id="@+id/add_to_order_button"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="@dimen/margin_xxsmall"
+                android:layout_marginBottom="@dimen/margin_xxsmall"
+                android:background="@drawable/shape_rounded_rect_blue"
+                android:paddingLeft="@dimen/padding_medium_large"
+                android:paddingRight="@dimen/padding_medium_large"
+                android:text="@string/orders_add_to_order"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/item_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_item_cost"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small_medium"
+                android:textStyle="bold"
+                android:layout_marginEnd="@dimen/margin_xxsmall"
+                app:layout_constraintEnd_toStartOf="@id/add_to_order_button"
+                app:layout_constraintBottom_toBottomOf="@+id/add_to_order_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

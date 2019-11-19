@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">timmyPOS</string>
 
+    <!--TEST STRINGS-->
+    <string name="test_item_title">99. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</string>
+    <string name="test_item_descripton">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="test_item_cost">$99.99 ea.</string>
+
     <!--LOGIN ACTIVITY-->
     <string name="login_welcome_title">Welcome!</string>
     <string name="login_username_hint">Username</string>
@@ -12,5 +17,19 @@
     <string name="main_nav_orders_title">Orders</string>
     <string name="main_nav_financials_title">Financials</string>
     <string name="main_nav_history_title">History</string>
+
+    <!--ORDERS FRAGMENT-->
+    <string name="orders_home">Home</string>
+    <string name="orders_appetizers">Appetizers</string>
+    <string name="orders_soups">Soups</string>
+    <string name="orders_pho">Pho</string>
+    <string name="orders_rice">Rices</string>
+    <string name="orders_fried_rice">Fried Rice</string>
+    <string name="orders_vermicelli">Vermicelli</string>
+    <string name="orders_stir_fry">Stir-Fry</string>
+    <string name="orders_drinks">Drinks</string>
+    <string name="orders_add_to_order">ADD TO ORDER</string>
+    <string name="orders_view_order">VIEW ORDER</string>
+    <string name="orders_item_count">Items: 99</string>
 
 </resources>

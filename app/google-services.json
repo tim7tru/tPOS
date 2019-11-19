@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "213426706543",
+    "firebase_url": "https://tpos-320a5.firebaseio.com",
+    "project_id": "tpos-320a5",
+    "storage_bucket": "tpos-320a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213426706543:android:5cc4650dd56bdf3f7d559a",
+        "android_client_info": {
+          "package_name": "com.timmytruong.timmypos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213426706543-o5fedkgh335eoo01db5so8n0r9ke3p86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6XlTjaTDkb0SRM7Mjb5Gq8SMfGKumZVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213426706543-o5fedkgh335eoo01db5so8n0r9ke3p86.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

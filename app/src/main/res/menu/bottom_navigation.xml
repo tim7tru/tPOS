@@ -8,7 +8,6 @@
         android:id="@+id/navigation_orders"
         android:icon="@drawable/ic_restaurant_36dp"/>
 
-
     <item
         android:id="@+id/navigation_history"
         android:icon="@drawable/ic_history_36dp"/>

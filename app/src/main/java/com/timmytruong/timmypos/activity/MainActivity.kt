@@ -1,14 +1,12 @@
 package com.timmytruong.timmypos.activity
 
 import android.content.pm.ActivityInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.timmytruong.timmypos.AppConstants
+import com.timmytruong.timmypos.utils.AppConstants
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.fragments.FinancialFragment
 import com.timmytruong.timmypos.fragments.HistoryFragment
@@ -49,16 +47,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             .hide(ordersFragment)
             .hide(historyFragment)
             .hide(financialFragment)
+            .commit()
 
         bottom_navigation_view.selectedItemId = R.id.navigation_home
-
-        fragmentTransaction.commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean
     {
         val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
         val currentFragment: Fragment? = getVisibleFragment()
         var newFragment: Fragment? = null
 
@@ -66,61 +62,26 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         {
             R.id.navigation_home ->
             {
-                Log.i("Fragment", "HOME")
-
                 newFragment = fragmentManager.findFragmentByTag(AppConstants.HOME_FRAGMENT_TAG)
-                if (newFragment == null)
-                {
-                    newFragment = HomeFragment()
-                    fragmentTransaction.add(content.id, newFragment, AppConstants.HOME_FRAGMENT_TAG)
-                }
             }
             R.id.navigation_orders ->
             {
-                Log.i("Fragment", "ORDERS")
-
                 newFragment = fragmentManager.findFragmentByTag(AppConstants.ORDERS_FRAGMENT_TAG)
-                if (newFragment == null)
-                {
-                    newFragment = OrdersFragment()
-                    fragmentTransaction.add(content.id, newFragment, AppConstants.ORDERS_FRAGMENT_TAG)
-
-                }
             }
             R.id.navigation_history ->
             {
-                Log.i("Fragment", "HISTORY")
-
                 newFragment = fragmentManager.findFragmentByTag(AppConstants.HISTORY_FRAGMENT_TAG)
-                if (newFragment == null)
-                {
-                    newFragment = HistoryFragment()
-                    fragmentTransaction.add(content.id, newFragment, AppConstants.HISTORY_FRAGMENT_TAG)
-                }
             }
             R.id.navigation_financials ->
             {
-                Log.i("Fragment", "FINANCIALS")
-
                 newFragment = fragmentManager.findFragmentByTag(AppConstants.FINANCIAL_FRAGMENT_TAG)
-                if (newFragment == null)
-                {
-                    newFragment = FinancialFragment()
-                    fragmentTransaction.add(content.id, newFragment, AppConstants.FINANCIAL_FRAGMENT_TAG)
-                }
             }
         }
 
-        if (currentFragment != null && currentFragment != newFragment && newFragment != null)
+        if (newFragment != currentFragment && currentFragment != null && newFragment != null)
         {
-            fragmentTransaction.hide(currentFragment).show(newFragment)
+            fragmentManager.beginTransaction().hide(currentFragment).show(newFragment).commit()
         }
-        else if (currentFragment == null && newFragment != null)
-        {
-            fragmentTransaction.show(newFragment)
-        }
-
-        fragmentTransaction.commit()
 
         return true
     }
