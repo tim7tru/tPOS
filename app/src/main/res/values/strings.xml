@@ -3,8 +3,11 @@
 
     <!--TEST STRINGS-->
     <string name="test_item_title">99. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</string>
-    <string name="test_item_descripton">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
-    <string name="test_item_cost">$99.99 ea.</string>
+    <string name="test_item_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="test_item_cost">99.99</string>
+
+    <!--GENERAL-->
+    <string name="general_cost_format">$%s</string>
 
     <!--LOGIN ACTIVITY-->
     <string name="login_welcome_title">Welcome!</string>
@@ -31,5 +34,10 @@
     <string name="orders_add_to_order">ADD TO ORDER</string>
     <string name="orders_view_order">VIEW ORDER</string>
     <string name="orders_item_count">Items: 99</string>
+    <string name="orders_cancel_dialog">CANCEL</string>
+    <string name="orders_add_dialog">ADD %s TO ORDER</string>
+    <string name="orders_subtotal_text">SUB-TOTAL</string>
+    <string name="orders_list_price_per_item">$%s ea.</string>
+    <string name="orders_dialog_price_per_item">\@ $%s ea.</string>
 
 </resources>

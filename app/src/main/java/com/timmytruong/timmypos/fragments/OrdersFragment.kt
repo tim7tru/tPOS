@@ -1,9 +1,12 @@
 package com.timmytruong.timmypos.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,9 +14,12 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.adapters.CategoryMenuAdapter
 import com.timmytruong.timmypos.adapters.MenuItemAdapter
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
+import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.CategoryMenuItem
 import com.timmytruong.timmypos.models.MenuItem
+import com.timmytruong.timmypos.utils.ui.MenuItemAddDialog
 import kotlinx.android.synthetic.main.fragment_orders.*
+import kotlinx.android.synthetic.main.menu_item_add_dialog_title.*
 
 class OrdersFragment : Fragment()
 {
@@ -37,6 +43,7 @@ class OrdersFragment : Fragment()
 
     private lateinit var categoryMenuAdapter: CategoryMenuAdapter
     private lateinit var menuAdapter: MenuItemAdapter
+    private lateinit var menuItemAddDialog: MenuItemAddDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
@@ -59,12 +66,12 @@ class OrdersFragment : Fragment()
         drinksString = resources.getString(R.string.orders_drinks)
 
         testItemTitle = resources.getString(R.string.test_item_title)
-        testItemDescription = resources.getString(R.string.test_item_descripton)
+        testItemDescription = resources.getString(R.string.test_item_description)
         testItemCost = resources.getString(R.string.test_item_cost)
 
         categoryMenuAdapter = CategoryMenuAdapter(activity!!.applicationContext, categoryTitlesArray, categoryMenuItemClickListener)
 
-        category_menu.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+        category_menu.layoutManager = LinearLayoutManager(activity!!)
         category_menu.adapter = categoryMenuAdapter
 
         createListData()
@@ -111,9 +118,9 @@ class OrdersFragment : Fragment()
 
         categoryItemsArray = categoryArrays[0]
 
-        menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray)
+        menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray, menuItemAddClickListener)
 
-        menu_items.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+        menu_items.layoutManager = LinearLayoutManager(activity!!)
         menu_items.adapter = menuAdapter
 
         menuAdapter.notifyDataSetChanged()
@@ -149,7 +156,7 @@ class OrdersFragment : Fragment()
 
                     categoryItemsArray = categoryArrays[newPosition]
 
-                    menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray)
+                    menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray, menuItemAddClickListener)
 
                     menu_items.adapter = menuAdapter
 
@@ -158,12 +165,26 @@ class OrdersFragment : Fragment()
 
                 override fun getActiveColour(): Int
                 {
-                    return ContextCompat.getColor(activity!!.applicationContext, R.color.secondary)
+                    return ContextCompat.getColor(activity!!, R.color.secondary)
                 }
 
                 override fun getInactiveColour(): Int
                 {
-                    return ContextCompat.getColor(activity!!.applicationContext, R.color.white)
+                    return ContextCompat.getColor(activity!!, R.color.white)
+                }
+            }
+
+    private val menuItemAddClickListener: MenuItemAddClickListener =
+            object : MenuItemAddClickListener
+            {
+                override fun onAddToOrderButtonClicked(view: View, position: Int)
+                {
+                    val title = categoryItemsArray[position].getTitle()
+                    val description = categoryItemsArray[position].getDescription()
+                    val cost = categoryItemsArray[position].getCost()
+
+                    menuItemAddDialog = MenuItemAddDialog(activity!!)
+                    menuItemAddDialog.setupDialog(title, description, cost)
                 }
             }
 }

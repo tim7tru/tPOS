@@ -1,8 +1,8 @@
 package com.timmytruong.timmypos.models
 
-data class MenuItem(private var description: String,
-               private var title: String,
-               private var cost: String)
+data class MenuItem(private var title: String,
+                    private var description: String,
+                    private var cost: String)
 {
     fun getTitle(): String
     {

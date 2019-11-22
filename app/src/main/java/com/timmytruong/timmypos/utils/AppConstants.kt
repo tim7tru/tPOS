@@ -1,6 +1,7 @@
 package com.timmytruong.timmypos.utils
 
 import com.timmytruong.timmypos.R
+import java.text.DecimalFormat
 
 object AppConstants
 {
@@ -11,4 +12,6 @@ object AppConstants
     const val HISTORY_FRAGMENT_TAG = "history_fragment_tag"
 
     const val FINANCIAL_FRAGMENT_TAG = "financial_fragment_tag"
+
+    val DECIMAL_FORMAT = DecimalFormat("0.00")
 }
