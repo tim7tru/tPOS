@@ -115,12 +115,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/quantity"
         app:layout_constraintTop_toTopOf="@id/quantity"
-        app:layout_constraintBottom_toTopOf="@id/subtotal_text">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/dialog_size"
@@ -177,52 +175,52 @@
                 app:layout_constraintTop_toBottomOf="@id/extras_title"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/subtotal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orders_subtotal_text"
+            android:textSize="@dimen/text_small_medium"
+            android:textColor="@color/white"
+            android:layout_marginEnd="@dimen/margin_small"
+            app:layout_constraintBottom_toTopOf="@id/add_dialog_positive_button"
+            app:layout_constraintEnd_toStartOf="@id/subtotal_cost" />
 
+        <TextView
+            android:id="@+id/subtotal_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test_item_cost"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_small_medium"
+            android:layout_marginEnd="@dimen/text_small"
+            app:layout_constraintBottom_toBottomOf="@id/subtotal_text"
+            app:layout_constraintEnd_toEndOf="@id/add_dialog_positive_button"/>
+
+        <TextView
+            android:id="@+id/add_dialog_negative_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orders_cancel_dialog"
+            android:textSize="@dimen/text_small_medium"
+            android:textColor="@color/blue_order"
+            app:layout_constraintBottom_toBottomOf="@id/add_dialog_positive_button"
+            app:layout_constraintEnd_toStartOf="@id/add_dialog_positive_button"
+            android:padding="@dimen/padding_large"/>
+
+        <TextView
+            android:id="@+id/add_dialog_positive_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orders_add_dialog"
+            android:textSize="@dimen/text_small_medium"
+            android:textColor="@color/blue_order"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="@dimen/padding_large"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/subtotal_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/orders_subtotal_text"
-        android:textSize="@dimen/text_small_medium"
-        android:textColor="@color/white"
-        android:layout_marginEnd="@dimen/margin_small"
-        app:layout_constraintBottom_toTopOf="@id/add_dialog_positive_button"
-        app:layout_constraintEnd_toStartOf="@id/subtotal_cost" />
 
-    <TextView
-        android:id="@+id/subtotal_cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test_item_cost"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_small_medium"
-        android:layout_marginEnd="@dimen/text_small"
-        app:layout_constraintBottom_toBottomOf="@id/subtotal_text"
-        app:layout_constraintEnd_toEndOf="@id/add_dialog_positive_button"/>
-
-    <TextView
-        android:id="@+id/add_dialog_negative_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/orders_cancel_dialog"
-        android:textSize="@dimen/text_small_medium"
-        android:textColor="@color/blue_order"
-        app:layout_constraintBottom_toBottomOf="@id/add_dialog_positive_button"
-        app:layout_constraintEnd_toStartOf="@id/add_dialog_positive_button"
-        android:padding="@dimen/padding_large"/>
-
-    <TextView
-        android:id="@+id/add_dialog_positive_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/orders_add_dialog"
-        android:textSize="@dimen/text_small_medium"
-        android:textColor="@color/blue_order"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/padding_large"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

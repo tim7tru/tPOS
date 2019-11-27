@@ -11,7 +11,7 @@ import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.DialogOptionItem
 import com.timmytruong.timmypos.utils.AppConstants
 import com.timmytruong.timmypos.utils.CommonUtils
-import kotlinx.android.synthetic.main.menu_item_add_dialog_body.view.*
+import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
 class SoupsItemAddDialog(private val context: Context,
@@ -20,7 +20,7 @@ class SoupsItemAddDialog(private val context: Context,
 {
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
 
-    private val bodyView: View = View.inflate(context, R.layout.menu_item_add_dialog_body, null)
+    private val bodyView: View = View.inflate(context, R.layout.soups_add_dialog_body, null)
 
     private val sizesArray: ArrayList<DialogOptionItem> = arrayListOf()
 
