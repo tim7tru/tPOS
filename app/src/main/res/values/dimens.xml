@@ -9,6 +9,7 @@
     <dimen name="margin_xxsmall">10dp</dimen>
 
     <!--Padding-->
+    <dimen name="padding_small">3dp</dimen>
     <dimen name="padding_small_medium">5dp</dimen>
     <dimen name="padding_medium">10dp</dimen>
     <dimen name="padding_medium_large">15dp</dimen>

@@ -10,18 +10,18 @@ import com.timmytruong.timmypos.models.MenuItem
 import com.timmytruong.timmypos.utils.ui.MenuItemViewHolder
 
 class MenuItemAdapter(private val context: Context,
-                      private val menuDescriptions: ArrayList<MenuItem>,
+                      private val menuItems: ArrayList<MenuItem>,
                       private val menuItemAddClickListener: MenuItemAddClickListener): RecyclerView.Adapter<MenuItemViewHolder>()
 {
     override fun onBindViewHolder(holder: MenuItemViewHolder, position: Int)
     {
-        val item: MenuItem = menuDescriptions[position]
+        val item: MenuItem = menuItems[position]
         holder.setDetails(item)
     }
 
     override fun getItemCount(): Int
     {
-        return menuDescriptions.size
+        return menuItems.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder

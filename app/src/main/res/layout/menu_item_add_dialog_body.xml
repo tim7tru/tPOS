@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primaryLight"
     android:minHeight="600dp"
-    android:minWidth="1000dp"
+    android:minWidth="750dp"
     android:layout_height="fill_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,20 +110,76 @@
             app:layout_constraintStart_toStartOf="@id/quantity_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="@dimen/margin_medium"-->
-<!--        android:layout_marginEnd="@dimen/margin_medium"-->
-<!--        android:layout_marginBottom="@dimen/margin_small"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@id/quantity"-->
-<!--        app:layout_constraintTop_toTopOf="@id/quantity"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/subtotal_text">-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_dialog_options_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/quantity"
+        app:layout_constraintTop_toTopOf="@id/quantity"
+        app:layout_constraintBottom_toTopOf="@id/subtotal_text">
 
-<!--           -->
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <LinearLayout
+            android:id="@+id/dialog_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/sizes_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/orders_dialog_sizes_title"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sizes_body"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sizes_title"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintStart_toEndOf="@id/dialog_size"
+            app:layout_constraintTop_toTopOf="@id/dialog_size">
+
+            <TextView
+                android:id="@+id/extras_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extras"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/extras_body"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/extras_title"/>
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/subtotal_text"

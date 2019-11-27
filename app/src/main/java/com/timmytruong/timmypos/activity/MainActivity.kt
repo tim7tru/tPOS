@@ -34,22 +34,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        val homeFragment = HomeFragment()
         val ordersFragment = OrdersFragment()
         val historyFragment = HistoryFragment()
         val financialFragment = FinancialFragment()
 
-        fragmentTransaction.add(content.id, homeFragment, AppConstants.HOME_FRAGMENT_TAG)
-            .add(content.id, ordersFragment, AppConstants.ORDERS_FRAGMENT_TAG)
+        fragmentTransaction.add(content.id, ordersFragment, AppConstants.ORDERS_FRAGMENT_TAG)
             .add(content.id, historyFragment, AppConstants.HISTORY_FRAGMENT_TAG)
             .add(content.id, financialFragment, AppConstants.FINANCIAL_FRAGMENT_TAG)
-            .show(homeFragment)
-            .hide(ordersFragment)
+            .show(ordersFragment)
             .hide(historyFragment)
             .hide(financialFragment)
             .commit()
 
-        bottom_navigation_view.selectedItemId = R.id.navigation_home
+        bottom_navigation_view.selectedItemId = R.id.navigation_orders
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean
@@ -60,10 +57,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         when (item.itemId)
         {
-            R.id.navigation_home ->
-            {
-                newFragment = fragmentManager.findFragmentByTag(AppConstants.HOME_FRAGMENT_TAG)
-            }
             R.id.navigation_orders ->
             {
                 newFragment = fragmentManager.findFragmentByTag(AppConstants.ORDERS_FRAGMENT_TAG)
