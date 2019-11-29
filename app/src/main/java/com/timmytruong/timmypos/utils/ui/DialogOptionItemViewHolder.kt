@@ -14,8 +14,6 @@ class DialogOptionItemViewHolder(itemView: View,
     private val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
     private val dialogTitle: TextView = itemView.findViewById(R.id.dialog_title)
 
-
-
     fun setDetails(item: DialogOptionItem)
     {
         itemView.setOnClickListener {

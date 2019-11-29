@@ -137,7 +137,7 @@ class OrdersFragment : Fragment()
 
     private fun createCategoryData()
     {
-        var item = CategoryMenuItem(appetizersString, false)
+        var item = CategoryMenuItem(appetizersString, true)
         categoryTitlesArray.add(item)
 
         item = CategoryMenuItem(soupsString, false)
