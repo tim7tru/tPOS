@@ -1,4 +1,4 @@
-package com.timmytruong.timmypos.utils.ui
+package com.timmytruong.timmypos.utils.ui.viewholders
 
 import android.view.View
 import android.widget.TextView

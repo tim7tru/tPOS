@@ -10,7 +10,6 @@ import com.timmytruong.timmypos.utils.AppConstants
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.fragments.FinancialFragment
 import com.timmytruong.timmypos.fragments.HistoryFragment
-import com.timmytruong.timmypos.fragments.HomeFragment
 import com.timmytruong.timmypos.fragments.OrdersFragment
 import kotlinx.android.synthetic.main.activity_main.*
 

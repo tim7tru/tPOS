@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.models.CategoryMenuItem
-import com.timmytruong.timmypos.utils.ui.CategoryMenuViewHolder
+import com.timmytruong.timmypos.utils.ui.viewholders.CategoryMenuViewHolder
 
 class CategoryMenuAdapter(private val context: Context,
                           private val categoryTitles: ArrayList<CategoryMenuItem>,
@@ -38,6 +38,9 @@ class CategoryMenuAdapter(private val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMenuViewHolder
     {
-        return CategoryMenuViewHolder(LayoutInflater.from(context).inflate(R.layout.category_menu_item, parent, false), onClickListener)
+        return CategoryMenuViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.category_menu_item, parent, false),
+            onClickListener
+        )
     }
 }

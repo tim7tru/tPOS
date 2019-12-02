@@ -1,4 +1,4 @@
-package com.timmytruong.timmypos.utils.ui
+package com.timmytruong.timmypos.utils.ui.viewholders
 
 import android.view.View
 import android.widget.TextView
@@ -12,6 +12,6 @@ class MenuItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     fun setDetails(item: MenuItem)
     {
-        itemDescriptionText.text = item.getDescription()
+        itemDescriptionText.text = item.description
     }
 }
