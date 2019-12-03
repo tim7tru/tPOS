@@ -1,4 +1,4 @@
-package com.timmytruong.timmypos.interfaces
+package com.timmytruong.timmypos.firebase.interfaces
 
 import java.lang.Exception
 

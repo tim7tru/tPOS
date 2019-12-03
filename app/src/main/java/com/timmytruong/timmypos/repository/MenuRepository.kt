@@ -1,16 +1,14 @@
 package com.timmytruong.timmypos.repository
 
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.lifecycle.LiveData
-import com.google.firebase.database.util.JsonMapper
+import com.timmytruong.timmypos.firebase.repository.FirebaseDatabaseRepository
+import com.timmytruong.timmypos.mapper.MenuMapper
 import com.timmytruong.timmypos.models.MenuItem
-import com.timmytruong.timmypos.utils.AppConstants
+import com.timmytruong.timmypos.utils.DataConstants
 
-class MenuRepository(mapper: MenuMapper) : FirebaseDatabaseRepository<List<List<MenuItem>>>(mapper)
+class MenuRepository: FirebaseDatabaseRepository<HashMap<Any, Any>, MenuItem>(MenuMapper())
 {
-    override fun getRootNode(): String {
-        return AppConstants.MENU_ROOT_NODE
+    override fun getRootNode(): String
+    {
+        return DataConstants.MENU_NODE + DataConstants.FORWARD + DataConstants.APPETIZERS_NODE
     }
-
 }

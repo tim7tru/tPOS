@@ -1,6 +1,7 @@
 package com.timmytruong.timmypos.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,8 +59,6 @@ class OrdersFragment : Fragment()
 
     private var itemCount: Int = 0
 
-    private var subtotal: Float = 0f
-
     private var categoryTitle: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -72,10 +71,36 @@ class OrdersFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
 
         val menuViewModel: MenuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
-        menuViewModel.getAppetizers()!!.observe(this, Observer<List<MenuItem>> {
+        menuViewModel.getMenu()!!.observe(this, Observer<List<MenuItem>> {
+            if (it != null  && it.isNotEmpty())
+            {
                 categoryArrays.add(ArrayList(it))
-        })
 
+                categoryArrays.add(createData(9))
+
+                categoryArrays.add(createData(15))
+
+                categoryArrays.add(createData(14))
+
+                categoryArrays.add(createData(3))
+
+                categoryArrays.add(createData(9))
+
+                categoryArrays.add(createData(9))
+
+                categoryArrays.add(createData(22))
+
+                categoryItemsArray = categoryArrays[0]
+
+                menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray, menuItemAddClickListener)
+
+                menu_items.layoutManager = LinearLayoutManager(activity!!)
+
+                menu_items.adapter = menuAdapter
+
+                menuAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
@@ -114,38 +139,7 @@ class OrdersFragment : Fragment()
 
         categoryTitle = appetizersString
 
-        createFakeListData()
-
         createCategoryData()
-    }
-
-    private fun createFakeListData()
-    {
-        categoryArrays.add(createData(9))
-
-        categoryArrays.add(createData(9))
-
-        categoryArrays.add(createData(15))
-
-        categoryArrays.add(createData(14))
-
-        categoryArrays.add(createData(3))
-
-        categoryArrays.add(createData(9))
-
-        categoryArrays.add(createData(9))
-
-        categoryArrays.add(createData(22))
-
-        categoryItemsArray = categoryArrays[0]
-
-        menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray, menuItemAddClickListener)
-
-        menu_items.layoutManager = LinearLayoutManager(activity!!)
-
-        menu_items.adapter = menuAdapter
-
-        menuAdapter.notifyDataSetChanged()
     }
 
     private fun createCategoryData()
@@ -245,8 +239,6 @@ class OrdersFragment : Fragment()
                             soupsItemAddDialog.setup(title, description, cost)
                         }
                     }
-
-
                 }
 
                 override fun onAddToOrderDialogClicked(newlyAddedItems: Int, subTotal: Float)

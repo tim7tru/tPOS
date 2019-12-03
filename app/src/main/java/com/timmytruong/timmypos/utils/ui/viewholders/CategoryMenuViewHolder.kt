@@ -22,7 +22,7 @@ class CategoryMenuViewHolder(itemView: View, private val onClickListener: Catego
 
     fun setDetails(item: CategoryMenuItem)
     {
-        if (item.getActiveState())
+        if (item.activeState)
         {
             titleText.setTextColor(onClickListener.getActiveColour())
         }
@@ -31,6 +31,6 @@ class CategoryMenuViewHolder(itemView: View, private val onClickListener: Catego
             titleText.setTextColor(onClickListener.getInactiveColour())
         }
 
-        titleText.text = item.getTitle()
+        titleText.text = item.title
     }
 }

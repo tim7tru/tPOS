@@ -2,19 +2,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--Margins-->
+    <dimen name="margin_xxlarge">300dp</dimen>
     <dimen name="margin_medium">50dp</dimen>
     <dimen name="margin_small">25dp</dimen>
     <dimen name="margin_xsmall">15dp</dimen>
     <dimen name="margin_xxsmall">10dp</dimen>
 
     <!--Padding-->
+    <dimen name="padding_small">3dp</dimen>
     <dimen name="padding_small_medium">5dp</dimen>
     <dimen name="padding_medium">10dp</dimen>
     <dimen name="padding_medium_large">15dp</dimen>
+    <dimen name="padding_large">20dp</dimen>
 
 
     <!--Text Size-->
+    <dimen name="text_xsmall">10sp</dimen>
     <dimen name="text_small">15sp</dimen>
+    <dimen name="text_small_small">17sp</dimen>
     <dimen name="text_small_medium">20sp</dimen>
     <dimen name="text_medium">25sp</dimen>
 

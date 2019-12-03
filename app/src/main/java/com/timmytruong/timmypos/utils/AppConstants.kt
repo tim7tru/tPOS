@@ -33,6 +33,4 @@ object AppConstants
     const val EXTRA_OPTION_TAG = "extra"
 
     val DECIMAL_FORMAT = DecimalFormat("0.00")
-
-    const val MENU_ROOT_NODE = "menu"
 }
