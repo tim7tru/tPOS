@@ -3,24 +3,27 @@ package com.timmytruong.timmypos.activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.timmytruong.timmypos.utils.AppConstants
+import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.fragments.FinancialFragment
 import com.timmytruong.timmypos.fragments.HistoryFragment
-import com.timmytruong.timmypos.fragments.HomeFragment
 import com.timmytruong.timmypos.fragments.OrdersFragment
+import com.timmytruong.timmypos.utils.CommonUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener
+{
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
+        CommonUtils.initializeCommonUtils(this)
         setupNavigation()
         setupFragments()
     }
@@ -34,22 +37,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        val homeFragment = HomeFragment()
         val ordersFragment = OrdersFragment()
         val historyFragment = HistoryFragment()
         val financialFragment = FinancialFragment()
 
-        fragmentTransaction.add(content.id, homeFragment, AppConstants.HOME_FRAGMENT_TAG)
-            .add(content.id, ordersFragment, AppConstants.ORDERS_FRAGMENT_TAG)
+        fragmentTransaction.add(content.id, ordersFragment, AppConstants.ORDERS_FRAGMENT_TAG)
             .add(content.id, historyFragment, AppConstants.HISTORY_FRAGMENT_TAG)
             .add(content.id, financialFragment, AppConstants.FINANCIAL_FRAGMENT_TAG)
-            .show(homeFragment)
-            .hide(ordersFragment)
+            .show(ordersFragment)
             .hide(historyFragment)
             .hide(financialFragment)
             .commit()
 
-        bottom_navigation_view.selectedItemId = R.id.navigation_home
+        bottom_navigation_view.selectedItemId = R.id.navigation_orders
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean
@@ -60,10 +60,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         when (item.itemId)
         {
-            R.id.navigation_home ->
-            {
-                newFragment = fragmentManager.findFragmentByTag(AppConstants.HOME_FRAGMENT_TAG)
-            }
             R.id.navigation_orders ->
             {
                 newFragment = fragmentManager.findFragmentByTag(AppConstants.ORDERS_FRAGMENT_TAG)
@@ -101,5 +97,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         return null
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus)
+        {
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
     }
 }
