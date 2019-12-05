@@ -3,11 +3,11 @@ package com.timmytruong.timmypos.activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.gms.common.internal.service.Common
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.timmytruong.timmypos.utils.AppConstants
+import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.fragments.FinancialFragment
 import com.timmytruong.timmypos.fragments.HistoryFragment
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
+        CommonUtils.initializeCommonUtils(this)
         setupNavigation()
         setupFragments()
     }
@@ -96,5 +97,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         return null
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus)
+        {
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
     }
 }

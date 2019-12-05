@@ -1,6 +1,8 @@
-package com.timmytruong.timmypos.utils
+package com.timmytruong.timmypos.utils.constants
 
+import android.annotation.SuppressLint
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 
 object AppConstants
 {
@@ -33,4 +35,24 @@ object AppConstants
     const val EXTRA_OPTION_TAG = "extra"
 
     val DECIMAL_FORMAT = DecimalFormat("0.00")
+
+    val MENU_CATEGORY_ARRAY = arrayOf (
+        APPETIZERS_CATEGORY_TAG,
+        SOUPS_CATEGORY_TAG,
+        PHO_CATEGORY_TAG,
+        RICE_CATEGORY_TAG,
+        FRIED_RICE_CATEGORY_TAG,
+        VERMICELLI_CATEGORY_TAG,
+        STIR_FRY_CATEGORY_TAG,
+        DRINKS_CATEGORY_TAG
+    )
+
+    @SuppressLint("SimpleDateFormat")
+    val SIMPLE_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+    const val FIREBASE_EXCEPTION_LOG_TAG = "FIREBASE EXCEPTION"
+
+    const val SOUPS_DIALOG_TYPE = "soups"
+
+    const val BASIC_DIALOG_TYPE = "basic"
 }

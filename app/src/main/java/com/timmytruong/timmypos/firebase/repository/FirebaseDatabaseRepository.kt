@@ -8,6 +8,7 @@ import com.timmytruong.timmypos.firebase.mapper.FirebaseMapper
 
 abstract class FirebaseDatabaseRepository<Entity, Model>(private val mapper: FirebaseMapper<Entity, Model>)
 {
+    private var rootReference: DatabaseReference = FirebaseDatabase.getInstance().reference
     private var databaseReference: DatabaseReference
     private lateinit var firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>
     private lateinit var listener: BaseValueEventListener<Model, Entity>
@@ -16,7 +17,22 @@ abstract class FirebaseDatabaseRepository<Entity, Model>(private val mapper: Fir
 
     init
     {
-        databaseReference = FirebaseDatabase.getInstance().getReference(getRootNode())
+        databaseReference = rootReference.child(this.getRootNode())
+    }
+
+    fun postValue(value: Any)
+    {
+        rootReference.setValue(value)
+    }
+
+    fun postValue(child: String, key: String, value: Any)
+    {
+        rootReference.child(child).child(key).setValue(value)
+    }
+
+    fun getUniqueKey(): String?
+    {
+        return databaseReference.push().key
     }
 
     fun addListener(firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>)

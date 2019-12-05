@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.MenuItem
+import com.timmytruong.timmypos.utils.CommonUtils
 
 class MenuItemViewHolder(itemView: View,
                          private val menuItemAddClickListener: MenuItemAddClickListener): RecyclerView.ViewHolder(itemView)
@@ -21,7 +22,7 @@ class MenuItemViewHolder(itemView: View,
     fun setDetails(item: MenuItem)
     {
         itemDescriptionText.text = item.description
-        itemTitleText.text = item.name
+        itemTitleText.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
         itemCostText.text = String.format("$%s ea.", item.cost)
 
         addToOrderButton.setOnClickListener {

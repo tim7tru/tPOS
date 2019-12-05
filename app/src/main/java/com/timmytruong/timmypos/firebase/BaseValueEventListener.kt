@@ -19,5 +19,4 @@ class BaseValueEventListener<Model, Entity> (private val mapper: FirebaseMapper<
         val data: List<Model> = mapper.mapList(p0)
         callback.onSuccess(data)
     }
-
 }

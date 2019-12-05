@@ -9,7 +9,7 @@ import com.timmytruong.timmypos.adapters.DialogOptionItemsAdapter
 import com.timmytruong.timmypos.interfaces.DialogItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.DialogOptionItem
-import com.timmytruong.timmypos.utils.AppConstants
+import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.CommonUtils
 import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
@@ -44,6 +44,114 @@ class SoupsItemAddDialog(private val context: Context,
 
     private var newCost: Float = 0f
 
+    private val onCancelClickListener = View.OnClickListener {
+        dialog.dismiss()
+    }
+
+    private val onPlusClickListener = View.OnClickListener {
+        when (quantityNumber)
+        {
+            1 ->
+            {
+                bodyView.soups_minus_quantity_shown.visibility = View.VISIBLE
+                bodyView.soups_minus_quantity_hidden.visibility = View.INVISIBLE
+            }
+            98 ->
+            {
+                bodyView.soups_plus_quantity_shown.visibility = View.INVISIBLE
+                bodyView.soups_plus_quantity_hidden.visibility = View.VISIBLE
+            }
+        }
+        quantityNumber++
+        updateAddText()
+        updateQuantityText()
+        updateCosts(newUnitCost)
+    }
+
+    private val onMinusClickListener = View.OnClickListener {
+        when (quantityNumber)
+        {
+            2 ->
+            {
+                bodyView.soups_minus_quantity_shown.visibility = View.INVISIBLE
+                bodyView.soups_minus_quantity_hidden.visibility = View.VISIBLE
+            }
+            99 ->
+            {
+                bodyView.soups_plus_quantity_shown.visibility = View.VISIBLE
+                bodyView.soups_plus_quantity_hidden.visibility = View.INVISIBLE
+            }
+        }
+        quantityNumber--
+        updateAddText()
+        updateQuantityText()
+        updateCosts(newUnitCost)
+    }
+
+    private val onAddClickListener = View.OnClickListener {
+        dialog.dismiss()
+        menuAddItemClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
+    }
+
+    private val dialogItemClickListener: DialogItemClickListener =
+        object : DialogItemClickListener
+        {
+            override fun onItemClicked(position: Int, tag: String)
+            {
+                when (tag)
+                {
+                    AppConstants.SIZE_OPTION_TAG -> {
+                        for (index in 0 until sizesArray.size)
+                        {
+                            if (sizesArray[index].checkedStatus && index != position)
+                            {
+                                sizesArray[index].checkedStatus = false
+                            }
+                            else if (sizesArray[index].checkedStatus && index == position)
+                            {
+                                sizesArray[index].checkedStatus = false
+                            }
+                            else if (!sizesArray[index].checkedStatus && index == position)
+                            {
+                                sizesArray[index].checkedStatus = true
+                            }
+                        }
+
+                        dialogOptionSizesAdapter.notifyDataSetChanged()
+
+                        sizeCost =
+                            if (sizesArray[position].checkedStatus)
+                            {
+                                sizesArray[position].unitValue.toFloat()
+                            }
+                            else
+                            {
+                                0f
+                            }
+
+                    }
+                    AppConstants.EXTRA_OPTION_TAG -> {
+                        var unitValue: Float = extrasArray[position].unitValue.toFloat()
+
+                        when (extrasArray[position].checkedStatus)
+                        {
+                            true -> unitValue = -unitValue
+                        }
+
+                        extrasArray[position].checkedStatus = !extrasArray[position].checkedStatus
+
+                        dialogOptionExtrasAdapter.notifyDataSetChanged()
+
+                        extrasCost += unitValue
+                    }
+                }
+
+                newUnitCost = unitCost.toFloat() + sizeCost + extrasCost
+
+                updateCosts(newUnitCost)
+            }
+        }
+
     fun setup(title: String, description: String, cost: String)
     {
         this.unitCost = cost
@@ -68,6 +176,16 @@ class SoupsItemAddDialog(private val context: Context,
 
         updateQuantityText()
     }
+
+//    private fun buildOrderedItem(): OrderedItem
+//    {
+//        return OrderedItem(
+//            quantity = quantityNumber,
+//            name = titleView.add_dialog_menu_item_title.text as String,
+//            subtotal = newCost.toDouble(),
+//            extras =
+//        )
+//    }
 
     private fun setInitialText(description: String, title: String)
     {
@@ -194,114 +312,8 @@ class SoupsItemAddDialog(private val context: Context,
 
         newCost = cost * quantityNumber
 
-        bodyView.soups_subtotal_cost.text = CommonUtils.formatGeneralCosts(context, AppConstants.DECIMAL_FORMAT.format(newCost))
+        bodyView.soups_subtotal_cost.text = CommonUtils.formatGeneralCosts(AppConstants.DECIMAL_FORMAT.format(newCost))
     }
 
-    private val onCancelClickListener = View.OnClickListener {
-        dialog.dismiss()
-    }
 
-    private val onPlusClickListener = View.OnClickListener {
-        when (quantityNumber)
-        {
-            1 ->
-            {
-                bodyView.soups_minus_quantity_shown.visibility = View.VISIBLE
-                bodyView.soups_minus_quantity_hidden.visibility = View.INVISIBLE
-            }
-            98 ->
-            {
-                bodyView.soups_plus_quantity_shown.visibility = View.INVISIBLE
-                bodyView.soups_plus_quantity_hidden.visibility = View.VISIBLE
-            }
-        }
-        quantityNumber++
-        updateAddText()
-        updateQuantityText()
-        updateCosts(newUnitCost)
-    }
-
-    private val onMinusClickListener = View.OnClickListener {
-        when (quantityNumber)
-        {
-            2 ->
-            {
-                bodyView.soups_minus_quantity_shown.visibility = View.INVISIBLE
-                bodyView.soups_minus_quantity_hidden.visibility = View.VISIBLE
-            }
-            99 ->
-            {
-                bodyView.soups_plus_quantity_shown.visibility = View.VISIBLE
-                bodyView.soups_plus_quantity_hidden.visibility = View.INVISIBLE
-            }
-        }
-        quantityNumber--
-        updateAddText()
-        updateQuantityText()
-        updateCosts(newUnitCost)
-    }
-
-    private val onAddClickListener = View.OnClickListener {
-        dialog.dismiss()
-        menuAddItemClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
-    }
-
-    private val dialogItemClickListener: DialogItemClickListener =
-        object : DialogItemClickListener
-        {
-            override fun onItemClicked(position: Int, tag: String)
-            {
-                when (tag)
-                {
-                    AppConstants.SIZE_OPTION_TAG -> {
-                        for (index in 0 until sizesArray.size)
-                        {
-                            if (sizesArray[index].checkedStatus && index != position)
-                            {
-                                sizesArray[index].checkedStatus = false
-                            }
-                            else if (sizesArray[index].checkedStatus && index == position)
-                            {
-                                sizesArray[index].checkedStatus = false
-                            }
-                            else if (!sizesArray[index].checkedStatus && index == position)
-                            {
-                                sizesArray[index].checkedStatus = true
-                            }
-                        }
-
-                        dialogOptionSizesAdapter.notifyDataSetChanged()
-
-                        sizeCost =
-                            if (sizesArray[position].checkedStatus)
-                            {
-                                sizesArray[position].unitValue.toFloat()
-                            }
-                            else
-                            {
-                                0f
-                            }
-
-                    }
-                    AppConstants.EXTRA_OPTION_TAG -> {
-                        var unitValue: Float = extrasArray[position].unitValue.toFloat()
-
-                        when (extrasArray[position].checkedStatus)
-                        {
-                            true -> unitValue = -unitValue
-                        }
-
-                        extrasArray[position].checkedStatus = !extrasArray[position].checkedStatus
-
-                        dialogOptionExtrasAdapter.notifyDataSetChanged()
-
-                        extrasCost += unitValue
-                    }
-                }
-
-                newUnitCost = unitCost.toFloat() + sizeCost + extrasCost
-
-                updateCosts(newUnitCost)
-            }
-        }
 }
