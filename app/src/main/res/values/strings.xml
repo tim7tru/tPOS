@@ -9,6 +9,8 @@
     <!--GENERAL-->
     <string name="general_cost_format">$%s</string>
     <string name="general_menu_item_title_format">%s. %s</string>
+    <string name="general_extras_string_format">Add %s [$%s]</string>
+    <string name="general_sizes_string_format">%s [$%s]</string>
 
 
     <!--LOGIN ACTIVITY-->

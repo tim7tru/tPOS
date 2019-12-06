@@ -11,6 +11,8 @@ import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.DialogOptionItem
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.CommonUtils
+import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
+import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
 import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
@@ -21,6 +23,10 @@ class SoupsItemAddDialog(private val context: Context,
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
 
     private val bodyView: View = View.inflate(context, R.layout.soups_add_dialog_body, null)
+
+    private val imageDescQuantView: View = bodyView.soups_image_desc_quantity
+
+    private val finalActionsView: View = bodyView.final_actions
 
     private val sizesArray: ArrayList<DialogOptionItem> = arrayListOf()
 
@@ -53,13 +59,13 @@ class SoupsItemAddDialog(private val context: Context,
         {
             1 ->
             {
-                bodyView.soups_minus_quantity_shown.visibility = View.VISIBLE
-                bodyView.soups_minus_quantity_hidden.visibility = View.INVISIBLE
+                imageDescQuantView.minus_quantity_shown.visibility = View.VISIBLE
+                imageDescQuantView.minus_quantity_hidden.visibility = View.INVISIBLE
             }
             98 ->
             {
-                bodyView.soups_plus_quantity_shown.visibility = View.INVISIBLE
-                bodyView.soups_plus_quantity_hidden.visibility = View.VISIBLE
+                imageDescQuantView.plus_quantity_shown.visibility = View.INVISIBLE
+                imageDescQuantView.plus_quantity_hidden.visibility = View.VISIBLE
             }
         }
         quantityNumber++
@@ -73,13 +79,13 @@ class SoupsItemAddDialog(private val context: Context,
         {
             2 ->
             {
-                bodyView.soups_minus_quantity_shown.visibility = View.INVISIBLE
-                bodyView.soups_minus_quantity_hidden.visibility = View.VISIBLE
+                imageDescQuantView.minus_quantity_shown.visibility = View.INVISIBLE
+                imageDescQuantView.minus_quantity_hidden.visibility = View.VISIBLE
             }
             99 ->
             {
-                bodyView.soups_plus_quantity_shown.visibility = View.VISIBLE
-                bodyView.soups_plus_quantity_hidden.visibility = View.INVISIBLE
+                imageDescQuantView.plus_quantity_shown.visibility = View.VISIBLE
+                imageDescQuantView.plus_quantity_hidden.visibility = View.INVISIBLE
             }
         }
         quantityNumber--
@@ -189,7 +195,7 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun setInitialText(description: String, title: String)
     {
-        bodyView.soups_description_text.text = description
+        imageDescQuantView.description_text.text = description
 
         titleView.add_dialog_menu_item_title.text = title
     }
@@ -211,13 +217,13 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun setOnClickListeners()
     {
-        bodyView.soups_plus_quantity_shown.setOnClickListener(onPlusClickListener)
+        imageDescQuantView.plus_quantity_shown.setOnClickListener(onPlusClickListener)
 
-        bodyView.soups_minus_quantity_shown.setOnClickListener(onMinusClickListener)
+        imageDescQuantView.minus_quantity_shown.setOnClickListener(onMinusClickListener)
 
-        bodyView.soups_add_dialog_positive_button.setOnClickListener(onAddClickListener)
+        finalActionsView.add_dialog_positive_button.setOnClickListener(onAddClickListener)
 
-        bodyView.soups_add_dialog_negative_button.setOnClickListener(onCancelClickListener)
+        finalActionsView.add_dialog_negative_button.setOnClickListener(onCancelClickListener)
     }
 
     private fun buildAlert()
@@ -298,17 +304,17 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun updateAddText()
     {
-        bodyView.soups_add_dialog_positive_button.text = String.format(context.resources.getString(R.string.orders_add_dialog), quantityNumber)
+        finalActionsView.add_dialog_positive_button.text = String.format(context.resources.getString(R.string.orders_add_dialog), quantityNumber)
     }
 
     private fun updateQuantityText()
     {
-        bodyView.soups_quantity_text.text = quantityNumber.toString()
+        imageDescQuantView.quantity_text.text = quantityNumber.toString()
     }
 
     private fun updateCosts(cost: Float)
     {
-        bodyView.soups_price_per_item.text = String.format(context.resources.getString(R.string.orders_dialog_price_per_item), AppConstants.DECIMAL_FORMAT.format(cost))
+        imageDescQuantView.price_per_item.text = String.format(context.resources.getString(R.string.orders_dialog_price_per_item), AppConstants.DECIMAL_FORMAT.format(cost))
 
         newCost = cost * quantityNumber
 

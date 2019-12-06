@@ -6,100 +6,9 @@
     android:layout_height="fill_parent"
     android:background="@color/primaryLight">
 
-    <ImageView
-        android:id="@+id/basic_food_picture"
-        android:layout_width="360dp"
-        android:layout_height="360dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_image_24dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <ImageView
-        android:id="@+id/basic_plus_quantity_shown"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/margin_small"
-        android:src="@drawable/ic_add_circle_white_24dp"
-        app:layout_constraintTop_toTopOf="@id/basic_quantity_text"
-        app:layout_constraintBottom_toBottomOf="@id/basic_quantity_text"
-        app:layout_constraintStart_toEndOf="@id/basic_quantity_text"/>
-
-    <ImageView
-        android:id="@+id/basic_plus_quantity_hidden"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/margin_small"
-        android:visibility="invisible"
-        android:src="@drawable/ic_add_circle_grey_24dp"
-        app:layout_constraintTop_toTopOf="@id/basic_quantity_text"
-        app:layout_constraintBottom_toBottomOf="@id/basic_quantity_text"
-        app:layout_constraintStart_toEndOf="@id/basic_quantity_text"/>
-
-    <TextView
-        android:id="@+id/basic_quantity_text"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:background="@drawable/shape_rounded_rect_white"
-        android:text="99"
-        app:layout_constraintTop_toBottomOf="@id/basic_description_text"
-        app:layout_constraintStart_toStartOf="@id/basic_food_picture"
-        app:layout_constraintEnd_toEndOf="@id/basic_food_picture"
-        app:layout_constraintDimensionRatio="1:1"/>
-
-    <ImageView
-        android:id="@+id/basic_minus_quantity_shown"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:visibility="invisible"
-        android:src="@drawable/ic_remove_circle_white_24dp"
-        app:layout_constraintTop_toTopOf="@id/basic_quantity_text"
-        app:layout_constraintBottom_toBottomOf="@id/basic_quantity_text"
-        app:layout_constraintEnd_toStartOf="@id/basic_quantity_text" />
-
-    <ImageView
-        android:id="@+id/basic_minus_quantity_hidden"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:src="@drawable/ic_remove_circle_grey_24dp"
-        app:layout_constraintTop_toTopOf="@id/basic_quantity_text"
-        app:layout_constraintBottom_toBottomOf="@id/basic_quantity_text"
-        app:layout_constraintEnd_toStartOf="@id/basic_quantity_text" />
-
-    <TextView
-        android:id="@+id/basic_description_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/test_item_description"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textSize="@dimen/text_small"
-        android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_small"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="@id/basic_food_picture"
-        app:layout_constraintStart_toStartOf="@id/basic_food_picture"
-        app:layout_constraintTop_toBottomOf="@id/basic_food_picture"/>
-
-    <TextView
-        android:id="@+id/basic_price_per_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/orders_dialog_price_per_item"
-        android:textSize="@dimen/text_small_medium"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:paddingTop="@dimen/padding_medium"
-        app:layout_constraintTop_toBottomOf="@id/basic_quantity_text"
-        app:layout_constraintEnd_toEndOf="@id/basic_quantity_text"
-        app:layout_constraintStart_toStartOf="@id/basic_quantity_text" />
+    <include
+        android:id="@+id/basic_image_desc_quantity"
+        layout="@layout/image_description_quantity_content"/>
 
     <LinearLayout
         android:id="@+id/basic_subtotal_container"
@@ -107,9 +16,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/margin_small"
-        app:layout_constraintTop_toBottomOf="@id/basic_price_per_item"
-        app:layout_constraintStart_toStartOf="@id/basic_quantity_text"
-        app:layout_constraintEnd_toEndOf="@id/basic_quantity_text">
+        app:layout_constraintTop_toBottomOf="@id/basic_image_desc_quantity"
+        app:layout_constraintStart_toStartOf="@id/basic_image_desc_quantity"
+        app:layout_constraintEnd_toEndOf="@id/basic_image_desc_quantity">
 
         <TextView
             android:id="@+id/basic_subtotal_text"
@@ -119,52 +28,30 @@
             android:textSize="@dimen/text_small_medium"
             android:textColor="@color/white"
             android:layout_marginEnd="@dimen/margin_small"
-            app:layout_constraintBottom_toTopOf="@id/basic_add_dialog_positive_button"
+            app:layout_constraintBottom_toTopOf="@id/basic_image_desc_quantity"
             app:layout_constraintEnd_toStartOf="@id/basic_subtotal_cost" />
 
         <TextView
             android:id="@+id/basic_subtotal_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_small"
             android:text="@string/test_item_cost"
             android:textColor="@color/white"
             android:textSize="@dimen/text_small_medium"
-            android:layout_marginEnd="@dimen/text_small"
             app:layout_constraintBottom_toBottomOf="@id/basic_subtotal_text"
-            app:layout_constraintEnd_toEndOf="@id/basic_add_dialog_positive_button"/>
+            app:layout_constraintEnd_toEndOf="@id/basic_image_desc_quantity" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <include
+        android:id="@+id/final_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/basic_subtotal_container"
-        app:layout_constraintStart_toStartOf="@id/basic_quantity_text"
-        app:layout_constraintEnd_toEndOf="@id/basic_quantity_text">
-
-        <TextView
-            android:id="@+id/basic_add_dialog_negative_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/orders_cancel_dialog"
-            android:textSize="@dimen/text_small_medium"
-            android:textColor="@color/blue_order"
-            app:layout_constraintBottom_toBottomOf="@id/basic_add_dialog_positive_button"
-            app:layout_constraintEnd_toStartOf="@id/basic_add_dialog_positive_button"
-            android:padding="@dimen/padding_large"/>
-
-        <TextView
-            android:id="@+id/basic_add_dialog_positive_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/orders_add_dialog"
-            android:textSize="@dimen/text_small_medium"
-            android:textColor="@color/blue_order"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="@dimen/padding_large"/>
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="@id/basic_image_desc_quantity"
+        app:layout_constraintEnd_toEndOf="@id/basic_image_desc_quantity"
+        layout="@layout/cancel_add_to_order_content"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
