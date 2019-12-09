@@ -2,6 +2,8 @@ package com.timmytruong.timmypos.utils
 
 import android.content.Context
 import android.content.res.AssetManager
+import com.timmytruong.timmypos.models.DialogOptionItem
+import com.timmytruong.timmypos.models.MenuExtra
 import com.timmytruong.timmypos.models.MenuItem
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
@@ -37,6 +39,26 @@ object DataUtils
         return listOfLists
     }
 
+    fun getSoupsExtrasDataFromAssets(context: Context): ArrayList<DialogOptionItem>
+    {
+        val assets: AssetManager = context.assets
+
+        val jsonObject = loadJSONFromAsset(assets, DataConstants.SOUPS_EXTRAS_NODE)
+
+        if (jsonObject != null)
+        {
+            val rootNode = JSONObject(jsonObject)
+
+            val soupsExtraNode = rootNode.getJSONObject(DataConstants.EXTRAS_NODE)
+
+            val categoryNode: JSONArray = soupsExtraNode.getJSONArray(DataConstants.SOUPS_EXTRAS_NODE)
+
+            return soupsExtraJSONMapper(categoryNode)
+        }
+
+        return arrayListOf()
+    }
+
     private fun loadJSONFromAsset(assets: AssetManager, nodeName: String): String?
     {
         val json: String?
@@ -54,7 +76,7 @@ object DataUtils
             inputStream.close()
 
             json = String(buffer, Charsets.UTF_8)
-        }
+    }
         catch (e: Exception)
         {
             e.printStackTrace()
@@ -86,6 +108,24 @@ object DataUtils
                 )
             )
         }
+        return listOfItems
+    }
+
+    private fun soupsExtraJSONMapper(categoryNode: JSONArray): ArrayList<DialogOptionItem>
+    {
+        val listOfItems: ArrayList<DialogOptionItem> = arrayListOf()
+
+        for (index in 0 until categoryNode.length())
+        {
+            val item = categoryNode[index] as JSONObject
+
+            listOfItems.add(
+                DialogOptionItem(
+                name = item.getString(DataConstants.NAME_NODE),
+                cost = AppConstants.DECIMAL_FORMAT.format(item.getLong(DataConstants.COST_NODE)).toString()
+            ))
+        }
+
         return listOfItems
     }
 

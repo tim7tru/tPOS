@@ -40,6 +40,10 @@ object DataConstants
 
     const val ERRORS_NODE = "errors"
 
+    const val EXTRAS_NODE = "extras"
+
+    const val SOUPS_EXTRAS_NODE = "soups-extras"
+
     val MENU_NODE_ARRAY = arrayOf(
         APPETIZERS_NODE,
         SOUPS_NODE,

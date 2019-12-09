@@ -1,0 +1,58 @@
+{
+    "extras": 
+    {
+        "soups-extras":
+        [
+            {
+                "name": "Noodles",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Rare Beef",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Well Done Beef",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Beef Balls",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Tofu",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Veggies",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Chili Oil",
+                "cost": 1,
+                "tag": "extra"
+            },
+            {
+                "name": "Sliced Pork",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Beef Tendon",
+                "cost": 3,
+                "tag": "extra"
+            },
+            {
+                "name": "Tripe",
+                "cost": 3,
+                "tag": "extra"
+            }
+        ]
+    }
+}

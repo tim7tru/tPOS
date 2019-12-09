@@ -16,12 +16,15 @@ import com.timmytruong.timmypos.adapters.MenuItemAdapter
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.CategoryMenuItem
+import com.timmytruong.timmypos.models.DialogOptionItem
+import com.timmytruong.timmypos.models.MenuExtra
 import com.timmytruong.timmypos.models.MenuItem
 import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.ui.BasicItemAddDialog
 import com.timmytruong.timmypos.utils.ui.SoupsItemAddDialog
 import com.timmytruong.timmypos.viewmodel.MenuViewModel
+import com.timmytruong.timmypos.viewmodel.SoupsExtrasViewModel
 import kotlinx.android.synthetic.main.fragment_orders.*
 
 class OrdersFragment : Fragment()
@@ -55,6 +58,8 @@ class OrdersFragment : Fragment()
     private val categoryTitlesArray: ArrayList<CategoryMenuItem> = arrayListOf()
 
     private val categoryArrays: ArrayList<ArrayList<MenuItem>> = arrayListOf()
+
+    private val soupsExtrasArray: ArrayList<DialogOptionItem> = arrayListOf()
 
     private lateinit var categoryMenuAdapter: CategoryMenuAdapter
 
@@ -108,6 +113,23 @@ class OrdersFragment : Fragment()
             menuAdapter.notifyDataSetChanged()
         }
 
+    private val soupsExtrasObserver: Observer<List<DialogOptionItem>> =
+        Observer {
+            if (it != null && it.isNotEmpty())
+            {
+                for (index in it.indices)
+                {
+                    soupsExtrasArray.add(it[index])
+                }
+            }
+            else if (it.isNullOrEmpty())
+            {
+                soupsExtrasArray.clear()
+
+                soupsExtrasArray.addAll(DataUtils.getSoupsExtrasDataFromAssets(activity!!))
+            }
+        }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
@@ -137,7 +159,9 @@ class OrdersFragment : Fragment()
 
     private fun setupViewModels()
     {
+        val soupsExtrasViewModel: SoupsExtrasViewModel = ViewModelProviders.of(this)[SoupsExtrasViewModel::class.java]
         val menuViewModel: MenuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
+        soupsExtrasViewModel.getExtras()?.observe(this, soupsExtrasObserver)
         menuViewModel.getMenu()?.observe(this, menuObserver)
     }
 
@@ -254,7 +278,7 @@ class OrdersFragment : Fragment()
                         }
                         AppConstants.SOUPS_DIALOG_TYPE ->
                         {
-                            val soupsItemAddDialog = SoupsItemAddDialog(activity!!, this, categoryTitlesArray[categoryMenuAdapter.getActivePosition()].title)
+                            val soupsItemAddDialog = SoupsItemAddDialog(activity!!, this, categoryTitlesArray[categoryMenuAdapter.getActivePosition()].title, soupsExtrasArray)
 
                             soupsItemAddDialog.setup(title, description, cost)
                         }
