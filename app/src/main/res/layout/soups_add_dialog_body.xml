@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primaryLight"
     android:minHeight="600dp"
-    android:minWidth="750dp"
+    android:minWidth="900dp"
     android:layout_height="fill_parent">
 
     <include

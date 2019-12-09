@@ -190,7 +190,7 @@ class OrdersFragment : Fragment()
 
         for (itemCount in 0 until count)
         {
-            val item = MenuItem(99, true, testItemCost, testItemDescription, "soups", testItemTitle, null)
+            val item = MenuItem(99, true, testItemCost, testItemDescription, "basic", testItemTitle, null)
 
             array.add(item)
         }
@@ -249,6 +249,8 @@ class OrdersFragment : Fragment()
                         AppConstants.BASIC_DIALOG_TYPE ->
                         {
                             val basicItemAddDialog = BasicItemAddDialog(activity!!, this)
+
+                            basicItemAddDialog.setup(title, description, cost)
                         }
                         AppConstants.SOUPS_DIALOG_TYPE ->
                         {

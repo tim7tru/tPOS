@@ -11,8 +11,4 @@
         <item name="colorAccent">@color/primaryLight</item>
     </style>
 
-    <style name="AddDialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="windowMinWidthMajor">500dp</item>
-        <item name="windowMinWidthMinor">500dp</item>
-    </style>
 </resources>

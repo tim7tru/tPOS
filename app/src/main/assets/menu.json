@@ -217,5 +217,55 @@
                 "available": true
             }
         ]
+    },
+    "errors":
+    {
+      "2000-01-07 15:30:22": "test error"
+    },
+    "extras": 
+    {
+        "soups-extras":
+        [
+            {
+                "name": "Noodles",
+                "cost": 3
+            },
+            {
+                "name": "Rare Beef",
+                "cost": 3
+            },
+            {
+                "name": "Well Done Beef",
+                "cost": 3
+            },
+            {
+                "name": "Beef Balls",
+                "cost": 3
+            },
+            {
+                "name": "Tofu",
+                "cost": 3
+            },
+            {
+                "name": "Veggies",
+                "cost": 3
+            },
+            {
+                "name": "Chili Oil",
+                "cost": 1
+            },
+            {
+                "name": "Sliced Pork",
+                "cost": 3
+            },
+            {
+                "name": "Beef Tendon",
+                "cost": 3
+            },
+            {
+                "name": "Tripe",
+                "cost": 3
+            }
+        ]
     }
 }

@@ -3,8 +3,12 @@ package com.timmytruong.timmypos.utils.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
+import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
+import com.timmytruong.timmypos.utils.CommonUtils
+import com.timmytruong.timmypos.utils.constants.AppConstants
 import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
 import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
 import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
@@ -20,6 +24,10 @@ class BasicItemAddDialog(private val context: Context,
     private val imageDescQuantView: View = bodyView.basic_image_desc_quantity
 
     private val finalActionsView: View = bodyView.final_actions
+
+    private val addNumberToOrderString: String = context.resources.getString(R.string.orders_add_dialog)
+
+    private val pricePerItemString: String = context.resources.getString(R.string.orders_dialog_price_per_item)
 
     private lateinit var dialog: AlertDialog
 
@@ -48,6 +56,12 @@ class BasicItemAddDialog(private val context: Context,
             }
         }
         quantityNumber++
+
+        updateAddText()
+
+        updateQuantityText()
+
+        updateCosts()
     }
 
     private val onMinusClickListener = View.OnClickListener {
@@ -65,6 +79,12 @@ class BasicItemAddDialog(private val context: Context,
             }
         }
         quantityNumber--
+
+        updateAddText()
+
+        updateQuantityText()
+
+        updateCosts()
     }
 
     private val onAddClickListener = View.OnClickListener {
@@ -76,13 +96,40 @@ class BasicItemAddDialog(private val context: Context,
     {
         this.unitCost = cost
 
+        setInitialText(description, title, cost)
+
+        buildAlert()
+
+        setOnClickListeners()
+
+        updateAddText()
+
+        updateQuantityText()
+
+        updateCosts()
     }
 
-    private fun setInitialText(description: String, title: String)
+    private fun buildAlert()
+    {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+
+        builder.setCustomTitle(titleView)
+
+        builder.setView(bodyView)
+
+        dialog = builder.create()
+
+        dialog.show()
+    }
+
+    private fun setInitialText(description: String, title: String, cost: String)
     {
         imageDescQuantView.description_text.text = description
 
         titleView.add_dialog_menu_item_title.text = title
+
+        imageDescQuantView.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(cost.toFloat()))
+
     }
 
     private fun setOnClickListeners()
@@ -94,6 +141,22 @@ class BasicItemAddDialog(private val context: Context,
         finalActionsView.add_dialog_positive_button.setOnClickListener(onAddClickListener)
 
         finalActionsView.add_dialog_negative_button.setOnClickListener(onCancelClickListener)
+    }
 
+    private fun updateAddText()
+    {
+        finalActionsView.add_dialog_positive_button.text = String.format(addNumberToOrderString, quantityNumber)
+    }
+
+    private fun updateQuantityText()
+    {
+        imageDescQuantView.quantity_text.text = quantityNumber.toString()
+    }
+
+    private fun updateCosts()
+    {
+        newCost = unitCost.toFloat() * quantityNumber
+
+        bodyView.basic_subtotal_cost.text = CommonUtils.formatGeneralCosts(AppConstants.DECIMAL_FORMAT.format(newCost))
     }
 }

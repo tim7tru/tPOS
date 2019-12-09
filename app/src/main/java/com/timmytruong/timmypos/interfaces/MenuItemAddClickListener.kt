@@ -6,5 +6,5 @@ interface MenuItemAddClickListener
 {
     fun onAddToOrderButtonClicked(view: View, position: Int)
 
-    fun onAddToOrderDialogClicked(newlyAddedItems: Int, subTotal: Float)
+    fun onAddToOrderDialogClicked(numberOfNewlyAddedItems: Int, subTotal: Float)
 }
