@@ -1,6 +1,8 @@
 package com.timmytruong.timmypos.utils.ui.viewholders
 
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,7 +13,8 @@ import com.timmytruong.timmypos.models.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
 
 class MenuItemViewHolder(itemView: View,
-                         private val menuItemAddClickListener: MenuItemAddClickListener): RecyclerView.ViewHolder(itemView)
+                         private val menuItemAddClickListener: MenuItemAddClickListener,
+                         private val animation: Animation): RecyclerView.ViewHolder(itemView)
 {
     private val itemDescriptionText: TextView = itemView.findViewById(R.id.item_description)
     private val itemTitleText: TextView = itemView.findViewById(R.id.item_name)
@@ -26,6 +29,7 @@ class MenuItemViewHolder(itemView: View,
         itemCostText.text = String.format("$%s ea.", item.cost)
 
         addToOrderButton.setOnClickListener {
+            addToOrderButton.startAnimation(animation)
             menuItemAddClickListener.onAddToOrderButtonClicked(it!!, this.layoutPosition)
         }
 

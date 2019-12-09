@@ -3,7 +3,6 @@ package com.timmytruong.timmypos.utils
 import android.content.Context
 import android.content.res.AssetManager
 import com.timmytruong.timmypos.models.DialogOptionItem
-import com.timmytruong.timmypos.models.MenuExtra
 import com.timmytruong.timmypos.models.MenuItem
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
@@ -53,7 +52,7 @@ object DataUtils
 
             val categoryNode: JSONArray = soupsExtraNode.getJSONArray(DataConstants.SOUPS_EXTRAS_NODE)
 
-            return soupsExtraJSONMapper(categoryNode)
+            return dialogOptionJSONMapper(categoryNode)
         }
 
         return arrayListOf()
@@ -111,7 +110,7 @@ object DataUtils
         return listOfItems
     }
 
-    private fun soupsExtraJSONMapper(categoryNode: JSONArray): ArrayList<DialogOptionItem>
+    private fun dialogOptionJSONMapper(categoryNode: JSONArray): ArrayList<DialogOptionItem>
     {
         val listOfItems: ArrayList<DialogOptionItem> = arrayListOf()
 
@@ -121,9 +120,10 @@ object DataUtils
 
             listOfItems.add(
                 DialogOptionItem(
-                name = item.getString(DataConstants.NAME_NODE),
-                cost = AppConstants.DECIMAL_FORMAT.format(item.getLong(DataConstants.COST_NODE)).toString()
-            ))
+                    name = item.getString(DataConstants.NAME_NODE),
+                    cost = item.getLong(DataConstants.COST_NODE).toString(),
+                    tag = item.getString(DataConstants.DIALOG_EXTRA_TAG_NODE)
+                ))
         }
 
         return listOfItems

@@ -17,7 +17,6 @@ import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.CategoryMenuItem
 import com.timmytruong.timmypos.models.DialogOptionItem
-import com.timmytruong.timmypos.models.MenuExtra
 import com.timmytruong.timmypos.models.MenuItem
 import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
@@ -268,6 +267,8 @@ class OrdersFragment : Fragment()
 
                     val cost = categoryItemsArray[position].cost
 
+                    val tags = categoryItemsArray[position].tags
+
                     when (categoryItemsArray[position].dialogType)
                     {
                         AppConstants.BASIC_DIALOG_TYPE ->
@@ -278,9 +279,18 @@ class OrdersFragment : Fragment()
                         }
                         AppConstants.SOUPS_DIALOG_TYPE ->
                         {
-                            val soupsItemAddDialog = SoupsItemAddDialog(activity!!, this, categoryTitlesArray[categoryMenuAdapter.getActivePosition()].title, soupsExtrasArray)
+                            val soupsItemAddDialog = SoupsItemAddDialog (
+                                context = activity!!,
+                                menuAddItemClickListener = this,
+                                categoryTitle = categoryTitlesArray[categoryMenuAdapter.getActivePosition()].title,
+                                name = title,
+                                description = description,
+                                cost = cost,
+                                tags = tags,
+                                soupsExtraArray = soupsExtrasArray
+                            )
 
-                            soupsItemAddDialog.setup(title, description, cost)
+                            soupsItemAddDialog.setup()
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package com.timmytruong.timmypos.utils.ui
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,9 +10,9 @@ import com.timmytruong.timmypos.adapters.DialogOptionItemsAdapter
 import com.timmytruong.timmypos.interfaces.DialogItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.models.DialogOptionItem
-import com.timmytruong.timmypos.models.MenuExtra
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.CommonUtils
+import com.timmytruong.timmypos.utils.constants.DataConstants
 import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
 import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
 import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
@@ -19,7 +20,11 @@ import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
 class SoupsItemAddDialog(private val context: Context,
                          private val menuAddItemClickListener: MenuItemAddClickListener,
-                         private val tag: String,
+                         private val categoryTitle: String,
+                         private val name: String,
+                         private val description: String,
+                         private val cost: String,
+                         private val tags: ArrayList<String>?,
                          private val soupsExtraArray: ArrayList<DialogOptionItem>)
 {
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
@@ -31,6 +36,10 @@ class SoupsItemAddDialog(private val context: Context,
     private val finalActionsView: View = bodyView.final_actions
 
     private val sizesArray: ArrayList<DialogOptionItem> = arrayListOf()
+
+    private val brothArray: ArrayList<DialogOptionItem> = arrayListOf()
+
+    private lateinit var dialogOptionsBrothAdapter: DialogOptionItemsAdapter
 
     private lateinit var dialogOptionSizesAdapter: DialogOptionItemsAdapter
 
@@ -109,11 +118,7 @@ class SoupsItemAddDialog(private val context: Context,
                     AppConstants.SIZE_OPTION_TAG -> {
                         for (index in 0 until sizesArray.size)
                         {
-                            if (sizesArray[index].checkedStatus && index != position)
-                            {
-                                sizesArray[index].checkedStatus = false
-                            }
-                            else if (sizesArray[index].checkedStatus && index == position)
+                            if ((sizesArray[index].checkedStatus && index != position) || (sizesArray[index].checkedStatus && index == position))
                             {
                                 sizesArray[index].checkedStatus = false
                             }
@@ -150,6 +155,21 @@ class SoupsItemAddDialog(private val context: Context,
 
                         extrasCost += unitValue
                     }
+                    AppConstants.BROTH_TAG -> {
+                        for (index in 0 until brothArray.size)
+                        {
+                            if ((brothArray[index].checkedStatus && index != position) || (brothArray[index].checkedStatus && index == position))
+                            {
+                                brothArray[index].checkedStatus = false
+                            }
+                            else if (!brothArray[index].checkedStatus && index == position)
+                            {
+                                brothArray[index].checkedStatus = true
+                            }
+
+                            dialogOptionsBrothAdapter.notifyDataSetChanged()
+                        }
+                    }
                 }
 
                 newUnitCost = unitCost.toFloat() + sizeCost + extrasCost
@@ -158,13 +178,15 @@ class SoupsItemAddDialog(private val context: Context,
             }
         }
 
-    fun setup(title: String, description: String, cost: String)
+    fun setup()
     {
         this.unitCost = cost
 
         newUnitCost = cost.toFloat()
 
-        setInitialText(description, title)
+        setInitialText()
+
+        setBrothOptions()
 
         setAdapters()
 
@@ -181,6 +203,25 @@ class SoupsItemAddDialog(private val context: Context,
         updateQuantityText()
     }
 
+    private fun setBrothOptions()
+    {
+        if (!tags.isNullOrEmpty() && tags.contains(DataConstants.WITH_OR_WITHOUT_TAG))
+        {
+            bodyView.broth_option.visibility = View.VISIBLE
+            for (index in DataConstants.WITH_OR_WITHOUT_ARRAY.indices)
+            {
+                brothArray.add(DialogOptionItem(
+                    name = DataConstants.WITH_OR_WITHOUT_ARRAY[index],
+                    cost = "0",
+                    tag = AppConstants.BROTH_TAG))
+            }
+        }
+        else
+        {
+            bodyView.broth_option.visibility = View.GONE
+        }
+    }
+
 //    private fun buildOrderedItem(): OrderedItem
 //    {
 //        return OrderedItem(
@@ -191,22 +232,28 @@ class SoupsItemAddDialog(private val context: Context,
 //        )
 //    }
 
-    private fun setInitialText(description: String, title: String)
+    private fun setInitialText()
     {
         imageDescQuantView.description_text.text = description
 
-        titleView.add_dialog_menu_item_title.text = title
+        titleView.add_dialog_menu_item_title.text = name
     }
 
     private fun setAdapters()
     {
+        dialogOptionsBrothAdapter = DialogOptionItemsAdapter(context, brothArray , dialogItemClickListener)
+
         dialogOptionSizesAdapter = DialogOptionItemsAdapter(context, sizesArray, dialogItemClickListener)
 
         dialogOptionExtrasAdapter = DialogOptionItemsAdapter(context, soupsExtraArray, dialogItemClickListener)
 
+        bodyView.broth_option_body.layoutManager = LinearLayoutManager(context)
+
         bodyView.soups_sizes_body.layoutManager = LinearLayoutManager(context)
 
         bodyView.soups_extras_body.layoutManager = LinearLayoutManager(context)
+
+        bodyView.broth_option_body.adapter = dialogOptionsBrothAdapter
 
         bodyView.soups_sizes_body.adapter = dialogOptionSizesAdapter
 
@@ -239,7 +286,7 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun createSizeData()
     {
-        when (tag)
+        when (categoryTitle)
         {
             AppConstants.PHO_CATEGORY_TAG ->
             {
