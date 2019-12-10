@@ -1,4 +1,4 @@
-package com.timmytruong.timmypos.models
+package com.timmytruong.timmypos.model
 
 data class DialogOptionItem(var checkedStatus: Boolean = false,
                             var name: String = "",

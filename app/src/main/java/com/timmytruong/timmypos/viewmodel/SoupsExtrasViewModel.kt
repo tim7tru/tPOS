@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCallback
-import com.timmytruong.timmypos.models.DialogOptionItem
+import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.repository.SoupsExtrasRepository
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.DataConstants

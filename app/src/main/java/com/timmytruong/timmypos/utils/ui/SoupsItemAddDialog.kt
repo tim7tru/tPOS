@@ -1,7 +1,6 @@
 package com.timmytruong.timmypos.utils.ui
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,22 +8,21 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.adapters.DialogOptionItemsAdapter
 import com.timmytruong.timmypos.interfaces.DialogItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
-import com.timmytruong.timmypos.models.DialogOptionItem
-import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.model.DialogOptionItem
+import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
+import com.timmytruong.timmypos.utils.DataUtils
+import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
 import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
-import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
+import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
 
 class SoupsItemAddDialog(private val context: Context,
                          private val menuAddItemClickListener: MenuItemAddClickListener,
                          private val categoryTitle: String,
-                         private val name: String,
-                         private val description: String,
-                         private val cost: String,
-                         private val tags: ArrayList<String>?,
+                         private val item: MenuItem,
                          private val soupsExtraArray: ArrayList<DialogOptionItem>)
 {
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
@@ -61,6 +59,7 @@ class SoupsItemAddDialog(private val context: Context,
 
     private val onCancelClickListener = View.OnClickListener {
         resetCheckedExtras()
+
         dialog.dismiss()
     }
 
@@ -70,17 +69,22 @@ class SoupsItemAddDialog(private val context: Context,
             1 ->
             {
                 imageDescQuantView.minus_quantity_shown.visibility = View.VISIBLE
+
                 imageDescQuantView.minus_quantity_hidden.visibility = View.INVISIBLE
             }
             98 ->
             {
                 imageDescQuantView.plus_quantity_shown.visibility = View.INVISIBLE
+
                 imageDescQuantView.plus_quantity_hidden.visibility = View.VISIBLE
             }
         }
         quantityNumber++
+
         updateAddText()
+
         updateQuantityText()
+
         updateCosts(newUnitCost)
     }
 
@@ -90,23 +94,39 @@ class SoupsItemAddDialog(private val context: Context,
             2 ->
             {
                 imageDescQuantView.minus_quantity_shown.visibility = View.INVISIBLE
+
                 imageDescQuantView.minus_quantity_hidden.visibility = View.VISIBLE
             }
             99 ->
             {
                 imageDescQuantView.plus_quantity_shown.visibility = View.VISIBLE
+
                 imageDescQuantView.plus_quantity_hidden.visibility = View.INVISIBLE
             }
         }
+
         quantityNumber--
+
         updateAddText()
+
         updateQuantityText()
+
         updateCosts(newUnitCost)
     }
 
     private val onAddClickListener = View.OnClickListener {
         dialog.dismiss()
-        menuAddItemClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
+
+        menuAddItemClickListener.onAddToOrderDialogClicked (
+            DataUtils.buildOrderedItem (
+                item = item,
+                sizes = sizesArray,
+                extras = soupsExtraArray,
+                broths = brothArray,
+                quantity = quantityNumber,
+                unitCost = newUnitCost.toDouble()
+            )
+        )
     }
 
     private val dialogItemClickListener: DialogItemClickListener =
@@ -181,9 +201,9 @@ class SoupsItemAddDialog(private val context: Context,
 
     fun setup()
     {
-        this.unitCost = cost
+        this.unitCost = item.cost
 
-        newUnitCost = cost.toFloat()
+        newUnitCost = item.cost.toFloat()
 
         setInitialText()
 
@@ -213,7 +233,7 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun setBrothOptions()
     {
-        if (!tags.isNullOrEmpty() && tags.contains(DataConstants.WITH_OR_WITHOUT_TAG))
+        if (!item.tags.isNullOrEmpty() && item.tags!!.contains(DataConstants.WITH_OR_WITHOUT_TAG))
         {
             bodyView.broth_option.visibility = View.VISIBLE
             for (index in DataConstants.WITH_OR_WITHOUT_ARRAY.indices)
@@ -232,21 +252,11 @@ class SoupsItemAddDialog(private val context: Context,
         }
     }
 
-//    private fun buildOrderedItem(): OrderedItem
-//    {
-//        return OrderedItem(
-//            quantity = quantityNumber,
-//            name = titleView.add_dialog_menu_item_title.text as String,
-//            subtotal = newCost.toDouble(),
-//            extras =
-//        )
-//    }
-
     private fun setInitialText()
     {
-        imageDescQuantView.description_text.text = description
+        imageDescQuantView.description_text.text = item.description
 
-        titleView.add_dialog_menu_item_title.text = name
+        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
     }
 
     private fun setAdapters()

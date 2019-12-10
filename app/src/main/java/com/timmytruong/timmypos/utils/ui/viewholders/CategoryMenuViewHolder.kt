@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
-import com.timmytruong.timmypos.models.CategoryMenuItem
+import com.timmytruong.timmypos.model.CategoryMenuItem
 
 class CategoryMenuViewHolder(itemView: View,
                              private val onClickListener: CategoryMenuItemClickListener,

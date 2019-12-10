@@ -2,6 +2,9 @@ package com.timmytruong.timmypos.utils
 
 import android.content.Context
 import com.timmytruong.timmypos.R
+import com.timmytruong.timmypos.model.DialogOptionItem
+import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import java.util.*
 

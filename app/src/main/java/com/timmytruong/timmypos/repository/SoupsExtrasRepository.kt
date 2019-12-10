@@ -2,7 +2,7 @@ package com.timmytruong.timmypos.repository
 
 import com.timmytruong.timmypos.firebase.repository.FirebaseDatabaseRepository
 import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
-import com.timmytruong.timmypos.models.DialogOptionItem
+import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.utils.constants.DataConstants
 
 class SoupsExtrasRepository: FirebaseDatabaseRepository<HashMap<Any, Any>, DialogOptionItem>(SoupsExtrasMapper())

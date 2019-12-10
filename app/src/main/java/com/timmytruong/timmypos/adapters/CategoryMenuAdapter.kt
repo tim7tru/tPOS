@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
-import com.timmytruong.timmypos.models.CategoryMenuItem
+import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.utils.ui.viewholders.CategoryMenuViewHolder
 
 class CategoryMenuAdapter(private val context: Context,

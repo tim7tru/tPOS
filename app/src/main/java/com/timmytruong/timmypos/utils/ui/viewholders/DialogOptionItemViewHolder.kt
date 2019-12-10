@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.DialogItemClickListener
-import com.timmytruong.timmypos.models.DialogOptionItem
+import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 

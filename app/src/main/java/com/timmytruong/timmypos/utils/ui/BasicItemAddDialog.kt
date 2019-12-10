@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
+import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
@@ -13,7 +14,8 @@ import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
 class  BasicItemAddDialog(private val context: Context,
-                         private val menuItemAddClickListener: MenuItemAddClickListener)
+                          private val menuItemAddClickListener: MenuItemAddClickListener,
+                          private val item: MenuItem)
 {
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
 
@@ -90,11 +92,11 @@ class  BasicItemAddDialog(private val context: Context,
         menuItemAddClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
     }
 
-    fun setup(title: String, description: String, cost: String)
+    fun setup()
     {
-        this.unitCost = cost
+        this.unitCost = item.cost
 
-        setInitialText(description, title, cost)
+        setInitialText()
 
         buildAlert()
 
@@ -120,13 +122,13 @@ class  BasicItemAddDialog(private val context: Context,
         dialog.show()
     }
 
-    private fun setInitialText(description: String, title: String, cost: String)
+    private fun setInitialText()
     {
-        imageDescQuantView.description_text.text = description
+        imageDescQuantView.description_text.text = item.description
 
-        titleView.add_dialog_menu_item_title.text = title
+        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
 
-        imageDescQuantView.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(cost.toFloat()))
+        imageDescQuantView.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(item.cost.toFloat()))
 
     }
 
