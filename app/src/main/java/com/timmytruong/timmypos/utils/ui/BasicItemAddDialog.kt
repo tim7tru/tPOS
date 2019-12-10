@@ -3,8 +3,6 @@ package com.timmytruong.timmypos.utils.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
-import android.view.WindowManager
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.utils.CommonUtils
@@ -14,7 +12,7 @@ import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
 import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
-class BasicItemAddDialog(private val context: Context,
+class  BasicItemAddDialog(private val context: Context,
                          private val menuItemAddClickListener: MenuItemAddClickListener)
 {
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)

@@ -60,6 +60,7 @@ class SoupsItemAddDialog(private val context: Context,
     private var newCost: Float = 0f
 
     private val onCancelClickListener = View.OnClickListener {
+        resetCheckedExtras()
         dialog.dismiss()
     }
 
@@ -203,6 +204,13 @@ class SoupsItemAddDialog(private val context: Context,
         updateQuantityText()
     }
 
+    private fun resetCheckedExtras()
+    {
+        soupsExtraArray.forEach {
+            it.resetChecked()
+        }
+    }
+
     private fun setBrothOptions()
     {
         if (!tags.isNullOrEmpty() && tags.contains(DataConstants.WITH_OR_WITHOUT_TAG))
@@ -213,7 +221,9 @@ class SoupsItemAddDialog(private val context: Context,
                 brothArray.add(DialogOptionItem(
                     name = DataConstants.WITH_OR_WITHOUT_ARRAY[index],
                     cost = "0",
-                    tag = AppConstants.BROTH_TAG))
+                    optionTag = AppConstants.BROTH_TAG,
+                    category = AppConstants.SOUPS_CATEGORY_TAG)
+                )
             }
         }
         else
@@ -290,21 +300,21 @@ class SoupsItemAddDialog(private val context: Context,
         {
             AppConstants.PHO_CATEGORY_TAG ->
             {
-                var item = DialogOptionItem(false, context.resources.getString(R.string.size_small), "0", AppConstants.SIZE_OPTION_TAG)
+                var item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_small), cost = "0", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.PHO_CATEGORY_TAG)
                 sizesArray.add(item)
 
-                item = DialogOptionItem(false, context.resources.getString(R.string.size_large_pho), "1", AppConstants.SIZE_OPTION_TAG)
+                item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_large_pho), cost = "1", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.PHO_CATEGORY_TAG)
                 sizesArray.add(item)
 
-                item = DialogOptionItem(false, context.resources.getString(R.string.size_xlarge_pho), "4", AppConstants.SIZE_OPTION_TAG)
+                item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_xlarge_pho), cost = "4", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.PHO_CATEGORY_TAG)
                 sizesArray.add(item)
             }
             AppConstants.SOUPS_CATEGORY_TAG ->
             {
-                var item = DialogOptionItem(false, context.resources.getString(R.string.size_large_soups), "0", AppConstants.SIZE_OPTION_TAG)
+                var item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_large_soups), cost = "0", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.SOUPS_CATEGORY_TAG)
                 sizesArray.add(item)
 
-                item = DialogOptionItem(false, context.resources.getString(R.string.size_xlarge_soups), "4", AppConstants.SIZE_OPTION_TAG)
+                item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_xlarge_soups), cost = "4", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.SOUPS_CATEGORY_TAG)
                 sizesArray.add(item)
             }
         }

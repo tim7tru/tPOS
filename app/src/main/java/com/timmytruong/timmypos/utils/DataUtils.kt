@@ -122,7 +122,8 @@ object DataUtils
                 DialogOptionItem(
                     name = item.getString(DataConstants.NAME_NODE),
                     cost = item.getLong(DataConstants.COST_NODE).toString(),
-                    tag = item.getString(DataConstants.DIALOG_EXTRA_TAG_NODE)
+                    optionTag = item.getString(DataConstants.DIALOG_EXTRA_TAG_NODE),
+                    category = item.getString(DataConstants.CATEGORY_NODE)
                 ))
         }
 
