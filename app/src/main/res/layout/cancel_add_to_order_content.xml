@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/add_dialog_negative_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orders_cancel_dialog"
+        android:background="@drawable/item_ripple"
+        android:textSize="@dimen/text_small_medium"
+        android:focusable="true"
+        android:clickable="true"
+        android:textColor="@color/blue_order"
+        app:layout_constraintBottom_toBottomOf="@id/add_dialog_positive_button"
+        app:layout_constraintEnd_toStartOf="@id/add_dialog_positive_button"
+        android:padding="@dimen/padding_large"/>
+
+    <TextView
+        android:id="@+id/add_dialog_positive_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orders_add_dialog"
+        android:background="@drawable/item_ripple"
+        android:textSize="@dimen/text_small_medium"
+        android:focusable="true"
+        android:clickable="true"
+        android:textColor="@color/blue_order"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/padding_large"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.timmytruong.timmypos.models
+package com.timmytruong.timmypos.model
 
 data class MenuItem(var menuNumber: Int = -1,
                     var availablity: Boolean = false,

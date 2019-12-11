@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.DialogItemClickListener
-import com.timmytruong.timmypos.models.DialogOptionItem
+import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.utils.ui.viewholders.DialogOptionItemViewHolder
 
 class DialogOptionItemsAdapter(private val context: Context,
