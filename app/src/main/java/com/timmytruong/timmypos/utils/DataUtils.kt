@@ -15,10 +15,8 @@ import java.io.InputStream
 object DataUtils
 {
     @Suppress("UNCHECKED_CAST")
-    fun getMenuDataFromAssets(context: Context): ArrayList<ArrayList<MenuItem>>
+    fun getMenuDataFromAssets(mapper: MenuMapper, context: Context): ArrayList<ArrayList<MenuItem>>
     {
-        val mapper = MenuMapper()
-
         val assets: AssetManager = context.assets
 
         val listOfLists: ArrayList<ArrayList<MenuItem>> = arrayListOf()
@@ -42,10 +40,8 @@ object DataUtils
         return arrayListOf()
     }
 
-    fun getSoupsExtrasDataFromAssets(context: Context): ArrayList<DialogOptionItem>
+    fun getSoupsExtrasDataFromAssets(mapper: SoupsExtrasMapper, context: Context): ArrayList<DialogOptionItem>
     {
-        val mapper = SoupsExtrasMapper()
-
         val assets: AssetManager = context.assets
 
         val jsonObject = loadJSONFromAsset(assets, DataConstants.SOUPS_EXTRAS_NODE)
@@ -151,6 +147,7 @@ object DataUtils
                 if (extra.checkedStatus)
                 {
                     selectedExtras.add(extra.name)
+                    break
                 }
             }
 

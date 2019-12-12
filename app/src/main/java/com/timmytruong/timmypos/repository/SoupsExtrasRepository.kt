@@ -5,7 +5,7 @@ import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.utils.constants.DataConstants
 
-class SoupsExtrasRepository: FirebaseDatabaseRepository<HashMap<Any, Any>, DialogOptionItem>(SoupsExtrasMapper())
+class SoupsExtrasRepository(soupsExtrasMapper: SoupsExtrasMapper): FirebaseDatabaseRepository<HashMap<Any, Any>, DialogOptionItem>(soupsExtrasMapper)
 {
     override fun getRootNode(): String
     {

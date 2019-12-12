@@ -8,11 +8,11 @@ import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.repository.SoupsExtrasRepository
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.DataConstants
+import javax.inject.Inject
 
-class SoupsExtrasViewModel: ViewModel()
+class SoupsExtrasViewModel @Inject constructor(private val soupsExtrasRepository: SoupsExtrasRepository): ViewModel()
 {
     private var soupsExtras: MutableLiveData<List<DialogOptionItem>>? = null
-    private var soupsExtrasRepository: SoupsExtrasRepository = SoupsExtrasRepository()
 
     fun getExtras(): LiveData<List<DialogOptionItem>>?
     {

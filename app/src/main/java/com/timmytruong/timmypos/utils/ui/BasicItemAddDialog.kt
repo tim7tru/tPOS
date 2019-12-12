@@ -7,6 +7,7 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
+import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
 import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
@@ -89,7 +90,13 @@ class  BasicItemAddDialog(private val context: Context,
 
     private val onAddClickListener = View.OnClickListener {
         dialog.dismiss()
-        menuItemAddClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
+        menuItemAddClickListener.onAddToOrderDialogClicked(
+            DataUtils.buildOrderedItem (
+                item = item,
+                quantity = quantityNumber,
+                unitCost = unitCost.toDouble()
+            )
+        )
     }
 
     fun setup()

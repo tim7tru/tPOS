@@ -9,10 +9,11 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.utils.ui.viewholders.CategoryMenuViewHolder
+import javax.inject.Inject
 
-class CategoryMenuAdapter(private val context: Context,
-                          private val categoryTitles: ArrayList<CategoryMenuItem>,
-                          private val onClickListener: CategoryMenuItemClickListener): RecyclerView.Adapter<CategoryMenuViewHolder>()
+class CategoryMenuAdapter @Inject constructor(private val context: Context,
+                                              private val categoryTitles: ArrayList<CategoryMenuItem>,
+                                              private val onClickListener: CategoryMenuItemClickListener): RecyclerView.Adapter<CategoryMenuViewHolder>()
 {
     private var activePosition: Int = 0
 

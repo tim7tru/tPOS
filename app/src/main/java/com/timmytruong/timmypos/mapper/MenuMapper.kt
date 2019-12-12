@@ -7,8 +7,9 @@ import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import org.json.JSONArray
 import org.json.JSONObject
+import javax.inject.Inject
 
-class MenuMapper: FirebaseMapper<ArrayList<HashMap<Any, Any>>, ArrayList<MenuItem>>()
+class MenuMapper @Inject constructor(): FirebaseMapper<ArrayList<HashMap<Any, Any>>, ArrayList<MenuItem>>()
 {
     @Suppress("UNCHECKED_CAST")
     override fun map(from: ArrayList<HashMap<Any, Any>>): ArrayList<MenuItem>

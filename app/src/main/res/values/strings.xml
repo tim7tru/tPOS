@@ -25,6 +25,12 @@
     <string name="main_nav_financials_title">Financials</string>
     <string name="main_nav_history_title">History</string>
 
+    <!--VIEW ORDER ACTIVITY-->
+    <string name="view_order_submit">SUBMIT</string>
+    <string name="view_order_total">TOTAL:</string>
+    <string name="view_order_tax">HST @ 13%:</string>
+    <string name="view_order_subtotal">SUBTOTAL:</string>
+
     <!--ORDERS FRAGMENT-->
     <string name="orders_home">Home</string>
     <string name="orders_appetizers">Appetizers</string>
@@ -37,10 +43,10 @@
     <string name="orders_drinks">Drinks</string>
     <string name="orders_add_to_order">ADD TO ORDER</string>
     <string name="orders_view_order">VIEW ORDER</string>
-    <string name="orders_item_count">Items: %s</string>
+    <string name="orders_item_count">ITEMS: %s</string>
     <string name="orders_cancel_dialog">CANCEL</string>
     <string name="orders_add_dialog">ADD %s TO ORDER</string>
-    <string name="orders_subtotal_text">SUB-TOTAL</string>
+    <string name="orders_subtotal_text">SUBTOTAL</string>
     <string name="orders_list_price_per_item">$%s ea.</string>
     <string name="orders_dialog_price_per_item">\@ $%s ea.</string>
     <string name="orders_dialog_sizes_title">Size</string>

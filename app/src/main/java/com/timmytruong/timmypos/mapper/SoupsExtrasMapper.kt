@@ -5,8 +5,9 @@ import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import org.json.JSONArray
 import org.json.JSONObject
+import javax.inject.Inject
 
-class SoupsExtrasMapper: FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
+class SoupsExtrasMapper @Inject constructor(): FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
 {
     override fun map(from: HashMap<Any, Any>): DialogOptionItem
     {

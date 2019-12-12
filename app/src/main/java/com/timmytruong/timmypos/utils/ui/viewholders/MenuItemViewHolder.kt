@@ -16,10 +16,16 @@ class MenuItemViewHolder(itemView: View,
                          private val animation: Animation): RecyclerView.ViewHolder(itemView)
 {
     private val itemDescriptionText: TextView = itemView.findViewById(R.id.item_description)
+
     private val itemTitleText: TextView = itemView.findViewById(R.id.item_name)
+
     private val itemCostText: TextView = itemView.findViewById(R.id.item_cost)
+
     private val itemImage: ImageView = itemView.findViewById(R.id.item_picture)
+
     private val addToOrderButton: Button = itemView.findViewById(R.id.add_to_order_button)
+
+    private var interactable = true
 
     fun setDetails(item: MenuItem)
     {
@@ -27,9 +33,29 @@ class MenuItemViewHolder(itemView: View,
         itemTitleText.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
         itemCostText.text = String.format("$%s ea.", item.cost)
 
+        animation.setAnimationListener(
+            object: Animation.AnimationListener
+            {
+                override fun onAnimationRepeat(p0: Animation?) {}
+
+                override fun onAnimationEnd(p0: Animation?)
+                {
+                    interactable = true
+                }
+
+                override fun onAnimationStart(p0: Animation?)
+                {
+                    interactable = false
+                }
+            }
+        )
+
         addToOrderButton.setOnClickListener {
-            addToOrderButton.startAnimation(animation)
-            menuItemAddClickListener.onAddToOrderButtonClicked(it!!, this.layoutPosition)
+            if (interactable)
+            {
+                addToOrderButton.startAnimation(animation)
+                menuItemAddClickListener.onAddToOrderButtonClicked(it!!, this.layoutPosition)
+            }
         }
 
     }

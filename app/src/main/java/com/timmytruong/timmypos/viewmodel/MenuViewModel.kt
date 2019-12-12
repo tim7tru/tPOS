@@ -11,11 +11,11 @@ import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import java.lang.Exception
+import javax.inject.Inject
 
-class MenuViewModel: ViewModel()
+class MenuViewModel @Inject constructor(private val menuRepository: MenuRepository): ViewModel()
 {
     private var menu: MutableLiveData<List<ArrayList<MenuItem>>>? = null
-    private val menuRepository: MenuRepository = MenuRepository()
 
     fun getMenu(): LiveData<List<ArrayList<MenuItem>>>?
     {

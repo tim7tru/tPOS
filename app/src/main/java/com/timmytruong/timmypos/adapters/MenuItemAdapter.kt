@@ -3,6 +3,7 @@ package com.timmytruong.timmypos.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R

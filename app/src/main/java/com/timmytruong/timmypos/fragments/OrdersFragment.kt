@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.adapters.CategoryMenuAdapter
 import com.timmytruong.timmypos.adapters.MenuItemAdapter
+import com.timmytruong.timmypos.dagger.component.DaggerAppComponent
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
+import com.timmytruong.timmypos.mapper.MenuMapper
+import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
 import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.MenuItem
@@ -26,9 +28,18 @@ import com.timmytruong.timmypos.utils.ui.SoupsItemAddDialog
 import com.timmytruong.timmypos.viewmodel.MenuViewModel
 import com.timmytruong.timmypos.viewmodel.SoupsExtrasViewModel
 import kotlinx.android.synthetic.main.fragment_orders.*
+import javax.inject.Inject
 
 class OrdersFragment : Fragment()
 {
+    @Inject lateinit var menuViewModel: MenuViewModel
+
+    @Inject lateinit var soupsExtrasViewModel: SoupsExtrasViewModel
+
+    @Inject lateinit var menuMapper: MenuMapper
+
+    @Inject lateinit var soupsExtrasMapper: SoupsExtrasMapper
+
     private lateinit var appetizersString: String
 
     private lateinit var soupsString: String
@@ -63,9 +74,9 @@ class OrdersFragment : Fragment()
 
     private val soupsExtrasArray: ArrayList<DialogOptionItem> = arrayListOf()
 
-    private lateinit var categoryMenuAdapter: CategoryMenuAdapter
+    lateinit var categoryMenuAdapter: CategoryMenuAdapter
 
-    private lateinit var menuAdapter: MenuItemAdapter
+    lateinit var menuAdapter: MenuItemAdapter
 
     private var itemCount: Int = 0
 
@@ -101,7 +112,7 @@ class OrdersFragment : Fragment()
             {
                 categoryArrays.clear()
 
-                categoryArrays.addAll(DataUtils.getMenuDataFromAssets(activity!!))
+                categoryArrays.addAll(DataUtils.getMenuDataFromAssets(menuMapper, activity!!))
             }
 
             categoryItemsArray = categoryArrays[0]
@@ -128,7 +139,7 @@ class OrdersFragment : Fragment()
             {
                 soupsExtrasArray.clear()
 
-                soupsExtrasArray.addAll(DataUtils.getSoupsExtrasDataFromAssets(activity!!))
+                soupsExtrasArray.addAll(DataUtils.getSoupsExtrasDataFromAssets(soupsExtrasMapper, activity!!))
             }
         }
 
@@ -213,6 +224,7 @@ class OrdersFragment : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
+        DaggerAppComponent.create().inject(this)
         return inflater.inflate(R.layout.fragment_orders, container, false)
     }
 
@@ -239,10 +251,6 @@ class OrdersFragment : Fragment()
 
     private fun setupViewModels()
     {
-        val soupsExtrasViewModel: SoupsExtrasViewModel = ViewModelProviders.of(this)[SoupsExtrasViewModel::class.java]
-
-        val menuViewModel: MenuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
-
         soupsExtrasViewModel.getExtras()?.observe(this, soupsExtrasObserver)
 
         menuViewModel.getMenu()?.observe(this, menuObserver)
