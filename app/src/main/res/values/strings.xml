@@ -30,6 +30,7 @@
     <string name="view_order_total">TOTAL:</string>
     <string name="view_order_tax">HST @ 13%:</string>
     <string name="view_order_subtotal">SUBTOTAL:</string>
+    <string name="view_order_title">REVIEW YOUR ORDER</string>
 
     <!--ORDERS FRAGMENT-->
     <string name="orders_home">Home</string>

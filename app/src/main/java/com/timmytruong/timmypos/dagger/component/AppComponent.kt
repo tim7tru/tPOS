@@ -9,6 +9,7 @@ import com.timmytruong.timmypos.dagger.module.ViewModelFactoryModule
 import com.timmytruong.timmypos.fragments.FinancialFragment
 import com.timmytruong.timmypos.fragments.HistoryFragment
 import com.timmytruong.timmypos.fragments.OrdersFragment
+import com.timmytruong.timmypos.utils.ui.SoupsItemAddDialog
 import dagger.Component
 import javax.inject.Singleton
 
@@ -27,4 +28,6 @@ interface AppComponent
     fun inject(historyFragment: HistoryFragment)
 
     fun inject(financialFragment: FinancialFragment)
+
+    fun inject(soupsItemAddDialog: SoupsItemAddDialog)
 }

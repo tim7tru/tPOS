@@ -10,6 +10,7 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
+import com.timmytruong.timmypos.utils.constants.AppConstants
 
 class MenuItemViewHolder(itemView: View,
                          private val menuItemAddClickListener: MenuItemAddClickListener,
@@ -25,35 +26,21 @@ class MenuItemViewHolder(itemView: View,
 
     private val addToOrderButton: Button = itemView.findViewById(R.id.add_to_order_button)
 
-    private var interactable = true
-
     fun setDetails(item: MenuItem)
     {
         itemDescriptionText.text = item.description
+
         itemTitleText.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
+
         itemCostText.text = String.format("$%s ea.", item.cost)
 
-        animation.setAnimationListener(
-            object: Animation.AnimationListener
-            {
-                override fun onAnimationRepeat(p0: Animation?) {}
-
-                override fun onAnimationEnd(p0: Animation?)
-                {
-                    interactable = true
-                }
-
-                override fun onAnimationStart(p0: Animation?)
-                {
-                    interactable = false
-                }
-            }
-        )
+        animation.setAnimationListener(AppConstants.interactableAnimListener)
 
         addToOrderButton.setOnClickListener {
-            if (interactable)
+            if (AppConstants.interactable)
             {
                 addToOrderButton.startAnimation(animation)
+
                 menuItemAddClickListener.onAddToOrderButtonClicked(it!!, this.layoutPosition)
             }
         }

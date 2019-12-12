@@ -8,14 +8,29 @@
     android:layout_height="fill_parent">
 
     <include
+        android:id="@+id/soups_title"
+        layout="@layout/menu_item_add_dialog_title" />
+
+    <include
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:id="@+id/soups_image_desc_quantity"
-        layout="@layout/image_description_quantity_content"/>
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        layout="@layout/image_description_quantity_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/soups_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/soups_add_dialog_options_container"
+
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/soups_add_dialog_options_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/soups_image_desc_quantity"
         app:layout_constraintTop_toTopOf="@id/soups_image_desc_quantity"
@@ -46,9 +61,6 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/soups_sizes_title"/>
-
-
-                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -83,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_xxsmall"
             app:layout_constraintStart_toEndOf="@id/soups_dialog_size"
             app:layout_constraintTop_toTopOf="@id/soups_dialog_size">
 
@@ -106,27 +118,38 @@
                 app:layout_constraintTop_toBottomOf="@id/soups_extras_title"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/soups_subtotal_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/orders_subtotal_text"
-            android:textSize="@dimen/text_small_medium"
-            android:textColor="@color/white"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_xxsmall"
             app:layout_constraintBottom_toTopOf="@id/final_actions"
-            app:layout_constraintEnd_toStartOf="@id/soups_subtotal_cost" />
+            app:layout_constraintEnd_toEndOf="@id/final_actions">
 
-        <TextView
-            android:id="@+id/soups_subtotal_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/test_item_cost"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_small_medium"
-            android:layout_marginEnd="@dimen/text_small"
-            app:layout_constraintBottom_toBottomOf="@id/soups_subtotal_text"
-            app:layout_constraintEnd_toEndOf="@id/final_actions"/>
+            <TextView
+                android:id="@+id/soups_subtotal_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/orders_subtotal_text"
+                android:textSize="@dimen/text_small_medium"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginEnd="@dimen/margin_small"
+                app:layout_constraintBottom_toTopOf="@id/final_actions"
+                app:layout_constraintEnd_toStartOf="@id/soups_subtotal_cost" />
+
+            <TextView
+                android:id="@+id/soups_subtotal_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_item_cost"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_small_medium"
+                android:layout_marginEnd="@dimen/text_small"
+                app:layout_constraintBottom_toBottomOf="@id/soups_subtotal_text"
+                app:layout_constraintEnd_toEndOf="@id/final_actions"/>
+
+        </LinearLayout>
 
         <include
             android:id="@+id/final_actions"

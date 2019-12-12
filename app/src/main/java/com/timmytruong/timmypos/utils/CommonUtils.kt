@@ -35,9 +35,14 @@ object CommonUtils
         return String.format(generalTitleFormat, itemNumber.toString(), itemName)
     }
 
-    fun formatGeneralCosts(cost: Float)
+    fun formatGeneralCosts(cost: Double): String
     {
-        formatGeneralCosts(cost.toString())
+        return formatGeneralCosts(cost.toString())
+    }
+
+    fun formatGeneralCosts(cost: Float): String
+    {
+        return formatGeneralCosts(cost.toString())
     }
 
     fun formatGeneralCosts(cost: String): String

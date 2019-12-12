@@ -1,36 +1,27 @@
 package com.timmytruong.timmypos.utils.ui
 
-import android.app.AlertDialog
-import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
-import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
+import kotlinx.android.synthetic.main.basic_add_dialog_body.*
 import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
 import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
 import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
-class  BasicItemAddDialog(private val context: Context,
-                          private val menuItemAddClickListener: MenuItemAddClickListener,
-                          private val item: MenuItem)
+class  BasicItemAddDialog(private val menuItemAddClickListener: MenuItemAddClickListener,
+                          private val item: MenuItem): DialogFragment()
 {
-    private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
+    private lateinit var addNumberToOrderString: String
 
-    private val bodyView: View = View.inflate(context, R.layout.basic_add_dialog_body, null)
-
-    private val imageDescQuantView: View = bodyView.basic_image_desc_quantity
-
-    private val finalActionsView: View = bodyView.final_actions
-
-    private val addNumberToOrderString: String = context.resources.getString(R.string.orders_add_dialog)
-
-    private val pricePerItemString: String = context.resources.getString(R.string.orders_dialog_price_per_item)
-
-    private lateinit var dialog: AlertDialog
+    private lateinit var pricePerItemString: String
 
     private lateinit var unitCost: String
 
@@ -39,7 +30,7 @@ class  BasicItemAddDialog(private val context: Context,
     private var newCost: Float = 0f
 
     private val onCancelClickListener = View.OnClickListener {
-        dialog.dismiss()
+        closeFragment()
     }
 
     private val onPlusClickListener = View.OnClickListener {
@@ -47,13 +38,15 @@ class  BasicItemAddDialog(private val context: Context,
         {
             1 ->
             {
-                imageDescQuantView.minus_quantity_shown.visibility = View.VISIBLE
-                imageDescQuantView.minus_quantity_hidden.visibility = View.INVISIBLE
+                basic_image_desc_quantity.minus_quantity_shown.visibility = View.VISIBLE
+
+                basic_image_desc_quantity.minus_quantity_hidden.visibility = View.INVISIBLE
             }
             98 ->
             {
-                imageDescQuantView.plus_quantity_shown.visibility = View.INVISIBLE
-                imageDescQuantView.plus_quantity_hidden.visibility = View.VISIBLE
+                basic_image_desc_quantity.plus_quantity_shown.visibility = View.INVISIBLE
+
+                basic_image_desc_quantity.plus_quantity_hidden.visibility = View.VISIBLE
             }
         }
         quantityNumber++
@@ -70,13 +63,15 @@ class  BasicItemAddDialog(private val context: Context,
         {
             2 ->
             {
-                imageDescQuantView.minus_quantity_shown.visibility = View.INVISIBLE
-                imageDescQuantView.minus_quantity_hidden.visibility = View.VISIBLE
+                basic_image_desc_quantity.minus_quantity_shown.visibility = View.INVISIBLE
+
+                basic_image_desc_quantity.minus_quantity_hidden.visibility = View.VISIBLE
             }
             99 ->
             {
-                imageDescQuantView.plus_quantity_shown.visibility = View.VISIBLE
-                imageDescQuantView.plus_quantity_hidden.visibility = View.INVISIBLE
+                basic_image_desc_quantity.plus_quantity_shown.visibility = View.VISIBLE
+
+                basic_image_desc_quantity.plus_quantity_hidden.visibility = View.INVISIBLE
             }
         }
         quantityNumber--
@@ -89,7 +84,6 @@ class  BasicItemAddDialog(private val context: Context,
     }
 
     private val onAddClickListener = View.OnClickListener {
-        dialog.dismiss()
         menuItemAddClickListener.onAddToOrderDialogClicked(
             DataUtils.buildOrderedItem (
                 item = item,
@@ -97,15 +91,27 @@ class  BasicItemAddDialog(private val context: Context,
                 unitCost = unitCost.toDouble()
             )
         )
+
+        closeFragment()
     }
 
-    fun setup()
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View?
     {
+        return inflater.inflate(R.layout.basic_add_dialog_body, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        pricePerItemString = resources.getString(R.string.orders_dialog_price_per_item)
+
+        addNumberToOrderString = resources.getString(R.string.orders_add_dialog)
+
         this.unitCost = item.cost
 
         setInitialText()
-
-        buildAlert()
 
         setOnClickListeners()
 
@@ -116,54 +122,53 @@ class  BasicItemAddDialog(private val context: Context,
         updateCosts()
     }
 
-    private fun buildAlert()
+    private fun closeFragment()
     {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        val fragment = fragmentManager?.findFragmentByTag(AppConstants.DIALOG_FRAGMENT_TAG)
 
-        builder.setCustomTitle(titleView)
+        if (fragment != null)
+        {
+            val dialog = fragment as DialogFragment
 
-        builder.setView(bodyView)
-
-        dialog = builder.create()
-
-        dialog.show()
+            dialog.dismiss()
+        }
     }
 
     private fun setInitialText()
     {
-        imageDescQuantView.description_text.text = item.description
+        basic_image_desc_quantity.description_text.text = item.description
 
-        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
+        basic_title.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
 
-        imageDescQuantView.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(item.cost.toFloat()))
+        basic_image_desc_quantity.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(item.cost.toFloat()))
 
     }
 
     private fun setOnClickListeners()
     {
-        imageDescQuantView.plus_quantity_shown.setOnClickListener(onPlusClickListener)
+        basic_image_desc_quantity.plus_quantity_shown.setOnClickListener(onPlusClickListener)
 
-        imageDescQuantView.minus_quantity_shown.setOnClickListener(onMinusClickListener)
+        basic_image_desc_quantity.minus_quantity_shown.setOnClickListener(onMinusClickListener)
 
-        finalActionsView.add_dialog_positive_button.setOnClickListener(onAddClickListener)
+        final_actions.add_dialog_positive_button.setOnClickListener(onAddClickListener)
 
-        finalActionsView.add_dialog_negative_button.setOnClickListener(onCancelClickListener)
+        final_actions.add_dialog_negative_button.setOnClickListener(onCancelClickListener)
     }
 
     private fun updateAddText()
     {
-        finalActionsView.add_dialog_positive_button.text = String.format(addNumberToOrderString, quantityNumber)
+        final_actions.add_dialog_positive_button.text = String.format(addNumberToOrderString, quantityNumber)
     }
 
     private fun updateQuantityText()
     {
-        imageDescQuantView.quantity_text.text = quantityNumber.toString()
+        basic_image_desc_quantity.quantity_text.text = quantityNumber.toString()
     }
 
     private fun updateCosts()
     {
         newCost = unitCost.toFloat() * quantityNumber
 
-        bodyView.basic_subtotal_cost.text = CommonUtils.formatGeneralCosts(AppConstants.DECIMAL_FORMAT.format(newCost))
+        basic_subtotal_cost.text = CommonUtils.formatGeneralCosts(AppConstants.DECIMAL_FORMAT.format(newCost))
     }
 }

@@ -3,17 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center_horizontal"
-    android:minWidth="450dp"
+    xmlns:layout="http://schemas.android.com/tools"
+    android:minWidth="360dp"
     android:minHeight="600dp"
     android:background="@color/primaryLight">
+
+    <include
+        android:id="@+id/basic_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/menu_item_add_dialog_title"/>
 
     <include
         android:id="@+id/basic_image_desc_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/basic_title"
         layout="@layout/image_description_quantity_content"/>
 
     <LinearLayout

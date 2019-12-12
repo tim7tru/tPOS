@@ -14,21 +14,7 @@ class SoupsExtrasViewModel @Inject constructor(private val soupsExtrasRepository
 {
     private var soupsExtras: MutableLiveData<List<DialogOptionItem>>? = null
 
-    fun getExtras(): LiveData<List<DialogOptionItem>>?
-    {
-        if (soupsExtras == null)
-        {
-            soupsExtras = MutableLiveData()
-
-            loadExtras()
-        }
-        return soupsExtras
-    }
-
-    private fun loadExtras()
-    {
-        soupsExtrasRepository.addListener(callback)
-    }
+    private var soupsExtrasArray: ArrayList<DialogOptionItem> = arrayListOf()
 
     private val callback: FirebaseDatabaseRepositoryCallback<DialogOptionItem> =
         object: FirebaseDatabaseRepositoryCallback<DialogOptionItem>
@@ -45,4 +31,40 @@ class SoupsExtrasViewModel @Inject constructor(private val soupsExtrasRepository
                 soupsExtras!!.value = null
             }
         }
+
+    fun getExtras(): LiveData<List<DialogOptionItem>>?
+    {
+        if (soupsExtras == null)
+        {
+            soupsExtras = MutableLiveData()
+
+            loadExtras()
+        }
+        return soupsExtras
+    }
+
+    private fun loadExtras()
+    {
+        soupsExtrasRepository.addListener(callback)
+    }
+
+    fun addSoupExtra(item: DialogOptionItem)
+    {
+        soupsExtrasArray.add(item)
+    }
+
+    fun clearSoupExtraArray()
+    {
+        soupsExtrasArray.clear()
+    }
+
+    fun setSoupExtra(array: ArrayList<DialogOptionItem>)
+    {
+        soupsExtrasArray = array
+    }
+
+    fun getSoupExtras(): ArrayList<DialogOptionItem>
+    {
+        return soupsExtrasArray
+    }
 }

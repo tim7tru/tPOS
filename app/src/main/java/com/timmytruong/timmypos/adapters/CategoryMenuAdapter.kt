@@ -43,6 +43,7 @@ class CategoryMenuAdapter @Inject constructor(private val context: Context,
         return CategoryMenuViewHolder(
             LayoutInflater.from(context).inflate(R.layout.category_menu_item, parent, false),
             onClickListener,
-            AnimationUtils.loadAnimation(context, R.anim.button_click_anim))
+            AnimationUtils.loadAnimation(context, R.anim.button_click_anim)
+        )
     }
 }

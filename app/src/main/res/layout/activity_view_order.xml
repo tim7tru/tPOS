@@ -4,16 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryLight"
+    android:background="@color/primary"
     tools:context=".activity.ViewOrderActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_order_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/view_order_cancel"
+            android:layout_width="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_medium"
+            android:src="@drawable/ic_cancel_24dp"
+            android:layout_margin="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_order_title"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/view_order_cancel"
+            app:layout_constraintBottom_toBottomOf="@id/view_order_cancel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ordered_items_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_order_top"
         app:layout_constraintBottom_toTopOf="@id/view_order_bottom"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -45,7 +77,7 @@
                 android:background="@android:color/transparent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="@dimen/text_small"
+                android:textSize="@dimen/text_small_small"
                 android:layout_margin="@dimen/margin_xxsmall"
                 android:text="@string/view_order_submit" />
 
@@ -76,6 +108,7 @@
                 android:text="@string/view_order_total" />
 
             <TextView
+                android:id="@+id/view_order_total_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -103,6 +136,7 @@
                 android:text="@string/view_order_tax" />
 
             <TextView
+                android:id="@+id/view_order_tax_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -131,6 +165,7 @@
                 android:text="@string/view_order_subtotal" />
 
             <TextView
+                android:id="@+id/view_order_subtotal_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
