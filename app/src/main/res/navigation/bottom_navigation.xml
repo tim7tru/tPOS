@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/bottom_navigation"
+    app:startDestination="@id/ordersFragment">
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.timmytruong.timmypos.fragments.OrdersFragment"
+        android:label="OrdersFragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.timmytruong.timmypos.fragments.HistoryFragment"
+        android:label="HistoryFragment" />
+    <fragment
+        android:id="@+id/financialFragment"
+        android:name="com.timmytruong.timmypos.fragments.FinancialFragment"
+        android:label="FinancialFragment" />
+</navigation>
