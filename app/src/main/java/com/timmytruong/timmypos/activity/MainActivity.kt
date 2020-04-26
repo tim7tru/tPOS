@@ -32,78 +32,16 @@ class MainActivity : AppCompatActivity()
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         CommonUtils.initializeCommonUtils(this)
+
         setupNavigation()
-//        setupFragments()
     }
 
     private fun setupNavigation()
     {
-        navController = Navigation.findNavController(this, R.id.bottom_navigation)
+        navController = Navigation.findNavController(this, R.id.main_fragment)
+
         bottom_navigation_view.setupWithNavController(navController)
     }
-
-//    private fun setupFragments()
-//    {
-//        val fragmentTransaction = supportFragmentManager.beginTransaction()
-//
-//        val ordersFragment = OrdersFragment()
-//
-//        val historyFragment = HistoryFragment()
-//
-//        val financialFragment = FinancialFragment()
-//
-//
-//        bottom_navigation_view.selectedItemId = R.id.navigation_orders
-//    }
-
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean
-//    {
-//        val fragmentManager = supportFragmentManager
-//
-//        val currentFragment: Fragment? = getVisibleFragment()
-//
-//        var newFragment: Fragment? = null
-//
-//        when (item.itemId)
-//        {
-//            R.id.navigation_orders ->
-//            {
-//                newFragment = fragmentManager.findFragmentByTag(AppConstants.ORDERS_FRAGMENT_TAG)
-//            }
-//            R.id.navigation_history ->
-//            {
-//                newFragment = fragmentManager.findFragmentByTag(AppConstants.HISTORY_FRAGMENT_TAG)
-//            }
-//            R.id.navigation_financials ->
-//            {
-//                newFragment = fragmentManager.findFragmentByTag(AppConstants.FINANCIAL_FRAGMENT_TAG)
-//            }
-//        }
-//
-//        if (newFragment != currentFragment && currentFragment != null && newFragment != null)
-//        {
-//            fragmentManager.beginTransaction().hide(currentFragment).show(newFragment).commit()
-//        }
-//
-//        return true
-//    }
-
-//    private fun getVisibleFragment(): Fragment?
-//    {
-//        val fragmentManager = supportFragmentManager
-//
-//        val fragments: List<Fragment?> = fragmentManager.fragments
-//
-//        for (fragment in fragments)
-//        {
-//            if (fragment != null && fragment.isVisible)
-//            {
-//                return fragment
-//            }
-//        }
-//
-//        return null
-//    }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)

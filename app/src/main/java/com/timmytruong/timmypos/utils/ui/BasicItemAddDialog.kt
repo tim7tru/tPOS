@@ -6,6 +6,7 @@ import android.view.View
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
@@ -89,7 +90,13 @@ class  BasicItemAddDialog(private val context: Context,
 
     private val onAddClickListener = View.OnClickListener {
         dialog.dismiss()
-        menuItemAddClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
+        menuItemAddClickListener.onAddToOrderDialogClicked(OrderedItem(menuNumber = item.menuNumber,
+            name = item.name,
+            size = null,
+            extras = null,
+            broth = null,
+            quantity = quantityNumber,
+            unitCost = unitCost.toDouble()))
     }
 
     fun setup()
