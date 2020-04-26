@@ -55,4 +55,7 @@ object AppConstants
     const val SOUPS_DIALOG_TYPE = "soups"
 
     const val BASIC_DIALOG_TYPE = "basic"
+
+    const val BROTH_TAG = "broth"
+
 }

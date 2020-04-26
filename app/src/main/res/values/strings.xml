@@ -2,13 +2,16 @@
     <string name="app_name">timmyPOS</string>
 
     <!--TEST STRINGS-->
-    <string name="test_item_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</string>
+    <string name="test_item_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</string>
     <string name="test_item_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="test_item_cost">10.00</string>
 
     <!--GENERAL-->
+    <string name="general_string_format">%s</string>
     <string name="general_cost_format">$%s</string>
     <string name="general_menu_item_title_format">%s. %s</string>
+    <string name="general_extras_string_format">Add %s [$%s]</string>
+    <string name="general_sizes_string_format">%s [$%s]</string>
 
 
     <!--LOGIN ACTIVITY-->
@@ -44,19 +47,9 @@
 
     <!--SOUPS DIALOG-->
     <string name="size_small">Small</string>
-    <string name="size_large_pho">Large [+$1.00]</string>
-    <string name="size_xlarge_pho">X-Large [+$4.00]</string>
+    <string name="size_large_pho">Large</string>
+    <string name="size_xlarge_pho">X-Large</string>
     <string name="size_large_soups">Large</string>
-    <string name="size_xlarge_soups">X-Large [+$4.00]</string>
-    <string name="extras_chili_oil">Add Chili Oil [+$1.00]</string>
-    <string name="extras_rare_beef">Add Rare Beef [+$3.00]</string>
-    <string name="extras_well_done">Add Well Done Beef [+$3.00]</string>
-    <string name="extras_tripe">Add Tripe [+$3.00]</string>
-    <string name="extras_tendon">Add Tendon [+$3.00]</string>
-    <string name="extras_pork">Add Pork [+$3.00]</string>
-    <string name="extras_veggies">Add Veggies [+$3.00]</string>
-    <string name="extras_tofu">Add Tofu [+$3.00]</string>
-    <string name="extras_beef_balls">Add Beef Balls [+$3.00]</string>
-    <string name="extras_noodles">Add Noodles [+$3.00]</string>
+    <string name="size_xlarge_soups">X-Large</string>
 
 </resources>

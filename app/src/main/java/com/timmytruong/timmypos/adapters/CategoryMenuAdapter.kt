@@ -3,10 +3,11 @@ package com.timmytruong.timmypos.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
-import com.timmytruong.timmypos.models.CategoryMenuItem
+import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.utils.ui.viewholders.CategoryMenuViewHolder
 
 class CategoryMenuAdapter(private val context: Context,
@@ -40,7 +41,7 @@ class CategoryMenuAdapter(private val context: Context,
     {
         return CategoryMenuViewHolder(
             LayoutInflater.from(context).inflate(R.layout.category_menu_item, parent, false),
-            onClickListener
-        )
+            onClickListener,
+            AnimationUtils.loadAnimation(context, R.anim.button_click_anim))
     }
 }

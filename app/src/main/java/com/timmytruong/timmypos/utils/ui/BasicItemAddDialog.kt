@@ -2,12 +2,10 @@ package com.timmytruong.timmypos.utils.ui
 
 import android.app.AlertDialog
 import android.content.Context
-import android.view.MenuItem
 import android.view.View
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.MenuItem
-import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
@@ -17,14 +15,13 @@ import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
 
 class  BasicItemAddDialog(private val context: Context,
                           private val menuItemAddClickListener: MenuItemAddClickListener,
-                          private val item: MenuItem
-)
+                          private val item: MenuItem)
 {
     private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
 
     private val bodyView: View = View.inflate(context, R.layout.basic_add_dialog_body, null)
 
-    private val imageDescQuantView: View = bodyView.basic_description_text
+    private val imageDescQuantView: View = bodyView.basic_image_desc_quantity
 
     private val finalActionsView: View = bodyView.final_actions
 
@@ -49,13 +46,13 @@ class  BasicItemAddDialog(private val context: Context,
         {
             1 ->
             {
-                imageDescQuantView.basic_minus_quantity_shown.visibility = View.VISIBLE
-                imageDescQuantView.basic_minus_quantity_hidden.visibility = View.INVISIBLE
+                imageDescQuantView.minus_quantity_shown.visibility = View.VISIBLE
+                imageDescQuantView.minus_quantity_hidden.visibility = View.INVISIBLE
             }
             98 ->
             {
-                imageDescQuantView.basic_plus_quantity_shown.visibility = View.INVISIBLE
-                imageDescQuantView.basic_plus_quantity_hidden.visibility = View.VISIBLE
+                imageDescQuantView.plus_quantity_shown.visibility = View.INVISIBLE
+                imageDescQuantView.plus_quantity_hidden.visibility = View.VISIBLE
             }
         }
         quantityNumber++
@@ -72,13 +69,13 @@ class  BasicItemAddDialog(private val context: Context,
         {
             2 ->
             {
-                imageDescQuantView.basic_minus_quantity_shown.visibility = View.INVISIBLE
-                imageDescQuantView.basic_minus_quantity_hidden.visibility = View.VISIBLE
+                imageDescQuantView.minus_quantity_shown.visibility = View.INVISIBLE
+                imageDescQuantView.minus_quantity_hidden.visibility = View.VISIBLE
             }
             99 ->
             {
-                imageDescQuantView.basic_plus_quantity_shown.visibility = View.VISIBLE
-                imageDescQuantView.basic_plus_quantity_hidden.visibility = View.INVISIBLE
+                imageDescQuantView.plus_quantity_shown.visibility = View.VISIBLE
+                imageDescQuantView.plus_quantity_hidden.visibility = View.INVISIBLE
             }
         }
         quantityNumber--
@@ -90,38 +87,9 @@ class  BasicItemAddDialog(private val context: Context,
         updateCosts()
     }
 
-    fun sockMerchant(n: Int, ar: Array<Int>): Int {
-        val hashMap: HashMap<Int, Int> = hashMapOf()
-        var pairCount: Int = 0
-        for (index in ar)
-        {
-            if (!hashMap.keys.contains(index))
-            {
-                hashMap.put(index, 1)
-            }
-            else if (hashMap.isNotEmpty() && hashMap.containsKey(index))
-            {
-                val plus: Int = hashMap[index]!!.plus(1)
-                hashMap.put(index, hashMap[index]!! + 1)
-                if (hashMap[index]!!.rem(2) == 0)
-                {
-                    pairCount++
-                }
-            }
-        }
-
-        return pairCount
-
-    }
-
     private val onAddClickListener = View.OnClickListener {
         dialog.dismiss()
-        menuItemAddClickListener.onAddToOrderDialogClicked(OrderedItem(
-            menuNumber = item.menuNumber,
-            name = item.name,
-            quantity = quantityNumber,
-            unitCost = unitCost.toDouble()
-        ))
+        menuItemAddClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
     }
 
     fun setup()

@@ -40,6 +40,18 @@ object DataConstants
 
     const val ERRORS_NODE = "errors"
 
+    const val EXTRAS_NODE = "extras"
+
+    const val SOUPS_EXTRAS_NODE = "soups-extras"
+
+    const val DIALOG_EXTRA_TAG_NODE = "optionTag"
+
+    const val CONTAINS_SHRIMP_TAG = "containsShrimp"
+
+    const val WITH_OR_WITHOUT_TAG = "withOrWithout"
+
+    const val CATEGORY_NODE = "category"
+
     val MENU_NODE_ARRAY = arrayOf(
         APPETIZERS_NODE,
         SOUPS_NODE,
@@ -50,5 +62,7 @@ object DataConstants
         STIR_FRY_NODE,
         DRINK_NODE
     )
+
+    val WITH_OR_WITHOUT_ARRAY = arrayOf("With Broth", "Broth On Side")
 
 }

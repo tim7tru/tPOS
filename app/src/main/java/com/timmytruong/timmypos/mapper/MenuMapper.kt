@@ -1,9 +1,12 @@
 package com.timmytruong.timmypos.mapper
 
 import com.timmytruong.timmypos.firebase.mapper.FirebaseMapper
-import com.timmytruong.timmypos.models.MenuItem
+import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MenuMapper: FirebaseMapper<ArrayList<HashMap<Any, Any>>, ArrayList<MenuItem>>()
 {
@@ -26,6 +29,29 @@ class MenuMapper: FirebaseMapper<ArrayList<HashMap<Any, Any>>, ArrayList<MenuIte
                     )
                 )
             }
+        }
+        return listOfItems
+    }
+
+    fun mapJSON(categoryNode: JSONArray): ArrayList<MenuItem>
+    {
+        val listOfItems: ArrayList<MenuItem> = arrayListOf()
+
+        for (index in 0 until categoryNode.length())
+        {
+            val item = categoryNode[index] as JSONObject
+
+            listOfItems.add(
+                MenuItem(
+                    menuNumber = (item.getLong(DataConstants.MENU_NUMBER_NODE)).toInt(),
+                    availablity = item.getBoolean(DataConstants.AVAILABILITY_NODE),
+                    description = item.getString(DataConstants.DESCRIPTION_NODE),
+                    cost = AppConstants.DECIMAL_FORMAT.format(item.getLong(DataConstants.COST_NODE)).toString(),
+                    dialogType = item.getString(DataConstants.DIALOG_TYPE_NODE),
+                    tags = DataUtils.jsonArrayToArrayList(item.getJSONArray(DataConstants.TAGS_NODE)),
+                    name = item.getString(DataConstants.NAME_NODE)
+                )
+            )
         }
         return listOfItems
     }
