@@ -40,7 +40,7 @@ class CategoryMenuAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMenuViewHolder
     {
         return CategoryMenuViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.category_menu_item, parent, false),
+            LayoutInflater.from(context).inflate(R.layout.item_category_menu_element, parent, false),
             onClickListener,
             AnimationUtils.loadAnimation(context, R.anim.button_click_anim))
     }

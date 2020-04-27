@@ -14,10 +14,10 @@ import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
-import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
-import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
-import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
-import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
+import kotlinx.android.synthetic.main.alert_final_actions.view.*
+import kotlinx.android.synthetic.main.alert_basic_body.view.*
+import kotlinx.android.synthetic.main.alert_title.view.*
+import kotlinx.android.synthetic.main.alert_soups_body.view.*
 
 class SoupsItemAddDialog(private val context: Context,
                          private val menuAddItemClickListener: MenuItemAddClickListener,
@@ -25,9 +25,9 @@ class SoupsItemAddDialog(private val context: Context,
                          private val item: MenuItem,
                          private val soupsExtraArray: ArrayList<DialogOptionItem>)
 {
-    private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
+    private val titleView: View = View.inflate(context, R.layout.alert_title, null)
 
-    private val bodyView: View = View.inflate(context, R.layout.soups_add_dialog_body, null)
+    private val bodyView: View = View.inflate(context, R.layout.alert_soups_body, null)
 
     private val imageDescQuantView: View = bodyView.soups_image_desc_quantity
 

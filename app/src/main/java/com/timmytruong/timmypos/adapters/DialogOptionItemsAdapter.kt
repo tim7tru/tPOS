@@ -16,7 +16,7 @@ class DialogOptionItemsAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DialogOptionItemViewHolder
     {
         return DialogOptionItemViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.dialog_option_item, parent, false),
+            LayoutInflater.from(context).inflate(R.layout.alert_option_item, parent, false),
             dialogItemClickListener
         )
     }

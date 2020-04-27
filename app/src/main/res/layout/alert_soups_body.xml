@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/soups_image_desc_quantity"
-        layout="@layout/image_description_quantity_content"/>
+        layout="@layout/alert_basic_body"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/soups_add_dialog_options_container"
@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            layout="@layout/cancel_add_to_order_content"/>
+            layout="@layout/alert_final_actions"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

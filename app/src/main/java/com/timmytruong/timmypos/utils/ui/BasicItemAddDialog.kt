@@ -9,18 +9,18 @@ import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
-import kotlinx.android.synthetic.main.basic_add_dialog_body.view.*
-import kotlinx.android.synthetic.main.cancel_add_to_order_content.view.*
-import kotlinx.android.synthetic.main.image_description_quantity_content.view.*
-import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
+import kotlinx.android.synthetic.main.alert_basic.view.*
+import kotlinx.android.synthetic.main.alert_final_actions.view.*
+import kotlinx.android.synthetic.main.alert_basic_body.view.*
+import kotlinx.android.synthetic.main.alert_title.view.*
 
 class  BasicItemAddDialog(private val context: Context,
                           private val menuItemAddClickListener: MenuItemAddClickListener,
                           private val item: MenuItem)
 {
-    private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
+    private val titleView: View = View.inflate(context, R.layout.alert_title, null)
 
-    private val bodyView: View = View.inflate(context, R.layout.basic_add_dialog_body, null)
+    private val bodyView: View = View.inflate(context, R.layout.alert_basic, null)
 
     private val imageDescQuantView: View = bodyView.basic_image_desc_quantity
 

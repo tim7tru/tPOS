@@ -28,7 +28,7 @@ class MenuItemAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder
     {
         return MenuItemViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.menu_item, parent, false),
+            LayoutInflater.from(context).inflate(R.layout.item_menu_item_element, parent, false),
             menuItemAddClickListener, AnimationUtils.loadAnimation(context, R.anim.button_click_anim))
     }
 }

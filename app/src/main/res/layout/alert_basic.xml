@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        layout="@layout/image_description_quantity_content"/>
+        layout="@layout/alert_basic_body"/>
 
     <LinearLayout
         android:id="@+id/basic_subtotal_container"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/basic_subtotal_container"
         app:layout_constraintStart_toStartOf="@id/basic_image_desc_quantity"
         app:layout_constraintEnd_toEndOf="@id/basic_image_desc_quantity"
-        layout="@layout/cancel_add_to_order_content"/>
+        layout="@layout/alert_final_actions"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
