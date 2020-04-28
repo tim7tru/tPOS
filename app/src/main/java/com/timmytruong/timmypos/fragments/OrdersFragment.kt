@@ -19,6 +19,8 @@ import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
+import com.timmytruong.timmypos.provider.MenuProvider
+import com.timmytruong.timmypos.provider.SoupsExtrasProvider
 import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.ui.BasicItemAddDialog
@@ -29,21 +31,11 @@ import kotlinx.android.synthetic.main.fragment_orders.*
 
 class OrdersFragment : Fragment()
 {
-    private lateinit var appetizersString: String
+    private lateinit var menuViewModel: MenuViewModel
 
-    private lateinit var soupsString: String
+    private lateinit var soupsExtrasViewModel: SoupsExtrasViewModel
 
-    private lateinit var phoString: String
-
-    private lateinit var riceString: String
-
-    private lateinit var friedRiceString: String
-
-    private lateinit var vermicelliString: String
-
-    private lateinit var stirFryString: String
-
-    private lateinit var drinksString: String
+    private lateinit var soupsExtrasProvider: SoupsExtrasProvider
 
     private lateinit var testItemTitle: String
 
@@ -53,15 +45,7 @@ class OrdersFragment : Fragment()
 
     private lateinit var itemCountTemplate: String
 
-    private val orderedItemsArray: ArrayList<OrderedItem> = arrayListOf()
-
-    private var categoryItemsArray: ArrayList<MenuItem> = arrayListOf()
-
-    private val categoryTitlesArray: ArrayList<CategoryMenuItem> = arrayListOf()
-
-    private val categoryArrays: ArrayList<ArrayList<MenuItem>> = arrayListOf()
-
-    private val soupsExtrasArray: ArrayList<DialogOptionItem> = arrayListOf()
+    private lateinit var menuProvider: MenuProvider
 
     private lateinit var categoryMenuAdapter: CategoryMenuAdapter
 
@@ -75,40 +59,47 @@ class OrdersFragment : Fragment()
         Observer {
             if (it != null  && it.isNotEmpty())
             {
+                menuProvider.categoryArrays.clear()
+
                 for (index in it.indices)
                 {
                     if (it[index].isNotEmpty())
                     {
-                        categoryArrays.add(ArrayList(it[index]))
+                        menuProvider.categoryArrays.add(ArrayList(it[index]))
                     }
                 }
 
-                categoryArrays.add(createData(9))
+                /**
+                 * Dummy Data
+                 */
+                menuProvider.categoryArrays.add(createData(9))
 
-                categoryArrays.add(createData(15))
+                menuProvider.categoryArrays.add(createData(15))
 
-                categoryArrays.add(createData(14))
+                menuProvider.categoryArrays.add(createData(14))
 
-                categoryArrays.add(createData(3))
+                menuProvider.categoryArrays.add(createData(3))
 
-                categoryArrays.add(createData(9))
+                menuProvider.categoryArrays.add(createData(9))
 
-                categoryArrays.add(createData(9))
+                menuProvider.categoryArrays.add(createData(9))
 
-                categoryArrays.add(createData(22))
+                menuProvider.categoryArrays.add(createData(22))
             }
             else if (it.isNullOrEmpty())
             {
-                categoryArrays.clear()
+                val assets = context!!.assets
 
-                categoryArrays.addAll(DataUtils.getMenuDataFromAssets(activity!!))
+                menuViewModel.getMenu(assets)
+
+                return@Observer
             }
 
-            categoryItemsArray = categoryArrays[0]
+            menuProvider.categoryItemsArray.addAll(menuProvider.categoryArrays[0])
 
-            menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray, menuItemAddClickListener)
+            menuAdapter = MenuItemAdapter(menuProvider.categoryItemsArray, menuItemAddClickListener)
 
-            menu_items.layoutManager = LinearLayoutManager(activity!!)
+            menu_items.layoutManager = LinearLayoutManager(context)
 
             menu_items.adapter = menuAdapter
 
@@ -119,16 +110,18 @@ class OrdersFragment : Fragment()
         Observer {
             if (it != null && it.isNotEmpty())
             {
+                soupsExtrasProvider.soupsExtrasArray.clear()
+
                 for (index in it.indices)
                 {
-                    soupsExtrasArray.add(it[index])
+                    soupsExtrasProvider.soupsExtrasArray.add(it[index])
                 }
             }
             else if (it.isNullOrEmpty())
             {
-                soupsExtrasArray.clear()
+                val assets = context!!.assets
 
-                soupsExtrasArray.addAll(DataUtils.getSoupsExtrasDataFromAssets(activity!!))
+                soupsExtrasViewModel.getExtras(assets = assets)
             }
         }
 
@@ -137,19 +130,19 @@ class OrdersFragment : Fragment()
         {
             override fun onCategoryMenuItemClicked(view: View, newPosition: Int)
             {
-                categoryTitlesArray[categoryMenuAdapter.getActivePosition()].activeState = false
+                menuProvider.categoryTitlesArray[categoryMenuAdapter.getActivePosition()].activeState = false
 
-                categoryTitlesArray[newPosition].activeState = true
+                menuProvider.categoryTitlesArray[newPosition].activeState = true
 
                 categoryMenuAdapter.setActivePosition(newPosition)
 
                 categoryMenuAdapter.notifyDataSetChanged()
 
-                categoryItemsArray = categoryArrays[newPosition]
+                menuProvider.categoryItemsArray = menuProvider.categoryArrays[newPosition]
 
-                categoryTitle = categoryTitlesArray[newPosition].title
+                categoryTitle = menuProvider.categoryTitlesArray[newPosition].title
 
-                menuAdapter = MenuItemAdapter(activity!!.applicationContext, categoryItemsArray, menuItemAddClickListener)
+                menuAdapter = MenuItemAdapter(menuProvider.categoryItemsArray, menuItemAddClickListener)
 
                 menu_items.adapter = menuAdapter
 
@@ -158,12 +151,12 @@ class OrdersFragment : Fragment()
 
             override fun getActiveColour(): Int
             {
-                return ContextCompat.getColor(activity!!, R.color.secondary)
+                return ContextCompat.getColor(context!!, R.color.secondary)
             }
 
             override fun getInactiveColour(): Int
             {
-                return ContextCompat.getColor(activity!!, R.color.white)
+                return ContextCompat.getColor(context!!, R.color.white)
             }
         }
 
@@ -173,14 +166,14 @@ class OrdersFragment : Fragment()
             @SuppressLint("DefaultLocale")
             override fun onAddToOrderButtonClicked(view: View, position: Int)
             {
-                when (categoryItemsArray[position].dialogType)
+                when (menuProvider.categoryItemsArray[position].dialogType)
                 {
                     AppConstants.BASIC_DIALOG_TYPE ->
                     {
                         val basicItemAddDialog = BasicItemAddDialog (
-                            context = activity!!,
+                            context = context!!,
                             menuItemAddClickListener = this,
-                            item = categoryItemsArray[position]
+                            item = menuProvider.categoryItemsArray[position]
                         )
 
                         basicItemAddDialog.setup()
@@ -188,11 +181,11 @@ class OrdersFragment : Fragment()
                     AppConstants.SOUPS_DIALOG_TYPE ->
                     {
                         val soupsItemAddDialog = SoupsItemAddDialog (
-                            context = activity!!,
+                            context = context!!,
                             menuAddItemClickListener = this,
                             categoryTitle = categoryTitle,
-                            item = categoryItemsArray[position],
-                            soupsExtraArray = soupsExtrasArray
+                            item = menuProvider.categoryItemsArray[position],
+                            soupsExtraArray = soupsExtrasProvider.soupsExtrasArray
                         )
 
                         soupsItemAddDialog.setup()
@@ -206,7 +199,7 @@ class OrdersFragment : Fragment()
 
                 updateItemCountView()
 
-                orderedItemsArray.add(orderedItem)
+                menuProvider.orderedItemsArray.add(orderedItem)
             }
         }
 
@@ -220,52 +213,39 @@ class OrdersFragment : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
 
+        menuProvider = MenuProvider()
+
+        soupsExtrasProvider = SoupsExtrasProvider()
+
         setupViewModels()
 
         loadStringsFromResources()
 
         updateItemCountView()
 
-        categoryMenuAdapter = CategoryMenuAdapter(activity!!.applicationContext, categoryTitlesArray, categoryMenuItemClickListener)
+        categoryMenuAdapter = CategoryMenuAdapter(menuProvider.categoryTitlesArray, categoryMenuItemClickListener)
 
-        category_menu.layoutManager = LinearLayoutManager(activity!!)
+        category_menu.layoutManager = LinearLayoutManager(context)
 
         category_menu.adapter = categoryMenuAdapter
-
-        categoryTitle = appetizersString
 
         createCategoryData()
     }
 
+
     private fun setupViewModels()
     {
-        val soupsExtrasViewModel: SoupsExtrasViewModel = ViewModelProviders.of(this)[SoupsExtrasViewModel::class.java]
+        soupsExtrasViewModel = ViewModelProviders.of(this)[SoupsExtrasViewModel::class.java]
 
-        val menuViewModel: MenuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
+        menuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
 
-        soupsExtrasViewModel.getExtras()?.observe(this, soupsExtrasObserver)
+        soupsExtrasViewModel.getExtras().observe(this, soupsExtrasObserver)
 
-        menuViewModel.getMenu()?.observe(this, menuObserver)
+        menuViewModel.getMenu().observe(this, menuObserver)
     }
 
     private fun loadStringsFromResources()
     {
-        appetizersString = resources.getString(R.string.orders_appetizers)
-
-        soupsString = resources.getString(R.string.orders_soups)
-
-        phoString = resources.getString(R.string.orders_pho)
-
-        riceString = resources.getString(R.string.orders_rice)
-
-        friedRiceString = resources.getString(R.string.orders_fried_rice)
-
-        vermicelliString = resources.getString(R.string.orders_vermicelli)
-
-        stirFryString = resources.getString(R.string.orders_stir_fry)
-
-        drinksString = resources.getString(R.string.orders_drinks)
-
         itemCountTemplate = resources.getString(R.string.orders_item_count)
 
         testItemTitle = resources.getString(R.string.test_item_title)
@@ -290,8 +270,10 @@ class OrdersFragment : Fragment()
 
             activeState = false
 
-            categoryTitlesArray.add(item)
+            menuProvider.categoryTitlesArray.add(item)
         }
+
+        categoryTitle = menuProvider.categoryTitlesArray[0].title
 
         categoryMenuAdapter.notifyDataSetChanged()
     }

@@ -16,7 +16,7 @@ class CategoryMenuViewHolder(itemView: View,
 
     private val onClick = View.OnClickListener {
         titleText.startAnimation(animation)
-        onClickListener.onCategoryMenuItemClicked(it!!, this.layoutPosition)
+        onClickListener.onCategoryMenuItemClicked(it, this.layoutPosition)
     }
 
     init

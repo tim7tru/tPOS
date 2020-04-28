@@ -1,9 +1,11 @@
 package com.timmytruong.timmypos.viewmodel
 
+import android.content.res.AssetManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCallback
+import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.repository.SoupsExtrasRepository
 import com.timmytruong.timmypos.utils.CommonUtils
@@ -11,18 +13,22 @@ import com.timmytruong.timmypos.utils.constants.DataConstants
 
 class SoupsExtrasViewModel: ViewModel()
 {
-    private var soupsExtras: MutableLiveData<List<DialogOptionItem>>? = null
-    private var soupsExtrasRepository: SoupsExtrasRepository = SoupsExtrasRepository()
+    private var soupsExtras = MutableLiveData<List<DialogOptionItem>>()
 
-    fun getExtras(): LiveData<List<DialogOptionItem>>?
+    private val soupsExtrasMapper = SoupsExtrasMapper()
+
+    private val soupsExtrasRepository: SoupsExtrasRepository = SoupsExtrasRepository(soupsExtrasMapper = soupsExtrasMapper)
+
+    fun getExtras(): LiveData<List<DialogOptionItem>>
     {
-        if (soupsExtras == null)
-        {
-            soupsExtras = MutableLiveData()
+        loadExtras()
 
-            loadExtras()
-        }
         return soupsExtras
+    }
+
+    fun getExtras(assets: AssetManager)
+    {
+        soupsExtrasRepository.getSoupsExtrasDataFromAssets(assets = assets)
     }
 
     private fun loadExtras()

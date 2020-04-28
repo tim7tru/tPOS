@@ -14,57 +14,7 @@ import java.io.InputStream
 
 object DataUtils
 {
-    @Suppress("UNCHECKED_CAST")
-    fun getMenuDataFromAssets(context: Context): ArrayList<ArrayList<MenuItem>>
-    {
-        val mapper = MenuMapper()
-
-        val assets: AssetManager = context.assets
-
-        val listOfLists: ArrayList<ArrayList<MenuItem>> = arrayListOf()
-
-        for (nodeName in DataConstants.MENU_NODE_ARRAY)
-            {
-            val jsonObject = loadJSONFromAsset(assets, nodeName)
-
-            if (jsonObject != null)
-            {
-                val rootNode = JSONObject(jsonObject)
-
-                val menuNode = rootNode.getJSONObject(DataConstants.MENU_NODE)
-
-                val categoryNode = menuNode.getJSONArray(DataConstants.APPETIZERS_NODE)
-
-                listOfLists.add(mapper.mapJSON(categoryNode))
-            }
-        }
-
-        return arrayListOf()
-    }
-
-    fun getSoupsExtrasDataFromAssets(context: Context): ArrayList<DialogOptionItem>
-    {
-        val mapper = SoupsExtrasMapper()
-
-        val assets: AssetManager = context.assets
-
-        val jsonObject = loadJSONFromAsset(assets, DataConstants.SOUPS_EXTRAS_NODE)
-
-        if (jsonObject != null)
-        {
-            val rootNode = JSONObject(jsonObject)
-
-            val soupsExtraNode = rootNode.getJSONObject(DataConstants.EXTRAS_NODE)
-
-            val categoryNode: JSONArray = soupsExtraNode.getJSONArray(DataConstants.SOUPS_EXTRAS_NODE)
-
-            return mapper.mapJSON(categoryNode)
-        }
-
-        return arrayListOf()
-    }
-
-    private fun loadJSONFromAsset(assets: AssetManager, nodeName: String): String?
+    fun loadJSONFromAsset(assets: AssetManager, nodeName: String): String?
     {
         val json: String?
 

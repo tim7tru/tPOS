@@ -10,8 +10,7 @@ import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.utils.ui.viewholders.CategoryMenuViewHolder
 
-class CategoryMenuAdapter(private val context: Context,
-                          private val categoryTitles: ArrayList<CategoryMenuItem>,
+class CategoryMenuAdapter(private val categoryTitles: ArrayList<CategoryMenuItem>,
                           private val onClickListener: CategoryMenuItemClickListener): RecyclerView.Adapter<CategoryMenuViewHolder>()
 {
     private var activePosition: Int = 0
@@ -40,8 +39,8 @@ class CategoryMenuAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMenuViewHolder
     {
         return CategoryMenuViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_category_menu_element, parent, false),
+            LayoutInflater.from(parent.context).inflate(R.layout.item_category_menu_element, parent, false),
             onClickListener,
-            AnimationUtils.loadAnimation(context, R.anim.button_click_anim))
+            AnimationUtils.loadAnimation(parent.context, R.anim.button_click_anim))
     }
 }

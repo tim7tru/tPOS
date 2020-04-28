@@ -1,10 +1,13 @@
 package com.timmytruong.timmypos.viewmodel
 
+import android.content.res.AssetManager
 import android.util.Log
+import android.view.Menu
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCallback
+import com.timmytruong.timmypos.mapper.MenuMapper
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.repository.MenuRepository
 import com.timmytruong.timmypos.utils.CommonUtils
@@ -14,17 +17,22 @@ import java.lang.Exception
 
 class MenuViewModel: ViewModel()
 {
-    private var menu: MutableLiveData<List<ArrayList<MenuItem>>>? = null
-    private val menuRepository: MenuRepository = MenuRepository()
+    private var menu= MutableLiveData<List<ArrayList<MenuItem>>>()
 
-    fun getMenu(): LiveData<List<ArrayList<MenuItem>>>?
+    private val menuMapper: MenuMapper = MenuMapper()
+
+    private val menuRepository: MenuRepository = MenuRepository(menuMapper = menuMapper)
+
+    fun getMenu(): LiveData<List<ArrayList<MenuItem>>>
     {
-        if (menu == null)
-        {
-            menu = MutableLiveData()
-            loadMenu()
-        }
+        loadMenu()
+
         return menu
+    }
+
+    fun getMenu(assets: AssetManager)
+    {
+        menu.value = menuRepository.getMenuDataFromAssets(assets)
     }
 
     override fun onCleared()
@@ -42,7 +50,7 @@ class MenuViewModel: ViewModel()
         {
             override fun onSuccess(result: List<ArrayList<MenuItem>>)
             {
-                menu!!.value = result
+                menu.value = result
             }
 
             override fun onError(e: Exception)
@@ -51,7 +59,7 @@ class MenuViewModel: ViewModel()
 
                 menuRepository.postValue(DataConstants.ERRORS_NODE, CommonUtils.getCurrentDate(), e.stackTrace.toString())
 
-                menu!!.value = null
+                menu.value = null
             }
         }
 }
