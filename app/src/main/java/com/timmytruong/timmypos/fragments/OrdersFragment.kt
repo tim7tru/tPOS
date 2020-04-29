@@ -15,14 +15,10 @@ import com.timmytruong.timmypos.adapters.CategoryMenuAdapter
 import com.timmytruong.timmypos.adapters.MenuItemAdapter
 import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
-import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
-import com.timmytruong.timmypos.provider.MenuProvider
-import com.timmytruong.timmypos.provider.SoupsExtrasProvider
 import com.timmytruong.timmypos.utils.CommonUtils
-import com.timmytruong.timmypos.utils.DataUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.ui.BasicItemAddDialog
 import com.timmytruong.timmypos.utils.ui.SoupsItemAddDialog

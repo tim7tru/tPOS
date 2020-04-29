@@ -12,7 +12,8 @@ class MenuProvider(
     private val categoryArrays: ArrayList<ArrayList<MenuItem>> = arrayListOf(),
     private var itemCount: Int = 0,
     private var currentCategoryTitle: String = ""
-) {
+)
+{
 
     private lateinit var testItemTitle: String
 
@@ -50,10 +51,12 @@ class MenuProvider(
         return categoryItemsArray
     }
 
-    fun createCategoryData() {
+    fun createCategoryData()
+    {
         var activeState = true
 
-        for (index in AppConstants.MENU_CATEGORY_ARRAY) {
+        for (index in AppConstants.MENU_CATEGORY_ARRAY)
+        {
             val item = CategoryMenuItem(index, activeState)
 
             activeState = false
@@ -118,7 +121,15 @@ class MenuProvider(
 
         for (itemCount in 0 until count)
         {
-            val item = MenuItem(99, true, testItemCost, testItemDescription, "basic", testItemTitle, null)
+            val item = MenuItem(
+                    99,
+                    true,
+                    testItemCost,
+                    testItemDescription,
+                    "basic",
+                    testItemTitle,
+                    null
+            )
 
             array.add(item)
         }
@@ -127,8 +138,10 @@ class MenuProvider(
 
     private fun createDummyTexts()
     {
-        testItemTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
-        testItemDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        testItemTitle =
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
+        testItemDescription =
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
         testItemCost = "10.00"
     }
 }

@@ -2,7 +2,6 @@ package com.timmytruong.timmypos.viewmodel
 
 import android.content.res.AssetManager
 import android.util.Log
-import android.view.Menu
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +15,6 @@ import com.timmytruong.timmypos.repository.MenuRepository
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
-import java.lang.Exception
 
 class MenuViewModel : ViewModel()
 {
