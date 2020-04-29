@@ -1,30 +1,68 @@
 package com.timmytruong.timmypos.viewmodel
 
+import android.content.res.AssetManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCallback
-import com.timmytruong.timmypos.models.MenuItem
+import com.timmytruong.timmypos.mapper.MenuMapper
+import com.timmytruong.timmypos.model.CategoryMenuItem
+import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.OrderedItem
+import com.timmytruong.timmypos.provider.MenuProvider
 import com.timmytruong.timmypos.repository.MenuRepository
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
-import java.lang.Exception
 
-class MenuViewModel: ViewModel()
+class MenuViewModel : ViewModel()
 {
-    private var menu: MutableLiveData<List<ArrayList<MenuItem>>>? = null
-    private val menuRepository: MenuRepository = MenuRepository()
+    private var menu = MutableLiveData<List<ArrayList<MenuItem>>>()
 
-    fun getMenu(): LiveData<List<ArrayList<MenuItem>>>?
+    private val menuProvider: MenuProvider = MenuProvider()
+
+    private val menuMapper: MenuMapper = MenuMapper()
+
+    private val menuRepository: MenuRepository = MenuRepository(menuMapper = menuMapper)
+
+    private val callback: FirebaseDatabaseRepositoryCallback<ArrayList<MenuItem>> =
+            object : FirebaseDatabaseRepositoryCallback<ArrayList<MenuItem>>
+            {
+                override fun onSuccess(result: List<ArrayList<MenuItem>>)
+                {
+                    menu.value = result
+                }
+
+                override fun onError(e: Exception)
+                {
+                    Log.d(AppConstants.FIREBASE_EXCEPTION_LOG_TAG, e.toString())
+
+                    menuRepository.postValue(
+                            DataConstants.ERRORS_NODE,
+                            CommonUtils.getCurrentDate(),
+                            e.stackTrace.toString()
+                    )
+
+                    menu.value = null
+                }
+            }
+
+    fun setupData()
     {
-        if (menu == null)
-        {
-            menu = MutableLiveData()
-            loadMenu()
-        }
+        setCategoryTitles()
+    }
+
+    fun getMenu(): LiveData<List<ArrayList<MenuItem>>>
+    {
+        loadMenu()
+
         return menu
+    }
+
+    fun getMenu(assets: AssetManager)
+    {
+        menu.value = menuRepository.getMenuDataFromAssets(assets)
     }
 
     override fun onCleared()
@@ -37,21 +75,47 @@ class MenuViewModel: ViewModel()
         menuRepository.addListener(callback)
     }
 
-    private val callback: FirebaseDatabaseRepositoryCallback<ArrayList<MenuItem>> =
-        object: FirebaseDatabaseRepositoryCallback<ArrayList<MenuItem>>
-        {
-            override fun onSuccess(result: List<ArrayList<MenuItem>>)
-            {
-                menu!!.value = result
-            }
+    fun getCurrentCategoryTitle(): String
+    {
+        return menuProvider.getCurrenCategoryTitle()
+    }
 
-            override fun onError(e: Exception)
-            {
-                Log.d(AppConstants.FIREBASE_EXCEPTION_LOG_TAG, e.toString())
+    fun getItemCount(): Int
+    {
+        return menuProvider.getItemCount()
+    }
 
-                menuRepository.postValue(DataConstants.ERRORS_NODE, CommonUtils.getCurrentDate(), e.stackTrace.toString())
+    fun getCategoryTitles(): ArrayList<CategoryMenuItem>
+    {
+        return menuProvider.getCategoryTitles()
+    }
 
-                menu!!.value = null
-            }
-        }
+    fun getCategoryItems(): ArrayList<MenuItem>
+    {
+        return menuProvider.getCategoryItems()
+    }
+
+    private fun setCategoryTitles()
+    {
+        menuProvider.createCategoryData()
+    }
+
+    fun onMenuRetrieved(menu: List<ArrayList<MenuItem>>)
+    {
+        menuProvider.onMenuRetrieved(menu = menu)
+    }
+
+    fun onCategoryMenuItemClicked(oldPosition: Int, newPosition: Int)
+    {
+        menuProvider.onCategoryMenuItemClicked(
+                oldPosition = oldPosition,
+                newPosition = newPosition
+        )
+    }
+
+    fun addToOrder(orderedItem: OrderedItem)
+    {
+        menuProvider.addToOrder(orderedItem)
+    }
+
 }

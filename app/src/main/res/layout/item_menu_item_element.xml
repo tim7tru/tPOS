@@ -63,6 +63,8 @@
                 android:layout_height="30dp"
                 android:layout_marginEnd="@dimen/margin_xxsmall"
                 android:layout_marginBottom="@dimen/margin_xxsmall"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@drawable/shape_rounded_rect_blue"
                 android:paddingLeft="@dimen/padding_medium_large"
                 android:paddingRight="@dimen/padding_medium_large"

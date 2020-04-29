@@ -2,8 +2,11 @@ package com.timmytruong.timmypos.utils
 
 import android.content.Context
 import android.content.res.AssetManager
-import com.timmytruong.timmypos.models.MenuItem
-import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.mapper.MenuMapper
+import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
+import com.timmytruong.timmypos.model.DialogOptionItem
+import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import org.json.JSONArray
 import org.json.JSONObject
@@ -11,33 +14,7 @@ import java.io.InputStream
 
 object DataUtils
 {
-    @Suppress("UNCHECKED_CAST")
-    fun getMenuDataFromAssets(context: Context): ArrayList<ArrayList<MenuItem>>
-    {
-        val assets: AssetManager = context.assets
-
-        val listOfLists: ArrayList<ArrayList<MenuItem>> = arrayListOf()
-
-        for (nodeName in DataConstants.MENU_NODE_ARRAY)
-            {
-            val jsonObject = loadJSONFromAsset(assets, nodeName)
-
-            if (jsonObject != null)
-            {
-                val rootNode = JSONObject(jsonObject)
-
-                val menuNode = rootNode.getJSONObject(DataConstants.MENU_NODE)
-
-                val categoryNode = menuNode.getJSONArray(DataConstants.APPETIZERS_NODE)
-
-                listOfLists.add(menuJSONMapper(categoryNode))
-            }
-        }
-
-        return listOfLists
-    }
-
-    private fun loadJSONFromAsset(assets: AssetManager, nodeName: String): String?
+    fun loadJSONFromAsset(assets: AssetManager, nodeName: String): String?
     {
         val json: String?
 
@@ -54,7 +31,7 @@ object DataUtils
             inputStream.close()
 
             json = String(buffer, Charsets.UTF_8)
-        }
+    }
         catch (e: Exception)
         {
             e.printStackTrace()
@@ -65,31 +42,7 @@ object DataUtils
         return json
     }
 
-    @Suppress("UNCHECKED_CAST")
-    private fun menuJSONMapper(categoryNode: JSONArray): ArrayList<MenuItem>
-    {
-        val listOfItems: ArrayList<MenuItem> = arrayListOf()
-
-        for (index in 0 until categoryNode.length())
-        {
-            val item = categoryNode[index] as JSONObject
-
-            listOfItems.add(
-                MenuItem(
-                    menuNumber = (item.getLong(DataConstants.MENU_NUMBER_NODE)).toInt(),
-                    availablity = item.getBoolean(DataConstants.AVAILABILITY_NODE),
-                    description = item.getString(DataConstants.DESCRIPTION_NODE),
-                    cost = AppConstants.DECIMAL_FORMAT.format(item.getLong(DataConstants.COST_NODE)).toString(),
-                    dialogType = item.getString(DataConstants.DIALOG_TYPE_NODE),
-                    tags = jsonArrayToArrayList(item.getJSONArray(DataConstants.TAGS_NODE)),
-                    name = item.getString(DataConstants.NAME_NODE)
-                )
-            )
-        }
-        return listOfItems
-    }
-
-    private fun jsonArrayToArrayList(jsonArray: JSONArray): ArrayList<String>
+    fun jsonArrayToArrayList(jsonArray: JSONArray): ArrayList<String>
     {
         val arrayList: ArrayList<String> = arrayListOf()
 
@@ -99,5 +52,61 @@ object DataUtils
         }
 
         return arrayList
+    }
+
+    fun buildOrderedItem(item: MenuItem,
+                         sizes: java.util.ArrayList<DialogOptionItem>? = null,
+                         extras: java.util.ArrayList<DialogOptionItem>? = null,
+                         broths: java.util.ArrayList<DialogOptionItem>? = null,
+                         quantity: Int,
+                         unitCost: Double): OrderedItem
+    {
+        val orderedItem = OrderedItem (
+            name = item.name,
+            menuNumber = item.menuNumber,
+            quantity = quantity,
+            unitCost = unitCost
+        )
+
+        if (!broths.isNullOrEmpty())
+        {
+            for (broth in broths)
+            {
+                if (broth.checkedStatus)
+                {
+                    orderedItem.broth = broth.name
+                    break
+                }
+            }
+        }
+
+        if (!sizes.isNullOrEmpty())
+        {
+            for (size in sizes)
+            {
+                if (size.checkedStatus)
+                {
+                    orderedItem.size = size.name
+                    break
+                }
+            }
+        }
+
+        if (!extras.isNullOrEmpty())
+        {
+            val selectedExtras: java.util.ArrayList<String> = arrayListOf()
+
+            for (extra in extras)
+            {
+                if (extra.checkedStatus)
+                {
+                    selectedExtras.add(extra.name)
+                }
+            }
+
+            orderedItem.extras = selectedExtras
+        }
+
+        return orderedItem
     }
 }

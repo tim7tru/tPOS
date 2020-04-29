@@ -8,23 +8,36 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.adapters.DialogOptionItemsAdapter
 import com.timmytruong.timmypos.interfaces.DialogItemClickListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
-import com.timmytruong.timmypos.models.DialogOptionItem
-import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.model.DialogOptionItem
+import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
-import kotlinx.android.synthetic.main.soups_add_dialog_body.view.*
-import kotlinx.android.synthetic.main.menu_item_add_dialog_title.view.*
+import com.timmytruong.timmypos.utils.DataUtils
+import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.utils.constants.DataConstants
+import kotlinx.android.synthetic.main.alert_final_actions.view.*
+import kotlinx.android.synthetic.main.alert_basic_body.view.*
+import kotlinx.android.synthetic.main.alert_title.view.*
+import kotlinx.android.synthetic.main.alert_soups_body.view.*
 
 class SoupsItemAddDialog(private val context: Context,
                          private val menuAddItemClickListener: MenuItemAddClickListener,
-                         private val tag: String)
+                         private val categoryTitle: String,
+                         private val item: MenuItem,
+                         private val soupsExtraArray: ArrayList<DialogOptionItem>)
 {
-    private val titleView: View = View.inflate(context, R.layout.menu_item_add_dialog_title, null)
+    private val titleView: View = View.inflate(context, R.layout.alert_title, null)
 
-    private val bodyView: View = View.inflate(context, R.layout.soups_add_dialog_body, null)
+    private val bodyView: View = View.inflate(context, R.layout.alert_soups_body, null)
+
+    private val imageDescQuantView: View = bodyView.soups_image_desc_quantity
+
+    private val finalActionsView: View = bodyView.final_actions
 
     private val sizesArray: ArrayList<DialogOptionItem> = arrayListOf()
 
-    private val extrasArray: ArrayList<DialogOptionItem> = arrayListOf()
+    private val brothArray: ArrayList<DialogOptionItem> = arrayListOf()
+
+    private lateinit var dialogOptionsBrothAdapter: DialogOptionItemsAdapter
 
     private lateinit var dialogOptionSizesAdapter: DialogOptionItemsAdapter
 
@@ -45,6 +58,8 @@ class SoupsItemAddDialog(private val context: Context,
     private var newCost: Float = 0f
 
     private val onCancelClickListener = View.OnClickListener {
+        resetCheckedExtras()
+
         dialog.dismiss()
     }
 
@@ -53,18 +68,23 @@ class SoupsItemAddDialog(private val context: Context,
         {
             1 ->
             {
-                bodyView.soups_minus_quantity_shown.visibility = View.VISIBLE
-                bodyView.soups_minus_quantity_hidden.visibility = View.INVISIBLE
+                imageDescQuantView.minus_quantity_shown.visibility = View.VISIBLE
+
+                imageDescQuantView.minus_quantity_hidden.visibility = View.INVISIBLE
             }
             98 ->
             {
-                bodyView.soups_plus_quantity_shown.visibility = View.INVISIBLE
-                bodyView.soups_plus_quantity_hidden.visibility = View.VISIBLE
+                imageDescQuantView.plus_quantity_shown.visibility = View.INVISIBLE
+
+                imageDescQuantView.plus_quantity_hidden.visibility = View.VISIBLE
             }
         }
         quantityNumber++
+
         updateAddText()
+
         updateQuantityText()
+
         updateCosts(newUnitCost)
     }
 
@@ -73,24 +93,40 @@ class SoupsItemAddDialog(private val context: Context,
         {
             2 ->
             {
-                bodyView.soups_minus_quantity_shown.visibility = View.INVISIBLE
-                bodyView.soups_minus_quantity_hidden.visibility = View.VISIBLE
+                imageDescQuantView.minus_quantity_shown.visibility = View.INVISIBLE
+
+                imageDescQuantView.minus_quantity_hidden.visibility = View.VISIBLE
             }
             99 ->
             {
-                bodyView.soups_plus_quantity_shown.visibility = View.VISIBLE
-                bodyView.soups_plus_quantity_hidden.visibility = View.INVISIBLE
+                imageDescQuantView.plus_quantity_shown.visibility = View.VISIBLE
+
+                imageDescQuantView.plus_quantity_hidden.visibility = View.INVISIBLE
             }
         }
+
         quantityNumber--
+
         updateAddText()
+
         updateQuantityText()
+
         updateCosts(newUnitCost)
     }
 
     private val onAddClickListener = View.OnClickListener {
         dialog.dismiss()
-        menuAddItemClickListener.onAddToOrderDialogClicked(quantityNumber, newCost)
+
+        menuAddItemClickListener.onAddToOrderDialogClicked (
+            DataUtils.buildOrderedItem (
+                item = item,
+                sizes = sizesArray,
+                extras = soupsExtraArray,
+                broths = brothArray,
+                quantity = quantityNumber,
+                unitCost = newUnitCost.toDouble()
+            )
+        )
     }
 
     private val dialogItemClickListener: DialogItemClickListener =
@@ -103,11 +139,7 @@ class SoupsItemAddDialog(private val context: Context,
                     AppConstants.SIZE_OPTION_TAG -> {
                         for (index in 0 until sizesArray.size)
                         {
-                            if (sizesArray[index].checkedStatus && index != position)
-                            {
-                                sizesArray[index].checkedStatus = false
-                            }
-                            else if (sizesArray[index].checkedStatus && index == position)
+                            if ((sizesArray[index].checkedStatus && index != position) || (sizesArray[index].checkedStatus && index == position))
                             {
                                 sizesArray[index].checkedStatus = false
                             }
@@ -122,7 +154,7 @@ class SoupsItemAddDialog(private val context: Context,
                         sizeCost =
                             if (sizesArray[position].checkedStatus)
                             {
-                                sizesArray[position].unitValue.toFloat()
+                                sizesArray[position].cost.toFloat()
                             }
                             else
                             {
@@ -131,18 +163,33 @@ class SoupsItemAddDialog(private val context: Context,
 
                     }
                     AppConstants.EXTRA_OPTION_TAG -> {
-                        var unitValue: Float = extrasArray[position].unitValue.toFloat()
+                        var unitValue: Float = soupsExtraArray[position].cost.toFloat()
 
-                        when (extrasArray[position].checkedStatus)
+                        when (soupsExtraArray[position].checkedStatus)
                         {
                             true -> unitValue = -unitValue
                         }
 
-                        extrasArray[position].checkedStatus = !extrasArray[position].checkedStatus
+                        soupsExtraArray[position].checkedStatus = !soupsExtraArray[position].checkedStatus
 
                         dialogOptionExtrasAdapter.notifyDataSetChanged()
 
                         extrasCost += unitValue
+                    }
+                    AppConstants.BROTH_TAG -> {
+                        for (index in 0 until brothArray.size)
+                        {
+                            if ((brothArray[index].checkedStatus && index != position) || (brothArray[index].checkedStatus && index == position))
+                            {
+                                brothArray[index].checkedStatus = false
+                            }
+                            else if (!brothArray[index].checkedStatus && index == position)
+                            {
+                                brothArray[index].checkedStatus = true
+                            }
+
+                            dialogOptionsBrothAdapter.notifyDataSetChanged()
+                        }
                     }
                 }
 
@@ -152,19 +199,19 @@ class SoupsItemAddDialog(private val context: Context,
             }
         }
 
-    fun setup(title: String, description: String, cost: String)
+    fun setup()
     {
-        this.unitCost = cost
+        this.unitCost = item.cost
 
-        newUnitCost = cost.toFloat()
+        newUnitCost = item.cost.toFloat()
 
-        setInitialText(description, title)
+        setInitialText()
+
+        setBrothOptions()
 
         setAdapters()
 
         createSizeData()
-
-        createExtrasData()
 
         buildAlert()
 
@@ -177,32 +224,56 @@ class SoupsItemAddDialog(private val context: Context,
         updateQuantityText()
     }
 
-//    private fun buildOrderedItem(): OrderedItem
-//    {
-//        return OrderedItem(
-//            quantity = quantityNumber,
-//            name = titleView.add_dialog_menu_item_title.text as String,
-//            subtotal = newCost.toDouble(),
-//            extras =
-//        )
-//    }
-
-    private fun setInitialText(description: String, title: String)
+    private fun resetCheckedExtras()
     {
-        bodyView.soups_description_text.text = description
+        soupsExtraArray.forEach {
+            it.resetChecked()
+        }
+    }
 
-        titleView.add_dialog_menu_item_title.text = title
+    private fun setBrothOptions()
+    {
+        if (!item.tags.isNullOrEmpty() && item.tags!!.contains(DataConstants.WITH_OR_WITHOUT_TAG))
+        {
+            bodyView.broth_option.visibility = View.VISIBLE
+            for (index in DataConstants.WITH_OR_WITHOUT_ARRAY.indices)
+            {
+                brothArray.add(DialogOptionItem(
+                    name = DataConstants.WITH_OR_WITHOUT_ARRAY[index],
+                    cost = "0",
+                    optionTag = AppConstants.BROTH_TAG,
+                    category = AppConstants.SOUPS_CATEGORY_TAG)
+                )
+            }
+        }
+        else
+        {
+            bodyView.broth_option.visibility = View.GONE
+        }
+    }
+
+    private fun setInitialText()
+    {
+        imageDescQuantView.description_text.text = item.description
+
+        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
     }
 
     private fun setAdapters()
     {
+        dialogOptionsBrothAdapter = DialogOptionItemsAdapter(context, brothArray , dialogItemClickListener)
+
         dialogOptionSizesAdapter = DialogOptionItemsAdapter(context, sizesArray, dialogItemClickListener)
 
-        dialogOptionExtrasAdapter = DialogOptionItemsAdapter(context, extrasArray, dialogItemClickListener)
+        dialogOptionExtrasAdapter = DialogOptionItemsAdapter(context, soupsExtraArray, dialogItemClickListener)
+
+        bodyView.broth_option_body.layoutManager = LinearLayoutManager(context)
 
         bodyView.soups_sizes_body.layoutManager = LinearLayoutManager(context)
 
         bodyView.soups_extras_body.layoutManager = LinearLayoutManager(context)
+
+        bodyView.broth_option_body.adapter = dialogOptionsBrothAdapter
 
         bodyView.soups_sizes_body.adapter = dialogOptionSizesAdapter
 
@@ -211,13 +282,13 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun setOnClickListeners()
     {
-        bodyView.soups_plus_quantity_shown.setOnClickListener(onPlusClickListener)
+        imageDescQuantView.plus_quantity_shown.setOnClickListener(onPlusClickListener)
 
-        bodyView.soups_minus_quantity_shown.setOnClickListener(onMinusClickListener)
+        imageDescQuantView.minus_quantity_shown.setOnClickListener(onMinusClickListener)
 
-        bodyView.soups_add_dialog_positive_button.setOnClickListener(onAddClickListener)
+        finalActionsView.add_dialog_positive_button.setOnClickListener(onAddClickListener)
 
-        bodyView.soups_add_dialog_negative_button.setOnClickListener(onCancelClickListener)
+        finalActionsView.add_dialog_negative_button.setOnClickListener(onCancelClickListener)
     }
 
     private fun buildAlert()
@@ -235,25 +306,25 @@ class SoupsItemAddDialog(private val context: Context,
 
     private fun createSizeData()
     {
-        when (tag)
+        when (categoryTitle)
         {
             AppConstants.PHO_CATEGORY_TAG ->
             {
-                var item = DialogOptionItem(false, context.resources.getString(R.string.size_small), 0, AppConstants.SIZE_OPTION_TAG)
+                var item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_small), cost = "0", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.PHO_CATEGORY_TAG)
                 sizesArray.add(item)
 
-                item = DialogOptionItem(false, context.resources.getString(R.string.size_large_pho), 1, AppConstants.SIZE_OPTION_TAG)
+                item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_large_pho), cost = "1", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.PHO_CATEGORY_TAG)
                 sizesArray.add(item)
 
-                item = DialogOptionItem(false, context.resources.getString(R.string.size_xlarge_pho), 4, AppConstants.SIZE_OPTION_TAG)
+                item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_xlarge_pho), cost = "4", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.PHO_CATEGORY_TAG)
                 sizesArray.add(item)
             }
             AppConstants.SOUPS_CATEGORY_TAG ->
             {
-                var item = DialogOptionItem(false, context.resources.getString(R.string.size_large_soups), 0, AppConstants.SIZE_OPTION_TAG)
+                var item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_large_soups), cost = "0", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.SOUPS_CATEGORY_TAG)
                 sizesArray.add(item)
 
-                item = DialogOptionItem(false, context.resources.getString(R.string.size_xlarge_soups), 4, AppConstants.SIZE_OPTION_TAG)
+                item = DialogOptionItem(checkedStatus = false, name = context.resources.getString(R.string.size_xlarge_soups), cost = "4", optionTag = AppConstants.SIZE_OPTION_TAG, category = AppConstants.SOUPS_CATEGORY_TAG)
                 sizesArray.add(item)
             }
         }
@@ -261,54 +332,19 @@ class SoupsItemAddDialog(private val context: Context,
         dialogOptionSizesAdapter.notifyDataSetChanged()
     }
 
-    private fun createExtrasData()
-    {
-        var item = DialogOptionItem(false, context.resources.getString(R.string.extras_noodles), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_rare_beef), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_well_done), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_beef_balls), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_tofu), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_veggies), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_chili_oil), 1, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_pork), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_tendon), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        item = DialogOptionItem(false, context.resources.getString(R.string.extras_tripe), 3, AppConstants.EXTRA_OPTION_TAG)
-        extrasArray.add(item)
-
-        dialogOptionExtrasAdapter.notifyDataSetChanged()
-    }
-
     private fun updateAddText()
     {
-        bodyView.soups_add_dialog_positive_button.text = String.format(context.resources.getString(R.string.orders_add_dialog), quantityNumber)
+        finalActionsView.add_dialog_positive_button.text = String.format(context.resources.getString(R.string.orders_add_dialog), quantityNumber)
     }
 
     private fun updateQuantityText()
     {
-        bodyView.soups_quantity_text.text = quantityNumber.toString()
+        imageDescQuantView.quantity_text.text = quantityNumber.toString()
     }
 
     private fun updateCosts(cost: Float)
     {
-        bodyView.soups_price_per_item.text = String.format(context.resources.getString(R.string.orders_dialog_price_per_item), AppConstants.DECIMAL_FORMAT.format(cost))
+        imageDescQuantView.price_per_item.text = String.format(context.resources.getString(R.string.orders_dialog_price_per_item), AppConstants.DECIMAL_FORMAT.format(cost))
 
         newCost = cost * quantityNumber
 
