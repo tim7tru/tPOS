@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.timmytruong.timmypos.utils.constants.DataConstants
 import com.timmytruong.timmypos.utils.constants.PreferenceConstants
 
 class PreferenceUtils
@@ -41,4 +42,22 @@ class PreferenceUtils
     fun getCacheDuration() = prefs?.getString(PreferenceConstants.MENU_CACHE_DURATION, null)
 
     fun getUpdateTime() = prefs?.getLong(PreferenceConstants.MENU_TIME, 0)
+
+    fun checkCacheDuration(): Long
+    {
+        val cachePreference = getCacheDuration()
+
+        try
+        {
+            val cachePreferenceInt = cachePreference?.toInt() ?: 3
+
+            return cachePreferenceInt.times(60 * 60 * 1000L)
+        }
+        catch (e: NumberFormatException)
+        {
+            e.printStackTrace()
+        }
+
+        return DataConstants.DEFAULT_REFRESH_TIME
+    }
 }

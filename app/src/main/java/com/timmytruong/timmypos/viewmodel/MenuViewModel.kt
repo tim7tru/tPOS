@@ -22,7 +22,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 {
     val menu = MutableLiveData<List<MenuItem>>()
 
-    val orderItems = MutableLiveData<ArrayList<MenuItem>>()
+    val orderedItems = MutableLiveData<ArrayList<MenuItem>>()
 
     val loadingMenu = MutableLiveData<Boolean>()
 
@@ -32,7 +32,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
     private val menuMapper: MenuMapper = MenuMapper()
 
-    private val prefUtils = PreferenceUtils(getApplication())
+    private val prefUtils = PreferenceUtils(context = getApplication())
 
     private val menuRepository: MenuRepository = MenuRepository(menuMapper = menuMapper)
 
@@ -44,9 +44,9 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
                     Log.d(AppConstants.FIREBASE_EXCEPTION_LOG_TAG, e.toString())
 
                     menuRepository.postValue(
-                            DataConstants.NODE_ERRORS,
-                            CommonUtils.getCurrentDate(),
-                            e.stackTrace.toString()
+                            child = DataConstants.NODE_ERRORS,
+                            key = CommonUtils.getCurrentDate(),
+                            value = e.stackTrace.toString()
                     )
 
                     menu.value = null
@@ -56,7 +56,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
                 {
                     Toast.makeText(getApplication(), "Data loaded from Firebase", Toast.LENGTH_SHORT).show()
 
-                    storeMenuLocally(result)
+                    storeMenuLocally(list = result)
 
                     menuRepository.removeListener()
                 }
@@ -76,13 +76,13 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
             for (category in list.indices)
             {
-                dao.insertAll(*list.toTypedArray())
+                dao.insertAll(menu = *list.toTypedArray())
             }
 
-            menuRetrievedFromFirebase(list)
+            menuRetrievedFromFirebase(list = list)
         }
 
-        prefUtils.saveUpdateTime(System.nanoTime())
+        prefUtils.saveUpdateTime(time = System.nanoTime())
     }
 
     private fun menuRetrievedFromFirebase(list: List<MenuItem>)
@@ -96,7 +96,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
         val updateTime = prefUtils.getUpdateTime()
 
-        if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime)
+        if (updateTime != null && updateTime != 0L && System.currentTimeMillis() - updateTime < refreshTime)
         {
             loadMenuFromDatabase()
             Toast.makeText(getApplication(), "Data loaded from Room", Toast.LENGTH_SHORT).show()
@@ -109,23 +109,12 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
     private fun checkCacheDuration()
     {
-        val cachePreference = prefUtils.getCacheDuration()
-
-        try
-        {
-            val cachePreferenceInt = cachePreference?.toInt() ?: 10
-
-            refreshTime = cachePreferenceInt.times(1000 * 1000 * 1000L)
-        }
-        catch (e: NumberFormatException)
-        {
-            e.printStackTrace()
-        }
+        refreshTime = prefUtils.checkCacheDuration()
     }
 
     private fun loadMenuFromFirebase()
     {
-        menuRepository.addListener(callback)
+        menuRepository.addListener(firebaseCallback = callback)
     }
 
     private fun loadMenuFromDatabase()
@@ -133,7 +122,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
         launch {
             val menu = MenuDatabase(getApplication()).menuItemDao().getAll()
 
-            menuRetrievedFromFirebase(menu)
+            menuRetrievedFromFirebase(list = menu)
         }
     }
 
@@ -159,7 +148,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
     fun getCategoryItems(activeCategory: String): ArrayList<MenuItem>
     {
-        return menuProvider.getCategoryItems(activeCategory)
+        return menuProvider.getCategoryItems(activeCategory = activeCategory)
     }
 
     fun onMenuRetrieved(menu: List<MenuItem>)
@@ -177,7 +166,7 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
     fun addToOrder(orderedItem: OrderedItem)
     {
-        menuProvider.addToOrder(orderedItem)
+        menuProvider.addToOrder(orderedItem = orderedItem)
     }
 
     fun refreshBypassCache()

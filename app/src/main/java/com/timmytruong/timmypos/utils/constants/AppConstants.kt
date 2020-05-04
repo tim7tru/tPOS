@@ -6,14 +6,6 @@ import java.text.SimpleDateFormat
 
 object AppConstants
 {
-    const val ORDERS_FRAGMENT_TAG = "orders_fragment_tag"
-
-    const val HISTORY_FRAGMENT_TAG = "history_fragment_tag"
-
-    const val FINANCIAL_FRAGMENT_TAG = "financial_fragment_tag"
-
-    const val HOME_CATEGORY_TAG = "Home"
-
     const val APPETIZERS_CATEGORY_TAG = "Appetizers"
 
     const val SOUPS_CATEGORY_TAG = "Soups"

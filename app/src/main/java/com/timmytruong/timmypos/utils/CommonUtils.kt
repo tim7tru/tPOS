@@ -3,6 +3,7 @@ package com.timmytruong.timmypos.utils
 import android.content.Context
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.utils.constants.DataConstants
 import java.util.*
 
 object CommonUtils
@@ -72,5 +73,10 @@ object CommonUtils
     fun formatItemCount(count: String): String
     {
         return String.format(itemCountFormat, count)
+    }
+
+    fun findCategoryId(category: String): Int
+    {
+        return DataConstants.CATEGORY_ARRAY.indexOf(category.replace(' ', '_').toLowerCase()) + 1
     }
 }

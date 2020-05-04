@@ -1,74 +1,89 @@
 {
-  "errors":
-  {
+  "errors": {
     "2000-01-07 15:30:22": "test error"
   },
-  "extras": 
-  {
-      "soups-extras":
-      [
-          {
-              "name": "Noodles",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Rare Beef",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Well Done Beef",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Beef Balls",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Tofu",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Veggies",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Chili Oil",
-              "cost": 1,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Sliced Pork",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Beef Tendon",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          },
-          {
-              "name": "Tripe",
-              "cost": 3,
-              "optionTag": "extra",
-              "category": "soups"
-          }
-      ]
-  },
+  "extras": [
+    {
+      "name": "Noodles",
+      "checked_status": false,
+      "cost": 3,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Rare Beef",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Well Done Beef",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Beef Balls",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Tofu",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Veggies",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Chili Oil",
+      "cost": 1,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Sliced Pork",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Beef Tendon",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Tripe",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    }
+  ],
   "menu": [
     {
       "menu_id": 1,
@@ -134,7 +149,7 @@
       "description": "Test Description",
       "cost": 9.00,
       "image": null,
-      "tags":[
+      "tags": [
         "containsShrimp"
       ],
       "dialog_type": "basic",
@@ -148,7 +163,7 @@
       "description": "Golden, crispy, and delicious. Served with our homemade fish sauce to dip. Each serving comes with two(2) spring rolls.",
       "cost": 5.00,
       "image": null,
-      "tags":[
+      "tags": [
         "vegetarian"
       ],
       "dialog_type": "basic",
@@ -162,7 +177,7 @@
       "description": "Fried seasoned minced shrimp on a succulent piece of sugarcane. Each serving comes with two(2).",
       "cost": 8.00,
       "image": null,
-      "tags":[
+      "tags": [
         "containsShrimp"
       ],
       "dialog_type": "basic",
@@ -176,7 +191,7 @@
       "description": "Shrimp-filled wontons in a hearty chicken broth with aromatics. The perfect appetizer.",
       "cost": 7.00,
       "image": null,
-      "tags":[
+      "tags": [
         "containsShrimp"
       ],
       "dialog_type": "basic",
@@ -190,7 +205,7 @@
       "description": "Deliciouly golden shrimp-filled wontons fried and served with a classic sweet & sour sauce.",
       "cost": 8.00,
       "image": null,
-      "tags":[
+      "tags": [
         "containsShrimp"
       ],
       "dialog_type": "basic",

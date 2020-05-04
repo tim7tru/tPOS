@@ -1,68 +1,84 @@
 {
-    "extras": 
+  "extras": [
     {
-        "soups-extras":
-        [
-            {
-                "name": "Noodles",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Rare Beef",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Well Done Beef",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Beef Balls",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Tofu",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Veggies",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Chili Oil",
-                "cost": 1,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Sliced Pork",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Beef Tendon",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            },
-            {
-                "name": "Tripe",
-                "cost": 3,
-                "optionTag": "extra",
-                "category": "soups"
-            }
-        ]
+      "name": "Noodles",
+      "checked_status": false,
+      "cost": 3,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Rare Beef",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Well Done Beef",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Beef Balls",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Tofu",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Veggies",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Chili Oil",
+      "cost": 1,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Sliced Pork",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Beef Tendon",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Tripe",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
     }
+  ]
 }

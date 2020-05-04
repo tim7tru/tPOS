@@ -19,7 +19,7 @@ class SoupsExtrasViewModel(application: Application) : BaseViewModel(application
 
     private var refreshTime = DataConstants.DEFAULT_REFRESH_TIME
 
-    private var prefUtils = PreferenceUtils(getApplication())
+    private var prefUtils = PreferenceUtils(context = getApplication())
 
     private val soupsExtrasMapper = SoupsExtrasMapper()
 
@@ -33,15 +33,15 @@ class SoupsExtrasViewModel(application: Application) : BaseViewModel(application
             {
                 override fun onSuccess(result: List<DialogOptionItem>)
                 {
-                    storeExtrasLocally(result)
+                    storeExtrasLocally(list = result)
                 }
 
                 override fun onError(e: Exception)
                 {
                     soupsExtrasRepository.postValue(
-                            DataConstants.NODE_ERRORS,
-                            CommonUtils.getCurrentDate(),
-                            e.stackTrace.toString()
+                            child = DataConstants.NODE_ERRORS,
+                            key = CommonUtils.getCurrentDate(),
+                            value = e.stackTrace.toString()
                     )
 
                     soupsExtras.value = null
@@ -62,13 +62,13 @@ class SoupsExtrasViewModel(application: Application) : BaseViewModel(application
 
             for (category in list.indices)
             {
-                dao.insertAll(*list.toTypedArray())
+                dao.insertAll(extras = *list.toTypedArray())
             }
 
-            extrasRetrievedFromFirebase(list)
+            extrasRetrievedFromFirebase(list = list)
         }
 
-        prefUtils.saveUpdateTime(System.nanoTime())
+        prefUtils.saveUpdateTime(time = System.nanoTime())
     }
 
     private fun extrasRetrievedFromFirebase(list: List<DialogOptionItem>)
@@ -94,23 +94,12 @@ class SoupsExtrasViewModel(application: Application) : BaseViewModel(application
 
     private fun checkCacheDuration()
     {
-        val cachePreference = prefUtils.getCacheDuration()
-
-        try
-        {
-            val cachePreferenceInt = cachePreference?.toInt() ?: 10
-
-            refreshTime = cachePreferenceInt.times(1000 * 1000 * 1000L)
-        }
-        catch (e: NumberFormatException)
-        {
-            e.printStackTrace()
-        }
+        refreshTime = prefUtils.checkCacheDuration()
     }
 
     private fun loadExtrasFromFirebase()
     {
-        soupsExtrasRepository.addListener(callback)
+        soupsExtrasRepository.addListener(firebaseCallback = callback)
     }
 
     private fun loadExtrasFromDatabase()
@@ -118,7 +107,7 @@ class SoupsExtrasViewModel(application: Application) : BaseViewModel(application
         launch {
             val extras = MenuDatabase(getApplication()).dialogOptionItemDao().getAll()
 
-            extrasRetrievedFromFirebase(extras)
+            extrasRetrievedFromFirebase(list = extras)
         }
     }
 

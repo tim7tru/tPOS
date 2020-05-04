@@ -30,7 +30,11 @@ object RoomConstants
 
     const val DB_COL_EXTRAS_COST = "cost"
 
-    const val DB_COL_EXTRAS_OPTIONS_TAG = "options_tag"
+    const val DB_COL_EXTRAS_OPTION_TAG = "option_tag"
 
-    const val DB_COL_EXTRAS_CATEGORY = "category"
+    const val DB_COL_EXTRAS_CATEGORY = "category_name"
+
+    const val DB_COL_EXTRAS_CATEGORY_ID = "category_id"
+
+    const val DB_COL_EXTRAS_CHECKED_STATUS = "checked_status"
 }
