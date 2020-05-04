@@ -90,7 +90,7 @@ class  BasicItemAddDialog(private val context: Context,
 
     private val onAddClickListener = View.OnClickListener {
         dialog.dismiss()
-        menuItemAddClickListener.onAddToOrderDialogClicked(OrderedItem(menuNumber = item.menuNumber,
+        menuItemAddClickListener.onAddToOrderDialogClicked(OrderedItem(menuNumber = item.menu_id,
             name = item.name,
             size = null,
             extras = null,
@@ -133,7 +133,7 @@ class  BasicItemAddDialog(private val context: Context,
     {
         imageDescQuantView.description_text.text = item.description
 
-        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
+        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menu_id, item.name)
 
         imageDescQuantView.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(item.cost.toFloat()))
 

@@ -1,5 +1,6 @@
 package com.timmytruong.timmypos.viewmodel
 
+import android.app.Application
 import android.content.res.AssetManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +13,7 @@ import com.timmytruong.timmypos.repository.SoupsExtrasRepository
 import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.DataConstants
 
-class SoupsExtrasViewModel : ViewModel()
+class SoupsExtrasViewModel(application: Application) : BaseViewModel(application)
 {
     private var soupsExtras = MutableLiveData<List<DialogOptionItem>>()
 
@@ -34,7 +35,7 @@ class SoupsExtrasViewModel : ViewModel()
                 override fun onError(e: Exception)
                 {
                     soupsExtrasRepository.postValue(
-                            DataConstants.ERRORS_NODE,
+                            DataConstants.NODE_ERRORS,
                             CommonUtils.getCurrentDate(),
                             e.stackTrace.toString()
                     )

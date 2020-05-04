@@ -11,10 +11,10 @@ class SoupsExtrasMapper: FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
     override fun map(from: HashMap<Any, Any>): DialogOptionItem
     {
         return DialogOptionItem(
-            name = from[DataConstants.NAME_NODE] as String,
-            cost = from[DataConstants.COST_NODE].toString(),
-            optionTag = from[DataConstants.DIALOG_EXTRA_TAG_NODE] as String,
-            category = from[DataConstants.CATEGORY_NODE] as String
+            name = from[DataConstants.NODE_EXTRAS_NAME] as String,
+            cost = from[DataConstants.NODE_EXTRAS_COST].toString(),
+            optionTag = from[DataConstants.NODE_DIALOG_EXTRA_TAG] as String,
+            category = from[DataConstants.NODE_EXTRAS_CATEGORY] as String
         )
     }
 
@@ -28,10 +28,10 @@ class SoupsExtrasMapper: FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
 
             listOfItems.add(
                 DialogOptionItem(
-                    name = item.getString(DataConstants.NAME_NODE),
-                    cost = item.getLong(DataConstants.COST_NODE).toString(),
-                    optionTag = item.getString(DataConstants.DIALOG_EXTRA_TAG_NODE),
-                    category = item.getString(DataConstants.CATEGORY_NODE)
+                    name = item.getString(DataConstants.NODE_EXTRAS_NAME),
+                    cost = item.getLong(DataConstants.NODE_EXTRAS_COST).toString(),
+                    optionTag = item.getString(DataConstants.NODE_DIALOG_EXTRA_TAG),
+                    category = item.getString(DataConstants.NODE_EXTRAS_CATEGORY)
                 ))
         }
 

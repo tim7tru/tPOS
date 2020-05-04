@@ -36,15 +36,14 @@ class OrdersFragment : Fragment()
 
     private lateinit var menuAdapter: MenuItemAdapter
 
-    private val menuObserver: Observer<List<ArrayList<MenuItem>>> =
+    private val menuObserver: Observer<List<MenuItem>> =
             Observer {
-                if (it != null && it.isNotEmpty())
-                {
+                it?.let {
                     menuViewModel.onMenuRetrieved(it)
 
                     menuAdapter =
                             MenuItemAdapter(
-                                    menuViewModel.getCategoryItems(),
+                                    menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle()),
                                     menuItemAddClickListener
                             )
 
@@ -53,14 +52,6 @@ class OrdersFragment : Fragment()
                     menu_items.adapter = menuAdapter
 
                     menuAdapter.notifyDataSetChanged()
-                }
-                else if (it.isNullOrEmpty())
-                {
-                    val assets = context!!.assets
-
-                    menuViewModel.getMenu(assets)
-
-                    return@Observer
                 }
             }
 
@@ -96,7 +87,7 @@ class OrdersFragment : Fragment()
 
                     menuAdapter =
                             MenuItemAdapter(
-                                    menuViewModel.getCategoryItems(),
+                                    menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle()),
                                     menuItemAddClickListener
                             )
 
@@ -122,14 +113,14 @@ class OrdersFragment : Fragment()
                 @SuppressLint("DefaultLocale")
                 override fun onAddToOrderButtonClicked(view: View, position: Int)
                 {
-                    when (menuViewModel.getCategoryItems()[position].dialogType)
+                    when (menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle())[position].dialog_type)
                     {
                         AppConstants.BASIC_DIALOG_TYPE ->
                         {
                             val basicItemAddDialog = BasicItemAddDialog(
                                     context = context!!,
                                     menuItemAddClickListener = this,
-                                    item = menuViewModel.getCategoryItems()[position]
+                                    item = menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle())[position]
                             )
 
                             basicItemAddDialog.setup()
@@ -140,7 +131,7 @@ class OrdersFragment : Fragment()
                                     context = context!!,
                                     menuAddItemClickListener = this,
                                     categoryTitle = menuViewModel.getCurrentCategoryTitle(),
-                                    item = menuViewModel.getCategoryItems()[position],
+                                    item = menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle())[position],
                                     soupsExtraArray = soupsExtrasViewModel.getSoupsExtras()
                             )
 
@@ -158,8 +149,8 @@ class OrdersFragment : Fragment()
             }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View?
     {
         return inflater.inflate(R.layout.fragment_orders, container, false)
@@ -176,6 +167,8 @@ class OrdersFragment : Fragment()
         updateItemCountView()
 
         setupAdapters()
+
+        menuViewModel.fetch()
     }
 
 
@@ -187,7 +180,7 @@ class OrdersFragment : Fragment()
 
         soupsExtrasViewModel.getExtras().observe(this, soupsExtrasObserver)
 
-        menuViewModel.getMenu().observe(this, menuObserver)
+        menuViewModel.menu.observe(this, menuObserver)
     }
 
     private fun setupAdapters()

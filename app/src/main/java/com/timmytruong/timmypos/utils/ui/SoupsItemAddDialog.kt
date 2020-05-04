@@ -256,7 +256,7 @@ class SoupsItemAddDialog(private val context: Context,
     {
         imageDescQuantView.description_text.text = item.description
 
-        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
+        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menu_id, item.name)
     }
 
     private fun setAdapters()

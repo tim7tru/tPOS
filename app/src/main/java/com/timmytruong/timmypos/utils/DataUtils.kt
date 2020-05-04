@@ -2,6 +2,9 @@ package com.timmytruong.timmypos.utils
 
 import android.content.Context
 import android.content.res.AssetManager
+import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.timmytruong.timmypos.mapper.MenuMapper
 import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
 import com.timmytruong.timmypos.model.DialogOptionItem
@@ -11,6 +14,9 @@ import com.timmytruong.timmypos.utils.constants.DataConstants
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.InputStream
+import java.lang.reflect.Type
+import java.util.*
+import kotlin.collections.ArrayList
 
 object DataUtils
 {
@@ -31,7 +37,7 @@ object DataUtils
             inputStream.close()
 
             json = String(buffer, Charsets.UTF_8)
-    }
+        }
         catch (e: Exception)
         {
             e.printStackTrace()
@@ -54,18 +60,20 @@ object DataUtils
         return arrayList
     }
 
-    fun buildOrderedItem(item: MenuItem,
-                         sizes: java.util.ArrayList<DialogOptionItem>? = null,
-                         extras: java.util.ArrayList<DialogOptionItem>? = null,
-                         broths: java.util.ArrayList<DialogOptionItem>? = null,
-                         quantity: Int,
-                         unitCost: Double): OrderedItem
+    fun buildOrderedItem(
+            item: MenuItem,
+            sizes: java.util.ArrayList<DialogOptionItem>? = null,
+            extras: java.util.ArrayList<DialogOptionItem>? = null,
+            broths: java.util.ArrayList<DialogOptionItem>? = null,
+            quantity: Int,
+            unitCost: Double
+    ): OrderedItem
     {
-        val orderedItem = OrderedItem (
-            name = item.name,
-            menuNumber = item.menuNumber,
-            quantity = quantity,
-            unitCost = unitCost
+        val orderedItem = OrderedItem(
+                name = item.name,
+                menuNumber = item.menu_id,
+                quantity = quantity,
+                unitCost = unitCost
         )
 
         if (!broths.isNullOrEmpty())

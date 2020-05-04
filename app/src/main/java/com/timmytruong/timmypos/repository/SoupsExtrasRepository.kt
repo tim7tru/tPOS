@@ -15,20 +15,20 @@ class SoupsExtrasRepository(
 {
     override fun getRootNode(): String
     {
-        return DataConstants.EXTRAS_NODE + DataConstants.FORWARD + DataConstants.SOUPS_EXTRAS_NODE
+        return DataConstants.NODE_EXTRAS + DataConstants.FORWARD + DataConstants.NODE_EXTRAS_SOUPS_EXTRAS
     }
 
     fun getSoupsExtrasDataFromAssets(assets: AssetManager): ArrayList<DialogOptionItem>
     {
-        val jsonObject = DataUtils.loadJSONFromAsset(assets, DataConstants.SOUPS_EXTRAS_NODE)
+        val jsonObject = DataUtils.loadJSONFromAsset(assets, DataConstants.NODE_EXTRAS_SOUPS_EXTRAS)
 
         if (jsonObject != null)
         {
             val rootNode = JSONObject(jsonObject)
 
-            val soupsExtraNode = rootNode.getJSONObject(DataConstants.EXTRAS_NODE)
+            val soupsExtraNode = rootNode.getJSONObject(DataConstants.NODE_EXTRAS)
 
-            val categoryNode: JSONArray = soupsExtraNode.getJSONArray(DataConstants.SOUPS_EXTRAS_NODE)
+            val categoryNode: JSONArray = soupsExtraNode.getJSONArray(DataConstants.NODE_EXTRAS_SOUPS_EXTRAS)
 
             return soupsExtrasMapper.mapJSON(categoryNode)
         }
