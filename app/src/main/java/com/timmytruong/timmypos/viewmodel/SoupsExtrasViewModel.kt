@@ -1,20 +1,25 @@
 package com.timmytruong.timmypos.viewmodel
 
-import android.content.res.AssetManager
-import androidx.lifecycle.LiveData
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCallback
 import com.timmytruong.timmypos.mapper.SoupsExtrasMapper
 import com.timmytruong.timmypos.model.DialogOptionItem
+import com.timmytruong.timmypos.model.database.MenuDatabase
 import com.timmytruong.timmypos.provider.SoupsExtrasProvider
 import com.timmytruong.timmypos.repository.SoupsExtrasRepository
 import com.timmytruong.timmypos.utils.CommonUtils
+import com.timmytruong.timmypos.utils.PreferenceUtils
 import com.timmytruong.timmypos.utils.constants.DataConstants
+import kotlinx.coroutines.launch
 
-class SoupsExtrasViewModel : ViewModel()
+class SoupsExtrasViewModel(application: Application) : BaseViewModel(application)
 {
-    private var soupsExtras = MutableLiveData<List<DialogOptionItem>>()
+    val soupsExtras = MutableLiveData<List<DialogOptionItem>>()
+
+    private var refreshTime = DataConstants.DEFAULT_REFRESH_TIME
+
+    private var prefUtils = PreferenceUtils(getApplication())
 
     private val soupsExtrasMapper = SoupsExtrasMapper()
 
@@ -28,13 +33,13 @@ class SoupsExtrasViewModel : ViewModel()
             {
                 override fun onSuccess(result: List<DialogOptionItem>)
                 {
-                    soupsExtras.value = result
+                    storeExtrasLocally(result)
                 }
 
                 override fun onError(e: Exception)
                 {
                     soupsExtrasRepository.postValue(
-                            DataConstants.ERRORS_NODE,
+                            DataConstants.NODE_ERRORS,
                             CommonUtils.getCurrentDate(),
                             e.stackTrace.toString()
                     )
@@ -43,22 +48,80 @@ class SoupsExtrasViewModel : ViewModel()
                 }
             }
 
-    fun getExtras(): LiveData<List<DialogOptionItem>>
+    override fun onCleared()
     {
-        loadExtras()
-
-        return soupsExtras
+        soupsExtrasRepository.removeListener()
     }
 
-    fun getExtras(assets: AssetManager)
+    private fun storeExtrasLocally(list: List<DialogOptionItem>)
     {
-        soupsExtrasRepository.getSoupsExtrasDataFromAssets(assets = assets)
+        launch {
+            val dao = MenuDatabase(getApplication()).dialogOptionItemDao()
+
+            dao.deleteAll()
+
+            for (category in list.indices)
+            {
+                dao.insertAll(*list.toTypedArray())
+            }
+
+            extrasRetrievedFromFirebase(list)
+        }
+
+        prefUtils.saveUpdateTime(System.nanoTime())
     }
 
-    private fun loadExtras()
+    private fun extrasRetrievedFromFirebase(list: List<DialogOptionItem>)
+    {
+        soupsExtras.value = list
+    }
+
+    fun fetch()
+    {
+        checkCacheDuration()
+
+        val updateTime = prefUtils.getUpdateTime()
+
+        if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime)
+        {
+            loadExtrasFromDatabase()
+        }
+        else
+        {
+            loadExtrasFromFirebase()
+        }
+    }
+
+    private fun checkCacheDuration()
+    {
+        val cachePreference = prefUtils.getCacheDuration()
+
+        try
+        {
+            val cachePreferenceInt = cachePreference?.toInt() ?: 10
+
+            refreshTime = cachePreferenceInt.times(1000 * 1000 * 1000L)
+        }
+        catch (e: NumberFormatException)
+        {
+            e.printStackTrace()
+        }
+    }
+
+    private fun loadExtrasFromFirebase()
     {
         soupsExtrasRepository.addListener(callback)
     }
+
+    private fun loadExtrasFromDatabase()
+    {
+        launch {
+            val extras = MenuDatabase(getApplication()).dialogOptionItemDao().getAll()
+
+            extrasRetrievedFromFirebase(extras)
+        }
+    }
+
 
     fun getSoupsExtras(): ArrayList<DialogOptionItem>
     {

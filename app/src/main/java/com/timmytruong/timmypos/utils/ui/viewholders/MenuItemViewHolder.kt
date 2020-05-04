@@ -24,7 +24,7 @@ class MenuItemViewHolder(itemView: View,
     fun setDetails(item: MenuItem)
     {
         itemDescriptionText.text = item.description
-        itemTitleText.text = CommonUtils.formatGeneralTitle(item.menuNumber, item.name)
+        itemTitleText.text = CommonUtils.formatGeneralTitle(item.menu_id, item.name)
         itemCostText.text = String.format("$%s ea.", item.cost)
 
         addToOrderButton.setOnClickListener {

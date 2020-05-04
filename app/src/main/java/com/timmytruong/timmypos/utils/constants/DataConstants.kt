@@ -6,61 +6,71 @@ object DataConstants
 
     const val FORWARD = "/"
 
-    const val MENU_NODE = "menu"
+    const val NODE_MENU = "menu"
 
-    const val DIALOG_TYPE_NODE = "dialogType"
+    const val NODE_MENU_DIALOG_TYPE = "dialog_type"
 
-    const val COST_NODE = "cost"
+    const val NODE_MENU_COST = "cost"
 
-    const val AVAILABILITY_NODE = "available"
+    const val NODE_MENU_AVAILABILITY = "available"
 
-    const val NAME_NODE = "name"
+    const val NODE_MENU_NAME = "name"
 
-    const val MENU_NUMBER_NODE = "menuNumber"
+    const val NODE_MENU_ID = "menu_id"
 
-    const val DESCRIPTION_NODE = "description"
+    const val NODE_MENU_CATEGORY_ID = "category_id"
+    
+    const val NODE_MENU_CATEGORY_NAME = "category_name"
+    
+    const val NODE_MENU_DESCRIPTION = "description"
 
-    const val TAGS_NODE = "tags"
+    const val NODE_MENU_TAGS = "tags"
 
-    const val APPETIZERS_NODE = "appetizers"
+    const val APPETIZERS = "appetizers"
 
-    const val SOUPS_NODE = "soups"
+    const val SOUPS = "soups"
 
-    const val PHO_NODE = "pho"
+    const val PHO = "pho"
 
-    const val RICE_NODE = "rice"
+    const val RICE = "rice"
 
-    const val FRIED_RICE_NODE = "friedRice"
+    const val FRIED_RICE = "fried_rice"
 
-    const val VERMICELLI_NODE = "vermicelli"
+    const val VERMICELLI = "vermicelli"
 
-    const val STIR_FRY_NODE = "stirFry"
+    const val STIR_FRY = "stir_fry"
 
-    const val DRINK_NODE = "drinks"
+    const val DRINK = "drinks"
 
-    const val ERRORS_NODE = "errors"
+    const val NODE_ERRORS = "errors"
 
-    const val EXTRAS_NODE = "extras"
+    const val NODE_EXTRAS = "extras"
 
-    const val SOUPS_EXTRAS_NODE = "soups-extras"
+    const val NODE_EXTRAS_NAME = "name"
 
-    const val DIALOG_EXTRA_TAG_NODE = "optionTag"
+    const val NODE_EXTRAS_COST = "cost"
+
+    const val NODE_EXTRAS_SOUPS_EXTRAS = "soups-extras"
+
+    const val NODE_DIALOG_EXTRA_TAG = "optionTag"
 
     const val CONTAINS_SHRIMP_TAG = "containsShrimp"
 
     const val WITH_OR_WITHOUT_TAG = "withOrWithout"
 
-    const val CATEGORY_NODE = "category"
+    const val NODE_EXTRAS_CATEGORY = "category"
 
-    val MENU_NODE_ARRAY = arrayOf(
-        APPETIZERS_NODE,
-        SOUPS_NODE,
-        PHO_NODE,
-        RICE_NODE,
-        FRIED_RICE_NODE,
-        VERMICELLI_NODE,
-        STIR_FRY_NODE,
-        DRINK_NODE
+    const val DEFAULT_REFRESH_TIME =  10 * 1000 * 1000 * 1000L
+
+    val CATEGORY_ARRAY = arrayOf(
+        APPETIZERS,
+        SOUPS,
+        PHO,
+        RICE,
+        FRIED_RICE,
+        VERMICELLI,
+        STIR_FRY,
+        DRINK
     )
 
     val WITH_OR_WITHOUT_ARRAY = arrayOf("With Broth", "Broth On Side")

@@ -4,17 +4,22 @@ import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.utils.constants.DataConstants
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MenuProvider(
-    private val orderedItemsArray: ArrayList<OrderedItem> = arrayListOf(),
-    private var categoryItemsArray: ArrayList<MenuItem> = arrayListOf(),
-    private val categoryTitlesArray: ArrayList<CategoryMenuItem> = arrayListOf(),
-    private val categoryArrays: ArrayList<ArrayList<MenuItem>> = arrayListOf(),
-    private var itemCount: Int = 0,
-    private var currentCategoryTitle: String = ""
+        private val orderedItemsArray: ArrayList<OrderedItem> = arrayListOf(),
+
+        private var categoryItemsArray: ArrayList<MenuItem> = arrayListOf(),
+
+        private val categoryTitlesArray: ArrayList<CategoryMenuItem> = arrayListOf(),
+
+        private var itemCount: Int = 0,
+
+        private var currentCategoryTitle: String = ""
 )
 {
-
     private lateinit var testItemTitle: String
 
     private lateinit var testItemDescription: String
@@ -46,9 +51,13 @@ class MenuProvider(
         return categoryTitlesArray
     }
 
-    fun getCategoryItems(): ArrayList<MenuItem>
+    fun getCategoryItems(activeCategory: String): ArrayList<MenuItem>
     {
-        return categoryItemsArray
+        val category = activeCategory.replace(' ', '_').toLowerCase()
+
+        val list = categoryItemsArray.filter {  it.category_id == DataConstants.CATEGORY_ARRAY.indexOf(category) + 1}
+
+        return ArrayList(list)
     }
 
     fun createCategoryData()
@@ -67,35 +76,17 @@ class MenuProvider(
         currentCategoryTitle = categoryTitlesArray[0].title
     }
 
-    fun onMenuRetrieved(menu: List<ArrayList<MenuItem>>)
+    fun onMenuRetrieved(menu: List<MenuItem>)
     {
-        categoryArrays.clear()
+        categoryItemsArray.clear()
 
-        for (index in menu.indices)
-        {
-            if (menu[index].isNotEmpty())
-            {
-                categoryArrays.add(ArrayList(menu[index]))
-            }
-        }
+        categoryItemsArray.addAll(menu)
 
         /**
          * Dummy Data
          */
 
-        categoryArrays.add(createData(15))
-
-        categoryArrays.add(createData(14))
-
-        categoryArrays.add(createData(3))
-
-        categoryArrays.add(createData(9))
-
-        categoryArrays.add(createData(9))
-
-        categoryArrays.add(createData(22))
-
-        categoryItemsArray.addAll(categoryArrays[0])
+        categoryItemsArray.addAll(createData())
     }
 
     fun onCategoryMenuItemClicked(oldPosition: Int, newPosition: Int)
@@ -105,8 +96,6 @@ class MenuProvider(
         categoryTitlesArray[newPosition].activeState = true
 
         setCurrentCategoryTitle(categoryTitlesArray[newPosition].title)
-
-        categoryItemsArray = categoryArrays[newPosition]
     }
 
     fun addToOrder(orderedItem: OrderedItem)
@@ -115,25 +104,42 @@ class MenuProvider(
         itemCount += orderedItem.quantity
     }
 
-    private fun createData(count: Int): ArrayList<MenuItem>
+    private fun createData(): ArrayList<MenuItem>
     {
-        val array: ArrayList<MenuItem> = arrayListOf()
+        val list: ArrayList<MenuItem> = arrayListOf()
 
-        for (itemCount in 0 until count)
+        var menu_id_start = categoryItemsArray.size + 1
+
+        val dummyQuantity = arrayListOf(15, 14, 3, 9, 9, 22)
+
+        val dummyCategoryId = arrayListOf(3, 4, 5, 6, 7, 8)
+
+        val dummyCategoryName =
+                arrayListOf("pho", "rice", "fried_rice", "vermicelli", "stir_fry", "drinks")
+
+        for (i in 0..5)
         {
-            val item = MenuItem(
-                    99,
-                    true,
-                    testItemCost,
-                    testItemDescription,
-                    "basic",
-                    testItemTitle,
-                    null
-            )
+            for (j in 0..dummyQuantity[i])
+            {
+                list.add(
+                        MenuItem(
+                                menu_id = menu_id_start,
+                                category_id = dummyCategoryId[i],
+                                category_name = dummyCategoryName[i],
+                                availablity = true,
+                                name = testItemTitle,
+                                description = testItemDescription,
+                                cost = testItemCost,
+                                dialog_type = "basic",
+                                tags = listOf()
+                        )
+                )
+                menu_id_start++
+            }
 
-            array.add(item)
         }
-        return array
+
+        return list
     }
 
     private fun createDummyTexts()

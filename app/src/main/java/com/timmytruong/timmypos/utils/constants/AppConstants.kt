@@ -26,7 +26,7 @@ object AppConstants
 
     const val VERMICELLI_CATEGORY_TAG = "Vermicelli"
 
-    const val STIR_FRY_CATEGORY_TAG = "Stir-Fry"
+    const val STIR_FRY_CATEGORY_TAG = "Stir Fry"
 
     const val DRINKS_CATEGORY_TAG = "Drinks"
 

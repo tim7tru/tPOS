@@ -36,15 +36,14 @@ class OrdersFragment : Fragment()
 
     private lateinit var menuAdapter: MenuItemAdapter
 
-    private val menuObserver: Observer<List<ArrayList<MenuItem>>> =
+    private val menuObserver: Observer<List<MenuItem>> =
             Observer {
-                if (it != null && it.isNotEmpty())
-                {
+                it?.let {
                     menuViewModel.onMenuRetrieved(it)
 
                     menuAdapter =
                             MenuItemAdapter(
-                                    menuViewModel.getCategoryItems(),
+                                    menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle()),
                                     menuItemAddClickListener
                             )
 
@@ -53,30 +52,17 @@ class OrdersFragment : Fragment()
                     menu_items.adapter = menuAdapter
 
                     menuAdapter.notifyDataSetChanged()
-                }
-                else if (it.isNullOrEmpty())
-                {
-                    val assets = context!!.assets
 
-                    menuViewModel.getMenu(assets)
+                    menu_items.visibility = View.VISIBLE
 
-                    return@Observer
+                    loading_menu.visibility = View.GONE
                 }
             }
 
     private val soupsExtrasObserver: Observer<List<DialogOptionItem>> =
             Observer {
-                if (it != null && it.isNotEmpty())
-                {
+                it.let {
                     soupsExtrasViewModel.onSoupsExtrasRetrieved(it)
-                }
-                else if (it.isNullOrEmpty())
-                {
-                    val assets = context!!.assets
-
-                    soupsExtrasViewModel.getExtras(assets = assets)
-
-                    return@Observer
                 }
             }
 
@@ -96,7 +82,7 @@ class OrdersFragment : Fragment()
 
                     menuAdapter =
                             MenuItemAdapter(
-                                    menuViewModel.getCategoryItems(),
+                                    menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle()),
                                     menuItemAddClickListener
                             )
 
@@ -122,14 +108,14 @@ class OrdersFragment : Fragment()
                 @SuppressLint("DefaultLocale")
                 override fun onAddToOrderButtonClicked(view: View, position: Int)
                 {
-                    when (menuViewModel.getCategoryItems()[position].dialogType)
+                    when (menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle())[position].dialog_type)
                     {
                         AppConstants.BASIC_DIALOG_TYPE ->
                         {
                             val basicItemAddDialog = BasicItemAddDialog(
                                     context = context!!,
                                     menuItemAddClickListener = this,
-                                    item = menuViewModel.getCategoryItems()[position]
+                                    item = menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle())[position]
                             )
 
                             basicItemAddDialog.setup()
@@ -140,7 +126,7 @@ class OrdersFragment : Fragment()
                                     context = context!!,
                                     menuAddItemClickListener = this,
                                     categoryTitle = menuViewModel.getCurrentCategoryTitle(),
-                                    item = menuViewModel.getCategoryItems()[position],
+                                    item = menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle())[position],
                                     soupsExtraArray = soupsExtrasViewModel.getSoupsExtras()
                             )
 
@@ -158,8 +144,8 @@ class OrdersFragment : Fragment()
             }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View?
     {
         return inflater.inflate(R.layout.fragment_orders, container, false)
@@ -176,6 +162,21 @@ class OrdersFragment : Fragment()
         updateItemCountView()
 
         setupAdapters()
+
+        refresh_menu_layout.setOnRefreshListener {
+
+            menu_items.visibility = View.GONE
+
+            loading_menu.visibility = View.VISIBLE
+
+            menuViewModel.refreshBypassCache()
+
+            refresh_menu_layout.isRefreshing = false
+        }
+
+        menuViewModel.fetch()
+
+        soupsExtrasViewModel.fetch()
     }
 
 
@@ -185,9 +186,9 @@ class OrdersFragment : Fragment()
 
         menuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
 
-        soupsExtrasViewModel.getExtras().observe(this, soupsExtrasObserver)
+        soupsExtrasViewModel.soupsExtras.observe(this, soupsExtrasObserver)
 
-        menuViewModel.getMenu().observe(this, menuObserver)
+        menuViewModel.menu.observe(this, menuObserver)
     }
 
     private fun setupAdapters()
