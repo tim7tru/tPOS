@@ -13,8 +13,8 @@
             android:id="@+id/category_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/primaryLight"
             android:layout_weight="3"
+            android:background="@color/primaryLight"
             app:layout_constraintEnd_toStartOf="@id/menu_items"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -33,9 +33,9 @@
             android:id="@+id/orders_top_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="10"
             android:background="@color/primaryDark"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/menu_items"
             app:layout_constraintEnd_toEndOf="@id/menu_items"
             app:layout_constraintStart_toStartOf="@id/menu_items"
@@ -43,8 +43,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/item_count"
@@ -99,17 +99,39 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/menu_items"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refresh_menu_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="11"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </LinearLayout>
+                app:layout_constraintStart_toStartOf="parent">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/menu_items"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
+
+                    <ProgressBar
+                        android:id="@+id/loading_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        </LinearLayout>
 
 
     </LinearLayout>

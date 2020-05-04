@@ -54,7 +54,11 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
                 override fun onSuccess(result: List<MenuItem>)
                 {
+                    Toast.makeText(getApplication(), "Data loaded from Firebase", Toast.LENGTH_SHORT).show()
+
                     storeMenuLocally(result)
+
+                    menuRepository.removeListener()
                 }
             }
 
@@ -100,8 +104,6 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
         else
         {
             loadMenuFromFirebase()
-            Toast.makeText(getApplication(), "Data loaded from Firebase", Toast.LENGTH_SHORT).show()
-
         }
     }
 
@@ -178,4 +180,8 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
         menuProvider.addToOrder(orderedItem)
     }
 
+    fun refreshBypassCache()
+    {
+        loadMenuFromFirebase()
+    }
 }

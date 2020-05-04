@@ -52,22 +52,17 @@ class OrdersFragment : Fragment()
                     menu_items.adapter = menuAdapter
 
                     menuAdapter.notifyDataSetChanged()
+
+                    menu_items.visibility = View.VISIBLE
+
+                    loading_menu.visibility = View.GONE
                 }
             }
 
     private val soupsExtrasObserver: Observer<List<DialogOptionItem>> =
             Observer {
-                if (it != null && it.isNotEmpty())
-                {
+                it.let {
                     soupsExtrasViewModel.onSoupsExtrasRetrieved(it)
-                }
-                else if (it.isNullOrEmpty())
-                {
-                    val assets = context!!.assets
-
-                    soupsExtrasViewModel.getExtras(assets = assets)
-
-                    return@Observer
                 }
             }
 
@@ -168,7 +163,20 @@ class OrdersFragment : Fragment()
 
         setupAdapters()
 
+        refresh_menu_layout.setOnRefreshListener {
+
+            menu_items.visibility = View.GONE
+
+            loading_menu.visibility = View.VISIBLE
+
+            menuViewModel.refreshBypassCache()
+
+            refresh_menu_layout.isRefreshing = false
+        }
+
         menuViewModel.fetch()
+
+        soupsExtrasViewModel.fetch()
     }
 
 
@@ -178,7 +186,7 @@ class OrdersFragment : Fragment()
 
         menuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
 
-        soupsExtrasViewModel.getExtras().observe(this, soupsExtrasObserver)
+        soupsExtrasViewModel.soupsExtras.observe(this, soupsExtrasObserver)
 
         menuViewModel.menu.observe(this, menuObserver)
     }

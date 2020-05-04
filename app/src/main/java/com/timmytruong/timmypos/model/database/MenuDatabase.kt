@@ -5,16 +5,20 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.dao.MenuItemDao
 import com.timmytruong.timmypos.utils.constants.RoomConstants
 import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.dao.DialogOptionItemDao
 import com.timmytruong.timmypos.utils.TypeConverterUtils
 
-@Database(entities = [MenuItem::class], version = 1)
+@Database(entities = [MenuItem::class, DialogOptionItem::class], version = 1)
 @TypeConverters(TypeConverterUtils::class)
 abstract class MenuDatabase : RoomDatabase()
 {
     abstract fun menuItemDao(): MenuItemDao
+
+    abstract fun dialogOptionItemDao(): DialogOptionItemDao
 
     companion object
     {
