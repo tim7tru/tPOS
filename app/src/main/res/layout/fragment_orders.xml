@@ -3,6 +3,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="order"
+            type="com.timmytruong.timmypos.model.Order" />
+
+        <variable
+            name="common_utils"
+            type="com.timmytruong.timmypos.utils.CommonUtils" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,8 +66,21 @@
                     android:textSize="@dimen/text_small_medium"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/view_order"
+                    app:layout_constraintEnd_toStartOf="@id/item_count_number"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/item_count_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_xxsmall"
+                    android:text="@{String.valueOf(order.itemCount)}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/view_order"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/view_order"

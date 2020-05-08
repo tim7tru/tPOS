@@ -1,46 +1,59 @@
 package com.timmytruong.timmypos.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import android.view.animation.Animation
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
-import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
+import com.timmytruong.timmypos.databinding.ItemCategoryMenuElementBinding
+import com.timmytruong.timmypos.interfaces.MenuCategoryEventListener
 import com.timmytruong.timmypos.model.CategoryMenuItem
-import com.timmytruong.timmypos.utils.ui.viewholders.CategoryMenuViewHolder
 
-class CategoryMenuAdapter(private val categoryTitles: ArrayList<CategoryMenuItem>,
-                          private val onClickListener: CategoryMenuItemClickListener): RecyclerView.Adapter<CategoryMenuViewHolder>()
+class CategoryMenuAdapter(
+        private val categoryTitles: ArrayList<CategoryMenuItem>,
+        private val menuCategoryEventListener: MenuCategoryEventListener
+) : RecyclerView.Adapter<CategoryMenuAdapter.CategoryMenuViewHolder>()
 {
-    private var activePosition: Int = 0
+    inner class CategoryMenuViewHolder(val view: ItemCategoryMenuElementBinding) :
+            RecyclerView.ViewHolder(view.root)
 
-    fun getActivePosition(): Int
+    var activePosition: Int = 0
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMenuViewHolder
     {
-        return activePosition
+        val inflater = LayoutInflater.from(parent.context)
+
+        val dataBinding = DataBindingUtil.inflate<ItemCategoryMenuElementBinding>(
+                inflater,
+                R.layout.item_category_menu_element,
+                parent,
+                false
+        )
+
+        return CategoryMenuViewHolder(dataBinding)
     }
 
-    fun setActivePosition(position: Int)
+    override fun getItemId(position: Int): Long
     {
-        activePosition = position
+        return categoryTitles[position].id.toLong()
     }
 
     override fun onBindViewHolder(holder: CategoryMenuViewHolder, position: Int)
     {
-        val item: CategoryMenuItem = categoryTitles[position]
-        holder.setDetails(item)
+        holder.view.category = categoryTitles[position]
+
+        holder.view.categoryMenuTitle.setOnClickListener {
+            menuCategoryEventListener.onCategoryMenuItemClicked(
+                    view = it,
+                    oldPosition = activePosition,
+                    newPosition = holder.layoutPosition
+            )
+        }
     }
 
     override fun getItemCount(): Int
     {
         return categoryTitles.size
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMenuViewHolder
-    {
-        return CategoryMenuViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_category_menu_element, parent, false),
-            onClickListener,
-            AnimationUtils.loadAnimation(parent.context, R.anim.button_click_anim))
     }
 }

@@ -2,20 +2,17 @@ package com.timmytruong.timmypos.provider
 
 import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.Order
 import com.timmytruong.timmypos.model.OrderedItem
+import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
-import com.timmytruong.timmypos.utils.constants.DataConstants
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MenuProvider(
-        private val orderedItemsArray: ArrayList<OrderedItem> = arrayListOf(),
-
         private var categoryItemsArray: ArrayList<MenuItem> = arrayListOf(),
 
         private val categoryTitlesArray: ArrayList<CategoryMenuItem> = arrayListOf(),
 
-        private var itemCount: Int = 0,
+        private val order: Order = Order(),
 
         private var currentCategoryTitle: String = ""
 )
@@ -29,6 +26,8 @@ class MenuProvider(
     init
     {
         createDummyTexts()
+
+        createCategoryTitles()
     }
 
     fun getCurrenCategoryTitle(): String
@@ -36,14 +35,14 @@ class MenuProvider(
         return currentCategoryTitle
     }
 
-    private fun setCurrentCategoryTitle(title: String)
+    fun setCurrentCategoryTitle(title: String)
     {
         currentCategoryTitle = title
     }
 
-    fun getItemCount(): Int
+    fun getOrder(): Order
     {
-        return itemCount
+        return order
     }
 
     fun getCategoryTitles(): ArrayList<CategoryMenuItem>
@@ -51,29 +50,30 @@ class MenuProvider(
         return categoryTitlesArray
     }
 
+    fun createCategoryTitles()
+    {
+        for (index in AppConstants.MENU_CATEGORY_ARRAY.indices)
+        {
+            categoryTitlesArray.add(
+                    CategoryMenuItem(
+                            id = index,
+                            name = AppConstants.MENU_CATEGORY_ARRAY[index],
+                            isActive = false
+                    )
+            )
+        }
+
+        categoryTitlesArray[0].isActive = true
+    }
+
     fun getCategoryItems(activeCategory: String): ArrayList<MenuItem>
     {
         val category = activeCategory.replace(' ', '_').toLowerCase()
 
-        val list = categoryItemsArray.filter {  it.category_id == DataConstants.CATEGORY_ARRAY.indexOf(category) + 1}
+        val list =
+                categoryItemsArray.filter { it.category_id == CommonUtils.findCategoryId(category) }
 
         return ArrayList(list)
-    }
-
-    fun createCategoryData()
-    {
-        var activeState = true
-
-        for (index in AppConstants.MENU_CATEGORY_ARRAY)
-        {
-            val item = CategoryMenuItem(index, activeState)
-
-            activeState = false
-
-            categoryTitlesArray.add(item)
-        }
-
-        currentCategoryTitle = categoryTitlesArray[0].title
     }
 
     fun onMenuRetrieved(menu: List<MenuItem>)
@@ -91,17 +91,18 @@ class MenuProvider(
 
     fun onCategoryMenuItemClicked(oldPosition: Int, newPosition: Int)
     {
-        categoryTitlesArray[oldPosition].activeState = false
+        categoryTitlesArray[oldPosition].isActive = false
 
-        categoryTitlesArray[newPosition].activeState = true
+        categoryTitlesArray[newPosition].isActive = true
 
-        setCurrentCategoryTitle(categoryTitlesArray[newPosition].title)
+        setCurrentCategoryTitle(categoryTitlesArray[newPosition].name)
     }
 
     fun addToOrder(orderedItem: OrderedItem)
     {
-        orderedItemsArray.add(orderedItem)
-        itemCount += orderedItem.quantity
+        order.orderedItems.add(orderedItem)
+
+        order.itemCount += orderedItem.quantity
     }
 
     private fun createData(): ArrayList<MenuItem>

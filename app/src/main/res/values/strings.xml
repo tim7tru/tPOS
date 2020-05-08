@@ -37,7 +37,7 @@
     <string name="orders_drinks">Drinks</string>
     <string name="orders_add_to_order">ADD TO ORDER</string>
     <string name="orders_view_order">VIEW ORDER</string>
-    <string name="orders_item_count">Items: %s</string>
+    <string name="orders_item_count">Item Count: </string>
     <string name="orders_cancel_dialog">CANCEL</string>
     <string name="orders_add_dialog">ADD %s TO ORDER</string>
     <string name="orders_subtotal_text">SUB-TOTAL</string>

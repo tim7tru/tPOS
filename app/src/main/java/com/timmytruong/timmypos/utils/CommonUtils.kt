@@ -3,6 +3,7 @@ package com.timmytruong.timmypos.utils
 import android.content.Context
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.utils.constants.AppConstants
+import com.timmytruong.timmypos.utils.constants.DataConstants
 import java.util.*
 
 object CommonUtils
@@ -69,8 +70,13 @@ object CommonUtils
         return String.format(dialogSizeFormat, name, cost)
     }
 
-    fun formatItemCount(count: String): String
+    fun formatItemCount(count: Int): String
     {
-        return String.format(itemCountFormat, count)
+        return String.format(itemCountFormat, count.toString())
+    }
+
+    fun findCategoryId(category: String): Int
+    {
+        return DataConstants.CATEGORY_ARRAY.indexOf(category.replace(' ', '_').toLowerCase()) + 1
     }
 }

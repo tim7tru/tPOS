@@ -5,20 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.adapters.CategoryMenuAdapter
 import com.timmytruong.timmypos.adapters.MenuItemAdapter
-import com.timmytruong.timmypos.interfaces.CategoryMenuItemClickListener
+import com.timmytruong.timmypos.databinding.FragmentOrdersBinding
+import com.timmytruong.timmypos.interfaces.MenuCategoryEventListener
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
-import com.timmytruong.timmypos.utils.CommonUtils
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.ui.BasicItemAddDialog
 import com.timmytruong.timmypos.utils.ui.SoupsItemAddDialog
@@ -26,7 +27,7 @@ import com.timmytruong.timmypos.viewmodel.MenuViewModel
 import com.timmytruong.timmypos.viewmodel.SoupsExtrasViewModel
 import kotlinx.android.synthetic.main.fragment_orders.*
 
-class OrdersFragment : Fragment()
+class OrdersFragment : Fragment(), MenuCategoryEventListener
 {
     private lateinit var menuViewModel: MenuViewModel
 
@@ -35,6 +36,8 @@ class OrdersFragment : Fragment()
     private lateinit var categoryMenuAdapter: CategoryMenuAdapter
 
     private lateinit var menuAdapter: MenuItemAdapter
+
+    private lateinit var dataBinding: FragmentOrdersBinding
 
     private val menuObserver: Observer<List<MenuItem>> =
             Observer {
@@ -53,52 +56,19 @@ class OrdersFragment : Fragment()
 
                     menuAdapter.notifyDataSetChanged()
 
+//                    categoryMenuAdapter.notifyDataSetChanged()
+
                     menu_items.visibility = View.VISIBLE
 
                     loading_menu.visibility = View.GONE
+
                 }
             }
 
     private val soupsExtrasObserver: Observer<List<DialogOptionItem>> =
             Observer {
-                it.let {
+                it?.let {
                     soupsExtrasViewModel.onSoupsExtrasRetrieved(it)
-                }
-            }
-
-    private val categoryMenuItemClickListener: CategoryMenuItemClickListener =
-            object : CategoryMenuItemClickListener
-            {
-                override fun onCategoryMenuItemClicked(view: View, newPosition: Int)
-                {
-                    menuViewModel.onCategoryMenuItemClicked(
-                            oldPosition = categoryMenuAdapter.getActivePosition(),
-                            newPosition = newPosition
-                    )
-
-                    categoryMenuAdapter.setActivePosition(newPosition)
-
-                    categoryMenuAdapter.notifyDataSetChanged()
-
-                    menuAdapter =
-                            MenuItemAdapter(
-                                    menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle()),
-                                    menuItemAddClickListener
-                            )
-
-                    menu_items.adapter = menuAdapter
-
-                    menuAdapter.notifyDataSetChanged()
-                }
-
-                override fun getActiveColour(): Int
-                {
-                    return ContextCompat.getColor(context!!, R.color.secondary)
-                }
-
-                override fun getInactiveColour(): Int
-                {
-                    return ContextCompat.getColor(context!!, R.color.white)
                 }
             }
 
@@ -137,7 +107,7 @@ class OrdersFragment : Fragment()
 
                 override fun onAddToOrderDialogClicked(orderedItem: OrderedItem)
                 {
-                    updateItemCountView()
+                    updateUI()
 
                     menuViewModel.addToOrder(orderedItem = orderedItem)
                 }
@@ -148,7 +118,9 @@ class OrdersFragment : Fragment()
             savedInstanceState: Bundle?
     ): View?
     {
-        return inflater.inflate(R.layout.fragment_orders, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false)
+
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
@@ -157,12 +129,17 @@ class OrdersFragment : Fragment()
 
         setupViewModels()
 
-        menuViewModel.setupData()
-
-        updateItemCountView()
-
         setupAdapters()
 
+        setRefreshListener()
+
+        updateUI()
+
+        fetchData()
+    }
+
+    private fun setRefreshListener()
+    {
         refresh_menu_layout.setOnRefreshListener {
 
             menu_items.visibility = View.GONE
@@ -173,12 +150,19 @@ class OrdersFragment : Fragment()
 
             refresh_menu_layout.isRefreshing = false
         }
+    }
 
+    private fun fetchData()
+    {
         menuViewModel.fetch()
 
         soupsExtrasViewModel.fetch()
     }
 
+    private fun updateUI()
+    {
+        dataBinding.order = menuViewModel.getCurrentOrder()
+    }
 
     private fun setupViewModels()
     {
@@ -189,24 +173,48 @@ class OrdersFragment : Fragment()
         soupsExtrasViewModel.soupsExtras.observe(this, soupsExtrasObserver)
 
         menuViewModel.menu.observe(this, menuObserver)
+
+        menuViewModel.setupData()
     }
 
     private fun setupAdapters()
     {
         categoryMenuAdapter = CategoryMenuAdapter(
                 menuViewModel.getCategoryTitles(),
-                categoryMenuItemClickListener
+                this
         )
 
         category_menu.layoutManager = LinearLayoutManager(context)
 
+        categoryMenuAdapter.setHasStableIds(true)
+
         category_menu.adapter = categoryMenuAdapter
+
+        (category_menu.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         categoryMenuAdapter.notifyDataSetChanged()
     }
 
-    private fun updateItemCountView()
+
+    override fun onCategoryMenuItemClicked(view: View, oldPosition: Int, newPosition: Int)
     {
-        item_count.text = CommonUtils.formatItemCount(menuViewModel.getItemCount().toString())
+        menuViewModel.onCategoryMenuItemClicked(
+                oldPosition = oldPosition,
+                newPosition = newPosition
+        )
+
+        categoryMenuAdapter.activePosition = newPosition
+
+        categoryMenuAdapter.notifyDataSetChanged()
+
+        menuAdapter =
+                MenuItemAdapter(
+                        menuViewModel.getCategoryItems(menuViewModel.getCurrentCategoryTitle()),
+                        menuItemAddClickListener
+                )
+
+        menu_items.adapter = menuAdapter
+
+        menuAdapter.notifyDataSetChanged()
     }
 }
