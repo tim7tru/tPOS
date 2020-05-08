@@ -8,6 +8,7 @@ import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCa
 import com.timmytruong.timmypos.mapper.MenuMapper
 import com.timmytruong.timmypos.model.CategoryMenuItem
 import com.timmytruong.timmypos.model.MenuItem
+import com.timmytruong.timmypos.model.Order
 import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.model.database.MenuDatabase
 import com.timmytruong.timmypos.provider.MenuProvider
@@ -54,7 +55,11 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
                 override fun onSuccess(result: List<MenuItem>)
                 {
-                    Toast.makeText(getApplication(), "Data loaded from Firebase", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                            getApplication(),
+                            "Data loaded from Firebase",
+                            Toast.LENGTH_SHORT
+                    ).show()
 
                     storeMenuLocally(list = result)
 
@@ -128,17 +133,12 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
 
     fun setupData()
     {
-        menuProvider.createCategoryData()
+        menuProvider.setCurrentCategoryTitle(menuProvider.getCategoryTitles()[0].name)
     }
 
     fun getCurrentCategoryTitle(): String
     {
         return menuProvider.getCurrenCategoryTitle()
-    }
-
-    fun getItemCount(): Int
-    {
-        return menuProvider.getItemCount()
     }
 
     fun getCategoryTitles(): ArrayList<CategoryMenuItem>
@@ -167,6 +167,11 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
     fun addToOrder(orderedItem: OrderedItem)
     {
         menuProvider.addToOrder(orderedItem = orderedItem)
+    }
+
+    fun getCurrentOrder(): Order
+    {
+        return menuProvider.getOrder()
     }
 
     fun refreshBypassCache()

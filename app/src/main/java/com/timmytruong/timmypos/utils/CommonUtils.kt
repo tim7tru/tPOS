@@ -70,9 +70,9 @@ object CommonUtils
         return String.format(dialogSizeFormat, name, cost)
     }
 
-    fun formatItemCount(count: String): String
+    fun formatItemCount(count: Int): String
     {
-        return String.format(itemCountFormat, count)
+        return String.format(itemCountFormat, count.toString())
     }
 
     fun findCategoryId(category: String): Int

@@ -1,4 +1,9 @@
 package com.timmytruong.timmypos.model
 
-data class CategoryMenuItem(var title: String = "",
-                            var activeState: Boolean = false)
+import androidx.databinding.ObservableBoolean
+
+data class CategoryMenuItem(
+        var id: Int = -1,
+        var name: String = "",
+        var isActive: Boolean = false
+)
