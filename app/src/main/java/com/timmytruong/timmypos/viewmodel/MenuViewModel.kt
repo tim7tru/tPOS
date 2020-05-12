@@ -67,11 +67,6 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
                 }
             }
 
-    override fun onCleared()
-    {
-        menuRepository.removeListener()
-    }
-
     private fun storeMenuLocally(list: List<MenuItem>)
     {
         launch {
@@ -156,12 +151,9 @@ class MenuViewModel(application: Application) : BaseViewModel(application)
         menuProvider.onMenuRetrieved(menu = menu)
     }
 
-    fun onCategoryMenuItemClicked(oldPosition: Int, newPosition: Int)
+    fun onCategoryMenuItemClicked(newPosition: Int)
     {
-        menuProvider.onCategoryMenuItemClicked(
-                oldPosition = oldPosition,
-                newPosition = newPosition
-        )
+        menuProvider.onCategoryMenuItemClicked(newPosition = newPosition)
     }
 
     fun addToOrder(orderedItem: OrderedItem)

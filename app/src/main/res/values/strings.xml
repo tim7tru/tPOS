@@ -20,6 +20,11 @@
     <string name="login_password_hint">Password</string>
     <string name="loging_button_text">Log In</string>
 
+    <!--INTRO ACTIVITY-->
+    <string name="intro_welcome_title">Welcome</string>
+    <string name="intro_customer">Customers</string>
+    <string name="intro_staff">Staff</string>
+
     <!--MAIN ACTIVITY-->
     <string name="main_nav_orders_title">Orders</string>
     <string name="main_nav_financials_title">Financials</string>

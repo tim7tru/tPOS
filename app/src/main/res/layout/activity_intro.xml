@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="listener"
+            type="com.timmytruong.timmypos.interfaces.IntroClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryDark"
+        tools:context=".activity.IntroActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/intro_gl_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/intro_gl_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/intro_gl_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/intro_gl_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:weightSum="3"
+            app:layout_constraintTop_toTopOf="@id/intro_gl_top"
+            app:layout_constraintBottom_toBottomOf="@id/intro_gl_bottom"
+            app:layout_constraintLeft_toLeftOf="@id/intro_gl_left"
+            app:layout_constraintRight_toRightOf="@id/intro_gl_right">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/login_welcome_title"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textSize="@dimen/text_xxlarge"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rounded_rect_orange"
+                android:onClick="@{listener::onCustomerClicked}"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/intro_customers_ic"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_restaurant_menu"
+                    android:layout_margin="@dimen/margin_small"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintDimensionRatio=",1:1"
+                    app:layout_constraintWidth_percent="0.25"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/intro_customers_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_xlarge"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:text="@string/intro_customer"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.75"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/intro_customers_ic"
+                    tools:text="Customers"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:onClick="@{listener::onStaffClicked}"
+                android:background="@drawable/shape_rounded_rect_orange"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/intro_staff_ic"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_staff"
+                    android:layout_margin="@dimen/margin_small"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintDimensionRatio=",1:1"
+                    app:layout_constraintWidth_percent="0.25"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/intro_staff_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_xlarge"
+                    android:textColor="@color/white"
+                    android:text="@string/intro_staff"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.75"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/intro_staff_ic"
+                    tools:text="Staff"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

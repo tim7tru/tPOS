@@ -23,6 +23,9 @@
     <dimen name="text_small_medium">20sp</dimen>
     <dimen name="text_medium">25sp</dimen>
 
+    <dimen name="text_xlarge">100sp</dimen>
+    <dimen name="text_xxlarge">120sp</dimen>
+
     <!--Bottom Nav Bar-->
     <dimen name="bottom_nav_elevation">6dp</dimen>
     <dimen name="design_bottom_navigation_height" tools:override="true">84dp</dimen>
@@ -34,4 +37,5 @@
     <dimen name="card_elevation">6dp</dimen>
     <dimen name="card_radius_large">12dp</dimen>
     <dimen name="card_radius_small">6dp</dimen>
+
 </resources>

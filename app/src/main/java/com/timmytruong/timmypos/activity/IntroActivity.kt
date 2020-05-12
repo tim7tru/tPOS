@@ -1,39 +1,28 @@
 package com.timmytruong.timmypos.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.ui.setupWithNavController
+import androidx.databinding.DataBindingUtil
 import com.timmytruong.timmypos.R
-import com.timmytruong.timmypos.utils.CommonUtils
-import kotlinx.android.synthetic.main.activity_main.*
+import com.timmytruong.timmypos.databinding.ActivityIntroBinding
+import com.timmytruong.timmypos.interfaces.IntroClickListener
 
-class MainActivity : AppCompatActivity()
+class IntroActivity : AppCompatActivity(), IntroClickListener
 {
-    private lateinit var navController: NavController
-
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        val dataBinding = DataBindingUtil.setContentView<ActivityIntroBinding>(this, R.layout.activity_intro)
+
+        dataBinding.listener = this
 
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-
-        CommonUtils.initializeCommonUtils(this)
-
-        setupNavigation()
-    }
-
-    private fun setupNavigation()
-    {
-        navController = Navigation.findNavController(this, R.id.main_fragment)
-
-        bottom_navigation_view.setupWithNavController(navController)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -47,5 +36,17 @@ class MainActivity : AppCompatActivity()
                     or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_FULLSCREEN)
         }
+    }
+
+    override fun onCustomerClicked(view: View)
+    {
+        val intent = Intent(this, MainActivity::class.java)
+
+        startActivity(intent)
+    }
+
+    override fun onStaffClicked(view: View)
+    {
+
     }
 }

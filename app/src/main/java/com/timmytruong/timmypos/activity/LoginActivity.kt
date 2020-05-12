@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity(), LogInClickListener
 
     override fun onLogInClicked(view: View)
     {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, IntroActivity::class.java)
 
         startActivity(intent)
     }

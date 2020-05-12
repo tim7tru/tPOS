@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_orders"
+        android:id="@+id/navigation_menu"
         android:icon="@drawable/ic_restaurant_36dp"/>
 
     <item
-        android:id="@+id/navigation_history"
-        android:icon="@drawable/ic_history_36dp"/>
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/ic_shopping_cart"/>
 
     <item
         android:id="@+id/navigation_financials"

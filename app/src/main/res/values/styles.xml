@@ -11,4 +11,25 @@
         <item name="colorAccent">@color/primaryLight</item>
     </style>
 
+    <style name="MenuCategoryTabLayout" parent="Widget.Design.TabLayout">
+        <item name="android:textColorPrimary">@color/primaryLight</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabTextAppearance">@style/MenuCategoryTabTextStyle</item>
+        <item name="tabIndicatorColor">@color/blue_order</item>
+        <item name="tabIndicatorHeight">5dp</item>
+        <item name="android:tabStripEnabled">true</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+    </style>
+
+    <style name="MenuCategoryTabTextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/primaryLight</item>
+    </style>
+
+    <style name="DialogOptionItemTitles">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

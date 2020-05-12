@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/bottom_navigation"
-    app:startDestination="@id/navigation_orders">
+    app:startDestination="@id/navigation_menu">
 
     <fragment
-        android:id="@+id/navigation_orders"
-        android:name="com.timmytruong.timmypos.fragments.OrdersFragment"
+        android:id="@+id/navigation_menu"
+        android:name="com.timmytruong.timmypos.fragments.MenuFragment"
         android:label="OrdersFragment" />
     <fragment
-        android:id="@+id/navigation_history"
-        android:name="com.timmytruong.timmypos.fragments.HistoryFragment"
+        android:id="@+id/navigation_cart"
+        android:name="com.timmytruong.timmypos.fragments.CartFragment"
         android:label="HistoryFragment" />
     <fragment
         android:id="@+id/navigation_financials"

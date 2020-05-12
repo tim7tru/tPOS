@@ -89,12 +89,8 @@ class MenuProvider(
         categoryItemsArray.addAll(createData())
     }
 
-    fun onCategoryMenuItemClicked(oldPosition: Int, newPosition: Int)
+    fun onCategoryMenuItemClicked(newPosition: Int)
     {
-        categoryTitlesArray[oldPosition].isActive = false
-
-        categoryTitlesArray[newPosition].isActive = true
-
         setCurrentCategoryTitle(categoryTitlesArray[newPosition].name)
     }
 

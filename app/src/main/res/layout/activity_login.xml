@@ -124,7 +124,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
+e
             <Button
                 android:id="@+id/log_in"
                 android:layout_width="0dp"
@@ -135,7 +135,7 @@
                 android:background="@drawable/shape_rounded_rect_orange"
                 android:padding="@dimen/padding_medium"
                 android:text="@string/loging_button_text"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/password"
                 app:layout_constraintStart_toStartOf="@id/password"
