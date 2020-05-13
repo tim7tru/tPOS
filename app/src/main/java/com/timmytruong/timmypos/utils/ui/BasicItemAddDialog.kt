@@ -2,168 +2,179 @@ package com.timmytruong.timmypos.utils.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.view.animation.AnimationUtils
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableDouble
+import androidx.databinding.ObservableInt
 import com.timmytruong.timmypos.R
-import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
+import com.timmytruong.timmypos.databinding.AlertBasicBinding
+import com.timmytruong.timmypos.databinding.AlertTitleBinding
+import com.timmytruong.timmypos.interfaces.DialogCallback
+import com.timmytruong.timmypos.interfaces.DialogClickListener
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
-import com.timmytruong.timmypos.utils.CommonUtils
-import com.timmytruong.timmypos.utils.constants.AppConstants
-import kotlinx.android.synthetic.main.alert_basic.view.*
-import kotlinx.android.synthetic.main.alert_final_actions.view.*
-import kotlinx.android.synthetic.main.alert_basic_body.view.*
-import kotlinx.android.synthetic.main.alert_title.view.*
 
-class  BasicItemAddDialog(private val context: Context,
-                          private val menuItemAddClickListener: MenuItemAddClickListener,
-                          private val item: MenuItem)
+class BasicItemAddDialog(
+        private val context: Context,
+        private val item: MenuItem,
+        private val height: Int,
+        private val width: Int,
+        private val dialogCallback: DialogCallback
+) : DialogClickListener
 {
-    private val titleView: View = View.inflate(context, R.layout.alert_title, null)
+    private val animation = AnimationUtils.loadAnimation(context, R.anim.button_click_anim)
 
-    private val bodyView: View = View.inflate(context, R.layout.alert_basic, null)
+    private var titleView: AlertTitleBinding
 
-    private val imageDescQuantView: View = bodyView.basic_image_desc_quantity
+    private var bodyView: AlertBasicBinding
 
-    private val finalActionsView: View = bodyView.final_actions
-
-    private val addNumberToOrderString: String = context.resources.getString(R.string.orders_add_dialog)
-
-    private val pricePerItemString: String = context.resources.getString(R.string.orders_dialog_price_per_item)
+    private var quantityNumber: ObservableInt = ObservableInt(1)
 
     private lateinit var dialog: AlertDialog
 
-    private lateinit var unitCost: String
+    private var orderCost: ObservableDouble = ObservableDouble(item.cost.toDouble())
 
-    private var quantityNumber: Int = 1
-
-    private var newCost: Float = 0f
-
-    private val onCancelClickListener = View.OnClickListener {
-        dialog.dismiss()
-    }
-
-    private val onPlusClickListener = View.OnClickListener {
-        when (quantityNumber)
-        {
-            1 ->
-            {
-                imageDescQuantView.minus_quantity_shown.visibility = View.VISIBLE
-                imageDescQuantView.minus_quantity_hidden.visibility = View.INVISIBLE
-            }
-            98 ->
-            {
-                imageDescQuantView.plus_quantity_shown.visibility = View.INVISIBLE
-                imageDescQuantView.plus_quantity_hidden.visibility = View.VISIBLE
-            }
-        }
-        quantityNumber++
-
-        updateAddText()
-
-        updateQuantityText()
-
-        updateCosts()
-    }
-
-    private val onMinusClickListener = View.OnClickListener {
-        when (quantityNumber)
-        {
-            2 ->
-            {
-                imageDescQuantView.minus_quantity_shown.visibility = View.INVISIBLE
-                imageDescQuantView.minus_quantity_hidden.visibility = View.VISIBLE
-            }
-            99 ->
-            {
-                imageDescQuantView.plus_quantity_shown.visibility = View.VISIBLE
-                imageDescQuantView.plus_quantity_hidden.visibility = View.INVISIBLE
-            }
-        }
-        quantityNumber--
-
-        updateAddText()
-
-        updateQuantityText()
-
-        updateCosts()
-    }
-
-    private val onAddClickListener = View.OnClickListener {
-        dialog.dismiss()
-        menuItemAddClickListener.onAddToOrderDialogClicked(OrderedItem(menuNumber = item.menu_id,
-            name = item.name,
-            size = null,
-            extras = null,
-            broth = null,
-            quantity = quantityNumber,
-            unitCost = unitCost.toDouble()))
-    }
-
-    fun setup()
+    init
     {
-        this.unitCost = item.cost
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        setInitialText()
+        titleView = DataBindingUtil.inflate(inflater, R.layout.alert_title, null, false)
 
-        buildAlert()
+        bodyView = DataBindingUtil.inflate(inflater, R.layout.alert_basic, null, false)
 
-        setOnClickListeners()
-
-        updateAddText()
-
-        updateQuantityText()
-
-        updateCosts()
+        setupDialog()
     }
 
-    private fun buildAlert()
+    private fun setupDialog()
     {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-
-        builder.setCustomTitle(titleView)
-
-        builder.setView(bodyView)
+        val builder = AlertDialog.Builder(context)
+                .setCustomTitle(titleView.root)
+                .setView(bodyView.root)
 
         dialog = builder.create()
 
         dialog.show()
+
+        dialog.window?.setLayout(width, height)
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        executeDataBinding()
+
+        resizeContent()
+
     }
 
-    private fun setInitialText()
+    private fun executeDataBinding()
     {
-        imageDescQuantView.description_text.text = item.description
+        titleView.item = item
 
-        titleView.add_dialog_menu_item_title.text = CommonUtils.formatGeneralTitle(item.menu_id, item.name)
+        bodyView.item = item
 
-        imageDescQuantView.price_per_item.text = String.format(pricePerItemString, AppConstants.DECIMAL_FORMAT.format(item.cost.toFloat()))
+        bodyView.quantity = quantityNumber
+
+        bodyView.cost = orderCost
+
+        bodyView.listener = this
+
+        bodyView.finalActions.listener = this
+
+        bodyView.finalActions.quantity = quantityNumber
+    }
+
+    private fun resizeContent()
+    {
+        bodyView.quantityText.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+
+        bodyView.pricePerItem.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+
+        titleView.addDialogMenuItemTitle.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+        )
+
+        val quantity = bodyView.quantityText.measuredHeight
+
+        val ppi = bodyView.pricePerItem.measuredHeight
+
+        val title = titleView.addDialogMenuItemTitle.measuredHeight
+
+        val newImageDimensions = height - (1.45 * (title + quantity + ppi)).toInt()
+
+        bodyView.foodPicture.layoutParams =
+                ConstraintLayout.LayoutParams(newImageDimensions, newImageDimensions)
+    }
+
+    override fun onPlusClicked(view: View)
+    {
+        when (quantityNumber.get())
+        {
+            1  ->
+            {
+                bodyView.minusQuantityShown.visibility = View.VISIBLE
+                bodyView.minusQuantityHidden.visibility = View.GONE
+            }
+            98 ->
+            {
+                bodyView.plusQuantityShown.visibility = View.GONE
+                bodyView.plusQuantityHidden.visibility = View.VISIBLE
+            }
+            else ->
+            {
+                bodyView.plusQuantityShown.startAnimation(animation)
+            }
+        }
+        quantityNumber.set(quantityNumber.get() + 1)
+
+        orderCost.set((item.cost.toDouble()).times(quantityNumber.get()))
 
     }
 
-    private fun setOnClickListeners()
+    override fun onMinusClicked(view: View)
     {
-        imageDescQuantView.plus_quantity_shown.setOnClickListener(onPlusClickListener)
+        when (quantityNumber.get())
+        {
+            2  ->
+            {
+                bodyView.minusQuantityShown.visibility = View.GONE
+                bodyView.minusQuantityHidden.visibility = View.VISIBLE
+            }
+            99 ->
+            {
+                bodyView.plusQuantityShown.visibility = View.VISIBLE
+                bodyView.plusQuantityHidden.visibility = View.GONE
+            }
+            else ->
+            {
+                bodyView.minusQuantityShown.startAnimation(animation)
+            }
+        }
+        quantityNumber.set(quantityNumber.get() - 1)
 
-        imageDescQuantView.minus_quantity_shown.setOnClickListener(onMinusClickListener)
-
-        finalActionsView.add_dialog_positive_button.setOnClickListener(onAddClickListener)
-
-        finalActionsView.add_dialog_negative_button.setOnClickListener(onCancelClickListener)
+        orderCost.set((item.cost.toDouble()).times(quantityNumber.get()))
     }
 
-    private fun updateAddText()
+    override fun onAddClicked(view: View)
     {
-        finalActionsView.add_dialog_positive_button.text = String.format(addNumberToOrderString, quantityNumber)
+        dialog.dismiss()
+
+        dialogCallback.onAddToOrderClicked(
+                OrderedItem(menuNumber = item.menu_id,
+                            name = item.name,
+                            size = null,
+                            extras = null,
+                            broth = null,
+                            quantity = quantityNumber.get(),
+                            unitCost = orderCost.get())
+        )
     }
 
-    private fun updateQuantityText()
+    override fun onCancelClicked(view: View)
     {
-        imageDescQuantView.quantity_text.text = quantityNumber.toString()
-    }
-
-    private fun updateCosts()
-    {
-        newCost = unitCost.toFloat() * quantityNumber
-
-        bodyView.basic_subtotal_cost.text = CommonUtils.formatGeneralCosts(AppConstants.DECIMAL_FORMAT.format(newCost))
+        dialog.dismiss()
     }
 }

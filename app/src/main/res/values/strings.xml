@@ -8,7 +8,8 @@
 
     <!--GENERAL-->
     <string name="general_string_format">%s</string>
-    <string name="general_cost_format">$%s</string>
+    <string name="general_cost_format_floats">$%.2f</string>
+    <string name="general_cost_format_strings">$%s</string>
     <string name="general_menu_item_title_format">%s. %s</string>
     <string name="general_extras_string_format">Add %s [$%s]</string>
     <string name="general_sizes_string_format">%s [$%s]</string>
@@ -21,9 +22,9 @@
     <string name="loging_button_text">Log In</string>
 
     <!--INTRO ACTIVITY-->
-    <string name="intro_welcome_title">Welcome</string>
-    <string name="intro_customer">Customers</string>
-    <string name="intro_staff">Staff</string>
+    <string name="intro_welcome_title">WELCOME</string>
+    <string name="intro_customer">CUSTOMERS</string>
+    <string name="intro_staff">STAFF</string>
 
     <!--MAIN ACTIVITY-->
     <string name="main_nav_orders_title">Orders</string>

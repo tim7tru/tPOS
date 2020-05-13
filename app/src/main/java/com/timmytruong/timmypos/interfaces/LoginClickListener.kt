@@ -2,7 +2,7 @@ package com.timmytruong.timmypos.interfaces
 
 import android.view.View
 
-interface LogInClickListener
+interface LoginClickListener
 {
     fun onLogInClicked(view: View)
 }

@@ -9,7 +9,7 @@
 
         <variable
             name="login_listener"
-            type="com.timmytruong.timmypos.interfaces.LogInClickListener" />
+            type="com.timmytruong.timmypos.interfaces.LoginClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

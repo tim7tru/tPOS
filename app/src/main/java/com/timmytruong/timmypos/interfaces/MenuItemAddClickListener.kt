@@ -1,11 +1,9 @@
 package com.timmytruong.timmypos.interfaces
 
 import android.view.View
-import com.timmytruong.timmypos.model.OrderedItem
+import com.timmytruong.timmypos.model.MenuItem
 
 interface MenuItemAddClickListener
 {
-    fun onAddToOrderButtonClicked(view: View, position: Int)
-
-    fun onAddToOrderDialogClicked(orderedItem: OrderedItem)
+    fun onAddToOrderButtonClicked(view: View, item: MenuItem)
 }

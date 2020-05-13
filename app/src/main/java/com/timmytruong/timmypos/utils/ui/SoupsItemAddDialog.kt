@@ -2,6 +2,7 @@ package com.timmytruong.timmypos.utils.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.timmytruong.timmypos.R
@@ -32,6 +33,8 @@ class SoupsItemAddDialog(
         setView(bodyView)
 
         setCustomTitle(titleView)
+
+
     }
 }
 //    private val titleView: View = View.inflate(context, R.layout.alert_title, null)

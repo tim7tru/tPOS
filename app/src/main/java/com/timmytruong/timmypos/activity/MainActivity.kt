@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.timmytruong.timmypos.R
-import com.timmytruong.timmypos.utils.CommonUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()
@@ -24,8 +23,6 @@ class MainActivity : AppCompatActivity()
 
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        CommonUtils.initializeCommonUtils(this)
-
         setupNavigation()
     }
 
@@ -36,7 +33,8 @@ class MainActivity : AppCompatActivity()
         bottom_navigation_view.setupWithNavController(navController)
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
+    override fun onWindowFocusChanged(hasFocus: Boolean)
+    {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus)
         {

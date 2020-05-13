@@ -50,4 +50,6 @@ object AppConstants
 
     const val BROTH_TAG = "broth"
 
+    const val DIALOG_RESIZE_FACTOR = 0.95
+
 }

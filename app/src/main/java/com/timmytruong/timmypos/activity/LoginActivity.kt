@@ -1,5 +1,6 @@
 package com.timmytruong.timmypos.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -8,10 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.databinding.ActivityLoginBinding
-import com.timmytruong.timmypos.interfaces.LogInClickListener
+import com.timmytruong.timmypos.interfaces.LoginClickListener
 
-class LoginActivity : AppCompatActivity(), LogInClickListener
+class LoginActivity : AppCompatActivity(), LoginClickListener
 {
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)

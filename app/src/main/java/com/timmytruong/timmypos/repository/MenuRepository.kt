@@ -6,7 +6,7 @@ import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.constants.DataConstants
 
 class MenuRepository(menuMapper: MenuMapper) :
-    FirebaseDatabaseRepository<HashMap<Any, Any>, MenuItem>(menuMapper)
+        FirebaseDatabaseRepository<HashMap<Any, Any>, MenuItem>(menuMapper)
 {
     override fun getRootNode(): String
     {

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.timmytruong.timmypos.model.MenuItem" />
+    </data>
 
     <TextView
         android:id="@+id/add_dialog_menu_item_title"
@@ -12,7 +17,8 @@
         android:textColor="@color/white"
         android:background="@color/secondary"
         android:textStyle="bold"
+        android:text="@{String.format(@string/general_menu_item_title_format, item.menu_id, item.name)}"
         android:padding="@dimen/padding_medium"
-        android:textSize="@dimen/text_small_medium"/>
-
-</LinearLayout>
+        android:textSize="@dimen/text_small_medium"
+        tools:text="TEST"/>
+</layout>

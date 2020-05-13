@@ -23,7 +23,7 @@
     <dimen name="text_small_medium">20sp</dimen>
     <dimen name="text_medium">25sp</dimen>
 
-    <dimen name="text_xlarge">100sp</dimen>
+    <dimen name="text_xlarge">80sp</dimen>
     <dimen name="text_xxlarge">120sp</dimen>
 
     <!--Bottom Nav Bar-->
