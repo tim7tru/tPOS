@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.timmytruong.timmypos.R
-import com.timmytruong.timmypos.databinding.ItemMenuItemElementBinding
+import com.timmytruong.timmypos.databinding.ItemMenuElementBinding
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.MenuItem
 
@@ -16,7 +16,7 @@ class MenuItemAdapter(
         private val menuItemAddClickListener: MenuItemAddClickListener
 ) : RecyclerView.Adapter<MenuItemAdapter.MenuItemViewHolder>()
 {
-    inner class MenuItemViewHolder(var view: ItemMenuItemElementBinding) :
+    inner class MenuItemViewHolder(var view: ItemMenuElementBinding) :
             RecyclerView.ViewHolder(view.root)
 
     private lateinit var animation: Animation
@@ -43,9 +43,9 @@ class MenuItemAdapter(
     {
         val inflater = LayoutInflater.from(parent.context)
 
-        val view = DataBindingUtil.inflate<ItemMenuItemElementBinding>(
+        val view = DataBindingUtil.inflate<ItemMenuElementBinding>(
                 inflater,
-                R.layout.item_menu_item_element,
+                R.layout.item_menu_element,
                 parent,
                 false
         )

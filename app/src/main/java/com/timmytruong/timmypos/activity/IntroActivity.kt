@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.databinding.ActivityIntroBinding
@@ -40,6 +41,8 @@ class IntroActivity : AppCompatActivity(), IntroClickListener
 
     override fun onCustomerClicked(view: View)
     {
+        view.startAnimation(AnimationUtils.loadAnimation(view.context, R.anim.button_click_anim))
+
         val intent = Intent(this, MainActivity::class.java)
 
         startActivity(intent)
@@ -47,6 +50,7 @@ class IntroActivity : AppCompatActivity(), IntroClickListener
 
     override fun onStaffClicked(view: View)
     {
+        view.startAnimation(AnimationUtils.loadAnimation(view.context, R.anim.button_click_anim))
 
     }
 }

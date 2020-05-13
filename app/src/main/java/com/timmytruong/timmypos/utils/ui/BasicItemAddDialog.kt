@@ -47,6 +47,7 @@ class BasicItemAddDialog(
         bodyView = DataBindingUtil.inflate(inflater, R.layout.alert_basic, null, false)
 
         setupDialog()
+
     }
 
     private fun setupDialog()
@@ -58,6 +59,13 @@ class BasicItemAddDialog(
         dialog = builder.create()
 
         dialog.show()
+
+        dialog.window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
 
         dialog.window?.setLayout(width, height)
 
@@ -90,7 +98,10 @@ class BasicItemAddDialog(
     {
         bodyView.quantityText.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
 
-        bodyView.pricePerItem.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        bodyView.finalActions.addDialogPositiveButton.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+        )
 
         titleView.addDialogMenuItemTitle.measure(
                 View.MeasureSpec.UNSPECIFIED,
@@ -99,11 +110,11 @@ class BasicItemAddDialog(
 
         val quantity = bodyView.quantityText.measuredHeight
 
-        val ppi = bodyView.pricePerItem.measuredHeight
+        val actions = bodyView.finalActions.addDialogPositiveButton.measuredHeight
 
         val title = titleView.addDialogMenuItemTitle.measuredHeight
 
-        val newImageDimensions = height - (1.45 * (title + quantity + ppi)).toInt()
+        val newImageDimensions = height - (1.5 * (title + quantity + actions)).toInt()
 
         bodyView.foodPicture.layoutParams =
                 ConstraintLayout.LayoutParams(newImageDimensions, newImageDimensions)
@@ -111,51 +122,60 @@ class BasicItemAddDialog(
 
     override fun onPlusClicked(view: View)
     {
-        when (quantityNumber.get())
+        if (quantityNumber.get() < 99)
         {
-            1  ->
+            when (quantityNumber.get())
             {
-                bodyView.minusQuantityShown.visibility = View.VISIBLE
-                bodyView.minusQuantityHidden.visibility = View.GONE
+                1    ->
+                {
+                    bodyView.minusQuantityShown.visibility = View.VISIBLE
+
+                    bodyView.minusQuantityHidden.visibility = View.GONE
+                }
+                98   ->
+                {
+                    bodyView.plusQuantityShown.visibility = View.GONE
+
+                    bodyView.plusQuantityHidden.visibility = View.VISIBLE
+                }
+                else ->
+                {
+                    bodyView.plusQuantityShown.startAnimation(animation)
+                }
             }
-            98 ->
-            {
-                bodyView.plusQuantityShown.visibility = View.GONE
-                bodyView.plusQuantityHidden.visibility = View.VISIBLE
-            }
-            else ->
-            {
-                bodyView.plusQuantityShown.startAnimation(animation)
-            }
+            quantityNumber.set(quantityNumber.get() + 1)
+
+            orderCost.set((item.cost.toDouble()).times(quantityNumber.get()))
         }
-        quantityNumber.set(quantityNumber.get() + 1)
-
-        orderCost.set((item.cost.toDouble()).times(quantityNumber.get()))
-
     }
 
     override fun onMinusClicked(view: View)
     {
-        when (quantityNumber.get())
+        if (quantityNumber.get() > 0)
         {
-            2  ->
+            when (quantityNumber.get())
             {
-                bodyView.minusQuantityShown.visibility = View.GONE
-                bodyView.minusQuantityHidden.visibility = View.VISIBLE
-            }
-            99 ->
-            {
-                bodyView.plusQuantityShown.visibility = View.VISIBLE
-                bodyView.plusQuantityHidden.visibility = View.GONE
-            }
-            else ->
-            {
-                bodyView.minusQuantityShown.startAnimation(animation)
-            }
-        }
-        quantityNumber.set(quantityNumber.get() - 1)
+                2    ->
+                {
+                    bodyView.minusQuantityShown.visibility = View.GONE
 
-        orderCost.set((item.cost.toDouble()).times(quantityNumber.get()))
+                    bodyView.minusQuantityHidden.visibility = View.VISIBLE
+                }
+                99   ->
+                {
+                    bodyView.plusQuantityShown.visibility = View.VISIBLE
+
+                    bodyView.plusQuantityHidden.visibility = View.GONE
+                }
+                else ->
+                {
+                    bodyView.minusQuantityShown.startAnimation(animation)
+                }
+            }
+            quantityNumber.set(quantityNumber.get() - 1)
+
+            orderCost.set((item.cost.toDouble()).times(quantityNumber.get()))
+        }
     }
 
     override fun onAddClicked(view: View)
@@ -163,13 +183,15 @@ class BasicItemAddDialog(
         dialog.dismiss()
 
         dialogCallback.onAddToOrderClicked(
-                OrderedItem(menuNumber = item.menu_id,
-                            name = item.name,
-                            size = null,
-                            extras = null,
-                            broth = null,
-                            quantity = quantityNumber.get(),
-                            unitCost = orderCost.get())
+                OrderedItem(
+                        menuNumber = item.menu_id,
+                        name = item.name,
+                        size = null,
+                        extras = null,
+                        broth = null,
+                        quantity = quantityNumber.get(),
+                        unitCost = orderCost.get()
+                )
         )
     }
 

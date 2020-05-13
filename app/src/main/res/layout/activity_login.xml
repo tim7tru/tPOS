@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -80,6 +81,7 @@
                     android:background="@android:color/transparent"
                     android:hint="@string/login_username_hint"
                     android:padding="@dimen/padding_medium"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/username_icon"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -118,21 +120,22 @@
                     android:background="@android:color/transparent"
                     android:hint="@string/login_password_hint"
                     android:padding="@dimen/padding_medium"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/password_icon"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-e
+
             <Button
                 android:id="@+id/log_in"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:onClick="@{login_listener::onLogInClicked}"
                 android:background="@drawable/shape_rounded_rect_orange"
+                android:onClick="@{login_listener::onLogInClicked}"
                 android:padding="@dimen/padding_medium"
                 android:text="@string/loging_button_text"
                 android:textColor="@color/white"
