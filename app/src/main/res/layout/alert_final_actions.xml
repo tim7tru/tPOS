@@ -7,14 +7,49 @@
         <variable
             name="quantity"
             type="androidx.databinding.ObservableInt" />
+
         <variable
             name="listener"
             type="com.timmytruong.timmypos.interfaces.DialogClickListener" />
+
+        <variable
+            name="cost"
+            type="androidx.databinding.ObservableDouble" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/basic_subtotal_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintBottom_toTopOf="@id/add_dialog_positive_button"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/basic_subtotal_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/orders_subtotal_text"
+                android:textSize="@dimen/text_small_medium"
+                android:textColor="@color/white"
+                android:layout_marginEnd="@dimen/margin_small" />
+
+            <TextView
+                android:id="@+id/basic_subtotal_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_small"
+                android:text="@{@string/general_cost_format_floats(cost)}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small_medium" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/add_dialog_negative_button"

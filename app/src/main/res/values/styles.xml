@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -31,5 +31,18 @@
         <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DialogOptionItemChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="checkedIconEnabled">false</item>
+        <item name="closeIconEnabled">false</item>
+        <item name="iconSpaceReserved">false</item>
+        <item name="closeIconSize">0dp</item>
+        <item name="iconStartPadding">0dp</item>
+        <item name="iconEndPadding">0dp</item>
+        <item name="closeIconStartPadding">0dp</item>
+        <item name="closeIconEndPadding">0dp</item>
+        <item name="closeIcon">@null</item>
+        <item name="checkedIcon">@null</item>
     </style>
 </resources>

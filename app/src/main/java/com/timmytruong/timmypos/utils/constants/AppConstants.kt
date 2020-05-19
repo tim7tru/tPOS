@@ -26,6 +26,10 @@ object AppConstants
 
     const val EXTRA_OPTION_TAG = "extra"
 
+    const val BROTH_OPTION_TAG = "broth"
+
+    const val WITH_OR_WITHOUT_OPTION_TAG = "withOrWithout"
+
     val DECIMAL_FORMAT = DecimalFormat("0.00")
 
     val MENU_CATEGORY_ARRAY = arrayOf (

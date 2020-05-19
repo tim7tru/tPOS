@@ -1,12 +1,13 @@
 package com.timmytruong.timmypos.mapper
 
+import androidx.databinding.ObservableBoolean
 import com.timmytruong.timmypos.firebase.mapper.FirebaseMapper
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import org.json.JSONArray
 import org.json.JSONObject
 
-class SoupsExtrasMapper: FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
+class MenuOptionsMapper: FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
 {
     override fun map(from: HashMap<Any, Any>): DialogOptionItem
     {
@@ -16,7 +17,7 @@ class SoupsExtrasMapper: FirebaseMapper<HashMap<Any,Any>, DialogOptionItem>()
             optionTag = from[DataConstants.NODE_EXTRAS_OPTION_TAG] as String,
             categoryName = from[DataConstants.NODE_EXTRAS_CATEGORY] as String,
             categoryId= (from[DataConstants.NODE_EXTRAS_CATEGORY_ID] as Long).toInt(),
-            checkedStatus = from[DataConstants.NODE_EXTRAS_CHECKED_STATUS] as Boolean
+            checkedStatus = ObservableBoolean(from[DataConstants.NODE_EXTRAS_CHECKED_STATUS] as Boolean)
         )
     }
 }

@@ -71,18 +71,13 @@
 
                 <Button
                     android:id="@+id/add_to_order_button"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="@dimen/margin_xxsmall"
-                    android:layout_marginBottom="@dimen/margin_xxsmall"
-                    android:background="@drawable/shape_rounded_rect_blue"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingLeft="@dimen/padding_medium_large"
-                    android:paddingRight="@dimen/padding_medium_large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
                     android:text="@string/orders_add_to_order"
-                    android:textColor="@color/white"
+                    android:textColor="@color/blue_order"
                     android:textStyle="bold"
+
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -95,6 +90,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small_medium"
                     android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="@id/add_to_order_button"
                     app:layout_constraintBottom_toBottomOf="@+id/add_to_order_button"
                     app:layout_constraintEnd_toStartOf="@id/add_to_order_button" />
 

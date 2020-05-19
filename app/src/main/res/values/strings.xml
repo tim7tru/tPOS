@@ -11,8 +11,8 @@
     <string name="general_cost_format_floats">$%.2f</string>
     <string name="general_cost_format_strings">$%s</string>
     <string name="general_menu_item_title_format">%s. %s</string>
-    <string name="general_extras_string_format">Add %s [$%s]</string>
-    <string name="general_sizes_string_format">%s [$%s]</string>
+    <string name="general_extras_string_format">Add %s ($%.2f)</string>
+    <string name="general_sizes_string_format">%s ($%.2f)</string>
 
 
     <!--LOGIN ACTIVITY-->
@@ -49,7 +49,9 @@
     <string name="orders_subtotal_text">SUB-TOTAL</string>
     <string name="orders_list_price_per_item">$%s ea.</string>
     <string name="orders_dialog_price_per_item">\@ $%s ea.</string>
-    <string name="orders_dialog_sizes_title">Size</string>
+    <string name="orders_dialog_sizes_title">Size:</string>
+    <string name="orders_dialog_broth_title">Broth:</string>
+    <string name="orders_dialog_extra_title">Extras:</string>
 
     <!--SOUPS DIALOG-->
     <string name="size_small">Small</string>

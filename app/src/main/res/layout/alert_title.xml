@@ -17,6 +17,7 @@
         android:textColor="@color/white"
         android:background="@color/secondary"
         android:textStyle="bold"
+        android:singleLine="true"
         android:text="@{String.format(@string/general_menu_item_title_format, item.menu_id, item.name)}"
         android:padding="@dimen/padding_medium"
         android:textSize="@dimen/text_small_medium"

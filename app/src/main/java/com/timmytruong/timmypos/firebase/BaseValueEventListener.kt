@@ -5,10 +5,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.timmytruong.timmypos.firebase.interfaces.FirebaseDatabaseRepositoryCallback
 import com.timmytruong.timmypos.firebase.mapper.FirebaseMapper
-import java.lang.Exception
 
-class BaseValueEventListener<Model, Entity> (private val mapper: FirebaseMapper<Entity, Model>,
-                                             private val callback: FirebaseDatabaseRepositoryCallback<Model>): ValueEventListener
+class BaseValueEventListener<Model, Entity>(
+        private val mapper: FirebaseMapper<Entity, Model>,
+        private val callback: FirebaseDatabaseRepositoryCallback<Model>
+) : ValueEventListener
 {
     override fun onCancelled(p0: DatabaseError)
     {

@@ -73,7 +73,7 @@ object DataConstants
 
     // EXTRAS
 
-    const val NODE_EXTRAS = "extras"
+    const val NODE_OPTIONS = "options"
 
     const val NODE_EXTRAS_NAME = "name"
 

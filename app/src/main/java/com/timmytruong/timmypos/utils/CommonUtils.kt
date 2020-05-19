@@ -1,8 +1,6 @@
 package com.timmytruong.timmypos.utils
 
-import android.content.Context
 import android.content.res.Resources
-import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.constants.DataConstants
 import java.util.*

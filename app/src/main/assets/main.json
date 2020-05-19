@@ -2,7 +2,7 @@
   "errors": {
     "2000-01-07 15:30:22": "test error"
   },
-  "extras": [
+  "options": [
     {
       "name": "Noodles",
       "checked_status": false,
@@ -80,6 +80,62 @@
       "cost": 3,
       "checked_status": false,
       "option_tag": "extra",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Small",
+      "cost": 0,
+      "checked_status": true,
+      "option_tag": "size",
+      "category": "pho",
+      "category_id": 3
+    },
+    {
+      "name": "Large",
+      "cost": 1,
+      "checked_status": false,
+      "option_tag": "size",
+      "category": "pho",
+      "category_id": 3
+    },
+    {
+      "name": "X-Large",
+      "cost": 4,
+      "checked_status": false,
+      "option_tag": "size",
+      "category": "pho",
+      "category_id": 3
+    },
+    {
+      "name": "Large",
+      "cost": 0,
+      "checked_status": true,
+      "option_tag": "size",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "X-Large",
+      "cost": 3,
+      "checked_status": false,
+      "option_tag": "size",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "With Broth",
+      "cost": 0,
+      "checked_status": true,
+      "option_tag": "withOrWithout",
+      "category": "soups",
+      "category_id": 2
+    },
+    {
+      "name": "Without Broth",
+      "cost": 0,
+      "checked_status": false,
+      "option_tag": "withOrWithout",
       "category": "soups",
       "category_id": 2
     }

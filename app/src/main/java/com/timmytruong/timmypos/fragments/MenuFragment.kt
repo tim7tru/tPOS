@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,30 +14,22 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.adapters.MenuItemAdapter
 import com.timmytruong.timmypos.databinding.FragmentMenuBinding
 import com.timmytruong.timmypos.interfaces.CategoryTabSelectListener
-import com.timmytruong.timmypos.interfaces.DialogCallback
 import com.timmytruong.timmypos.interfaces.MenuItemAddClickListener
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.MenuItem
-import com.timmytruong.timmypos.model.OrderedItem
 import com.timmytruong.timmypos.utils.constants.AppConstants
 import com.timmytruong.timmypos.utils.ui.BasicItemAddDialog
+import com.timmytruong.timmypos.utils.ui.SoupsPhoItemAddDialog
 import com.timmytruong.timmypos.viewmodel.MenuViewModel
-import com.timmytruong.timmypos.viewmodel.SoupsExtrasViewModel
 import kotlinx.android.synthetic.main.fragment_menu.*
 
-class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickListener, DialogCallback
+class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickListener
 {
     private lateinit var menuViewModel: MenuViewModel
-
-    private lateinit var soupsExtrasViewModel: SoupsExtrasViewModel
 
     private lateinit var menuAdapter: MenuItemAdapter
 
     private lateinit var dataBinding: FragmentMenuBinding
-
-    private var dialogHeight: Int = 0
-
-    private var dialogWidth: Int = 0
 
     private val menuObserver: Observer<List<MenuItem>> =
             Observer {
@@ -57,8 +48,6 @@ class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickList
 
                     menuAdapter.notifyDataSetChanged()
 
-//                    categoryMenuAdapter.notifyDataSetChanged()
-
                     menu_items.visibility = View.VISIBLE
 
                     menu_loading.visibility = View.GONE
@@ -66,10 +55,10 @@ class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickList
                 }
             }
 
-    private val soupsExtrasObserver: Observer<List<DialogOptionItem>> =
+    private val menuOptionsObserver: Observer<List<DialogOptionItem>> =
             Observer {
                 it?.let {
-                    soupsExtrasViewModel.onSoupsExtrasRetrieved(it)
+                    menuViewModel.onMenuOptionsRetrieved(it)
                 }
             }
 
@@ -79,21 +68,6 @@ class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickList
     ): View?
     {
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_menu, container, false)
-
-        dataBinding.menuItems.viewTreeObserver.addOnGlobalLayoutListener(
-                object : ViewTreeObserver.OnGlobalLayoutListener
-                {
-                    override fun onGlobalLayout()
-                    {
-                        dataBinding.menuItems.viewTreeObserver.removeOnGlobalLayoutListener(this)
-
-                        dialogHeight =
-                                (menu_items.height * AppConstants.DIALOG_RESIZE_FACTOR).toInt()
-
-                        dialogWidth = (menu_items.width * AppConstants.DIALOG_RESIZE_FACTOR).toInt()
-                    }
-                }
-        )
 
         return dataBinding.root
     }
@@ -111,27 +85,13 @@ class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickList
         fetchData()
     }
 
-    private fun fetchData()
-    {
-        menuViewModel.fetch()
-
-        soupsExtrasViewModel.fetch()
-    }
-
-    private fun updateUI()
-    {
-        dataBinding.order = menuViewModel.getCurrentOrder()
-    }
-
     private fun setupViewModels()
     {
-        soupsExtrasViewModel = ViewModelProviders.of(this)[SoupsExtrasViewModel::class.java]
-
         menuViewModel = ViewModelProviders.of(this)[MenuViewModel::class.java]
 
-        soupsExtrasViewModel.soupsExtras.observe(this, soupsExtrasObserver)
-
         menuViewModel.menu.observe(this, menuObserver)
+
+        menuViewModel.menuOptions.observe(this, menuOptionsObserver)
 
         menuViewModel.setupData()
     }
@@ -158,6 +118,16 @@ class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickList
                                                  })
     }
 
+    private fun updateUI()
+    {
+        dataBinding.order = menuViewModel.getCurrentOrder()
+    }
+
+    private fun fetchData()
+    {
+        menuViewModel.fetch()
+    }
+
     override fun onCategorySelected(newPosition: Int)
     {
         menuViewModel.onCategoryMenuItemClicked(newPosition = newPosition)
@@ -182,20 +152,19 @@ class MenuFragment : Fragment(), CategoryTabSelectListener, MenuItemAddClickList
                 BasicItemAddDialog(
                         context = view.context,
                         item = item,
-                        height = dialogHeight,
-                        width = dialogWidth,
-                        dialogCallback = this
+                        viewModel = menuViewModel
                 )
             }
             AppConstants.SOUPS_DIALOG_TYPE ->
             {
+                val dialog = SoupsPhoItemAddDialog(
+                        context = view.context,
+                        item = item,
+                        menuViewModel = menuViewModel
+                )
 
+                dialog.showDialog()
             }
         }
-    }
-
-    override fun onAddToOrderClicked(orderedItem: OrderedItem)
-    {
-        menuViewModel.addToOrder(orderedItem = orderedItem)
     }
 }

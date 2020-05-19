@@ -38,4 +38,11 @@
     <dimen name="card_radius_large">12dp</dimen>
     <dimen name="card_radius_small">6dp</dimen>
 
+    <!--Chip Radius-->
+    <dimen name="chip_radius">24dp</dimen>
+
+    <!--Plus - Minus Buttons-->
+    <dimen name="plus_minus_diameter">40dp</dimen>
+    <dimen name="plus_minus_text">48dp</dimen>
+
 </resources>

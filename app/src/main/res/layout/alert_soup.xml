@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.timmytruong.timmypos.model.MenuItem" />
+
+        <variable
+            name="broth"
+            type="androidx.databinding.ObservableBoolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/primaryLight">
+
+        <include
+            android:id="@+id/alert_pic_quantity_soup"
+            layout="@layout/alert_pic_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/description_text_soup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center"
+            android:text="@{item.description}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_small_small"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/alert_pic_quantity_soup"
+            app:layout_constraintTop_toTopOf="@id/alert_pic_quantity_soup" />
+
+        <LinearLayout
+            android:id="@+id/soup_broth_titles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="@id/description_text_soup"
+            app:layout_constraintStart_toStartOf="@id/description_text_soup"
+            app:layout_constraintTop_toBottomOf="@id/description_text_soup">
+
+            <TextView
+                android:id="@+id/size_title_soup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/orders_dialog_sizes_title"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small_medium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/broth_title_soup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/orders_dialog_broth_title"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small_medium"
+                android:textStyle="bold"
+                android:visibility="@{broth ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/soup_broth_chips"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="@id/soup_broth_titles"
+            app:layout_constraintStart_toStartOf="@id/soup_broth_titles"
+            app:layout_constraintTop_toBottomOf="@id/soup_broth_titles">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/size_chip_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:foregroundGravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:singleSelection="true" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{broth ? View.VISIBLE : View.GONE}"
+                android:layout_weight="1">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/broth_chip_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:foregroundGravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:singleSelection="true" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xsmall"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/soup_broth_chips"
+        app:layout_constraintStart_toStartOf="@id/soup_broth_chips"
+        app:layout_constraintTop_toBottomOf="@id/soup_broth_chips">
+
+        <TextView
+            android:id="@+id/extras_title_soup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/orders_dialog_extra_title"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_small_medium"
+            android:textStyle="bold" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/extra_chip_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/final_actions_soup"
+        layout="@layout/alert_final_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alert_pic_quantity_soup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout></layout>

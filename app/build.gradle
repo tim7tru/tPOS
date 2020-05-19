@@ -53,6 +53,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.google.android:flexbox:2.0.1'
 
     // Room
     implementation "androidx.room:room-runtime:$roomVersion"

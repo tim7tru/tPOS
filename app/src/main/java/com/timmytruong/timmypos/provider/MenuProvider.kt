@@ -1,6 +1,6 @@
 package com.timmytruong.timmypos.provider
 
-import com.timmytruong.timmypos.model.CategoryMenuItem
+import com.timmytruong.timmypos.model.MenuCategory
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.Order
 import com.timmytruong.timmypos.model.OrderedItem
@@ -10,7 +10,7 @@ import com.timmytruong.timmypos.utils.constants.AppConstants
 class MenuProvider(
         private var categoryItemsArray: ArrayList<MenuItem> = arrayListOf(),
 
-        private val categoryTitlesArray: ArrayList<CategoryMenuItem> = arrayListOf(),
+        private val menuCategoryTitlesArray: ArrayList<MenuCategory> = arrayListOf(),
 
         private val order: Order = Order(),
 
@@ -45,17 +45,17 @@ class MenuProvider(
         return order
     }
 
-    fun getCategoryTitles(): ArrayList<CategoryMenuItem>
+    fun getCategoryTitles(): ArrayList<MenuCategory>
     {
-        return categoryTitlesArray
+        return menuCategoryTitlesArray
     }
 
     fun createCategoryTitles()
     {
         for (index in AppConstants.MENU_CATEGORY_ARRAY.indices)
         {
-            categoryTitlesArray.add(
-                    CategoryMenuItem(
+            menuCategoryTitlesArray.add(
+                    MenuCategory(
                             id = index,
                             name = AppConstants.MENU_CATEGORY_ARRAY[index],
                             isActive = false
@@ -63,7 +63,7 @@ class MenuProvider(
             )
         }
 
-        categoryTitlesArray[0].isActive = true
+        menuCategoryTitlesArray[0].isActive = true
     }
 
     fun getCategoryItems(activeCategory: String): ArrayList<MenuItem>
@@ -91,7 +91,7 @@ class MenuProvider(
 
     fun onCategoryMenuItemClicked(newPosition: Int)
     {
-        setCurrentCategoryTitle(categoryTitlesArray[newPosition].name)
+        setCurrentCategoryTitle(menuCategoryTitlesArray[newPosition].name)
     }
 
     fun addToOrder(orderedItem: OrderedItem)
