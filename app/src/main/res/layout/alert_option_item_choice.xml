@@ -12,24 +12,18 @@
         <variable
             name="checked"
             type="androidx.databinding.ObservableBoolean" />
+
     </data>
 
     <com.google.android.material.chip.Chip
-        style="@style/DialogOptionItemChip"
-        android:id="@+id/chip_extra"
+        style="@style/DialogOptionItemChipSizeBroth"
+        android:id="@+id/chip_extra_choice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@{extra.name}"
         android:textColor="@{checked ? @color/white : @color/black}"
-        android:padding="@dimen/padding_small_medium"
-        android:textAlignment="center"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
         android:checked="@{checked}"
         app:chipBackgroundColor="@{checked ? @color/blue_order : @color/unselected}"
-        app:rippleColor="@color/secondary"
-        app:chipCornerRadius="@dimen/chip_radius"
         tools:checked = "true"
         tools:text="Chili Oil ($0.50)"
         />

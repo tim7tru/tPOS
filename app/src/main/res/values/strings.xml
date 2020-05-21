@@ -49,9 +49,11 @@
     <string name="orders_subtotal_text">SUB-TOTAL</string>
     <string name="orders_list_price_per_item">$%s ea.</string>
     <string name="orders_dialog_price_per_item">\@ $%s ea.</string>
-    <string name="orders_dialog_sizes_title">Size:</string>
-    <string name="orders_dialog_broth_title">Broth:</string>
-    <string name="orders_dialog_extra_title">Extras:</string>
+    <string name="orders_dialog_sizes_title">Size</string>
+    <string name="orders_dialog_broth_title">Broth</string>
+    <string name="orders_dialog_extra_title">Extras</string>
+    <string name="orders_dialog_notes_title">Notes</string>
+    <string name="orders_dialog_notes_hint">Notes for your order...</string>
 
     <!--SOUPS DIALOG-->
     <string name="size_small">Small</string>

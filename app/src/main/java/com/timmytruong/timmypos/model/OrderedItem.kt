@@ -6,6 +6,7 @@ data class OrderedItem(
         var size: DialogOptionItem? = null,
         var extras: ArrayList<DialogOptionItem>? = null,
         var broth: DialogOptionItem? = null,
-        var quantity: Int,
-        var unitCost: Double
+        var quantity: Int = -1,
+        var unitCost: Double = -1.0,
+        var notes: String = ""
 )

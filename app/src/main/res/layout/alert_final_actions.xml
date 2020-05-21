@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -26,10 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintBottom_toTopOf="@id/add_dialog_positive_button"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:paddingEnd="@dimen/padding_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/basic_subtotal_text"
@@ -51,7 +50,8 @@
 
         </LinearLayout>
 
-        <TextView
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:id="@+id/add_dialog_negative_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,11 +62,12 @@
             android:clickable="true"
             android:onClick="@{listener::onCancelClicked}"
             android:textColor="@color/blue_order"
-            app:layout_constraintBottom_toBottomOf="@id/add_dialog_positive_button"
-            app:layout_constraintEnd_toStartOf="@id/add_dialog_positive_button"
-            android:padding="@dimen/padding_large"/>
+            android:padding="@dimen/padding_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/basic_subtotal_container"/>
 
-        <TextView
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:id="@+id/add_dialog_positive_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,11 +76,12 @@
             android:textSize="@dimen/text_small_medium"
             android:focusable="true"
             android:clickable="true"
+            android:padding="@dimen/padding_large"
             android:textColor="@color/blue_order"
             android:onClick="@{listener::onAddClicked}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="@dimen/padding_large"/>
+            app:layout_constraintStart_toEndOf="@id/add_dialog_negative_button"
+            tools:text="Add 1 To Order"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

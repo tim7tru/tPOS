@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/notes_dialog_title"
+            style="@style/DialogOptionItemTitles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orders_dialog_notes_title"
+            tools:text="NOTES:" />
+
+        <EditText
+            android:id="@+id/notes_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLines="2"
+            android:maxLength="200"
+            android:lines="2"
+            android:gravity="top|start"
+            android:scrollbars="none"
+            android:scrollHorizontally="false"
+            android:hint="@string/orders_dialog_notes_hint"
+            android:padding="@dimen/padding_medium"/>
+    </LinearLayout>
+</layout>

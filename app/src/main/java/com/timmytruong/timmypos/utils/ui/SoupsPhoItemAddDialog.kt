@@ -7,9 +7,7 @@ import androidx.databinding.ObservableBoolean
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.timmytruong.timmypos.R
-import com.timmytruong.timmypos.databinding.AlertOptionItemBinding
-import com.timmytruong.timmypos.databinding.AlertSoupBinding
-import com.timmytruong.timmypos.databinding.AlertTitleBinding
+import com.timmytruong.timmypos.databinding.*
 import com.timmytruong.timmypos.model.DialogOptionItem
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.utils.CommonUtils
@@ -27,6 +25,12 @@ class SoupsPhoItemAddDialog(
     private var broths: ArrayList<DialogOptionItem> = arrayListOf()
 
     private var extras: ArrayList<DialogOptionItem> = arrayListOf()
+
+    private var checkedSizeId: Int = -1
+
+    private var checkedBrothId: Int = -1
+
+    private var checkExtras: ArrayList<Int> = arrayListOf()
 
     private lateinit var inflater: LayoutInflater
 
@@ -60,6 +64,8 @@ class SoupsPhoItemAddDialog(
 
         bodyDataBinding.item = item
 
+        bodyDataBinding.listener = this
+
         bodyDataBinding.alertPicQuantitySoup.item = item
 
         bodyDataBinding.alertPicQuantitySoup.quantity = quantityNumber
@@ -79,39 +85,86 @@ class SoupsPhoItemAddDialog(
     {
         when (item.category_id)
         {
-            phoId   -> setupPho()
+            phoId -> setupPho()
             soupsId -> setupSoups()
         }
 
         for (index in sizes.indices)
         {
-            bodyDataBinding.sizeChipGroup.addView(createChip(inflater, sizes[index], index).root)
+            if (index == 0)
+            {
+                sizes[index].checkedStatus.set(true)
+                checkedSizeId = index
+            }
+            bodyDataBinding.sizeChipGroup.addView(
+                    createChoiceChip(
+                            inflater,
+                            sizes[index],
+                            index
+                    ).root
+            )
         }
 
         for (index in extras.indices)
         {
-            bodyDataBinding.extraChipGroup.addView(createChip(inflater, extras[index], index).root)
+            bodyDataBinding.extraChipGroup.addView(
+                    createFilterChip(
+                            inflater,
+                            extras[index],
+                            index
+                    ).root
+            )
         }
 
-        if (broths.isNotEmpty())
+        if (withOrWithoutSoup.get())
         {
             for (index in broths.indices)
             {
-                bodyDataBinding.brothChipGroup.addView(createChip(inflater, broths[index], index).root)
+                if (index == 0)
+                {
+                    broths[index].checkedStatus.set(true)
+                    checkedBrothId = index
+                }
+
+                bodyDataBinding.brothChipGroup.addView(
+                        createChoiceChip(
+                                inflater,
+                                broths[index],
+                                index
+                        ).root
+                )
             }
         }
 
         setupCheckedChipListeners()
     }
 
-    private fun createChip(
+    private fun createChoiceChip(
             inflater: LayoutInflater,
             extra: DialogOptionItem,
             id: Int
-    ): AlertOptionItemBinding
+    ): AlertOptionItemChoiceBinding
     {
-        val chip: AlertOptionItemBinding =
-                DataBindingUtil.inflate(inflater, R.layout.alert_option_item, null, false)
+        val chip: AlertOptionItemChoiceBinding =
+                DataBindingUtil.inflate(inflater, R.layout.alert_option_item_choice, null, false)
+
+        chip.extra = extra
+
+        chip.checked = extra.checkedStatus
+
+        chip.root.id = id
+
+        return chip
+    }
+
+    private fun createFilterChip(
+            inflater: LayoutInflater,
+            extra: DialogOptionItem,
+            id: Int
+    ): AlertOptionItemFilterBinding
+    {
+        val chip: AlertOptionItemFilterBinding =
+                DataBindingUtil.inflate(inflater, R.layout.alert_option_item_filter, null, false)
 
         chip.extra = extra
 
@@ -152,21 +205,32 @@ class SoupsPhoItemAddDialog(
     private fun setupCheckedChipListeners()
     {
         bodyDataBinding.sizeChipGroup.setOnCheckedChangeListener { chipGroup: ChipGroup, id: Int ->
-            for (child in 0 until chipGroup.childCount)
+            if (id >= 0)
             {
-                val childId = (chipGroup.getChildAt(child) as Chip).id
+                for (child in 0 until chipGroup.childCount)
+                {
+                    val childId = (chipGroup.getChildAt(child) as Chip).id
 
-                sizes[child].checkedStatus.set(childId == id)
+                    sizes[child].checkedStatus.set(childId == id)
+
+                    checkedSizeId = if (childId == id) id else checkedSizeId
+                }
             }
         }
 
         bodyDataBinding.brothChipGroup.setOnCheckedChangeListener { chipGroup: ChipGroup, id: Int ->
-            for (child in 0 until chipGroup.childCount)
+            if (id >= 0)
             {
-                val childId = (chipGroup.getChildAt(child) as Chip).id
+                for (child in 0 until chipGroup.childCount)
+                {
+                    val childId = (chipGroup.getChildAt(child) as Chip).id
 
-                broths[child].checkedStatus.set(childId == id)
+                    broths[child].checkedStatus.set(childId == id)
+
+                    checkedBrothId = if (childId == id) id else checkedBrothId
+                }
             }
         }
+
     }
 }

@@ -11,4 +11,6 @@ interface DialogClickListener
     fun onPlusClicked(view: View)
 
     fun onMinusClicked(view: View)
+
+    fun onKeyboardDismiss(view: View)
 }

@@ -17,6 +17,7 @@ import com.timmytruong.timmypos.R
 import com.timmytruong.timmypos.interfaces.DialogClickListener
 import com.timmytruong.timmypos.model.MenuItem
 import com.timmytruong.timmypos.model.OrderedItem
+import com.timmytruong.timmypos.utils.CommonUtils.hideKeyboard
 import com.timmytruong.timmypos.viewmodel.MenuViewModel
 
 abstract class BaseAddDialog<titleDataBinding : ViewDataBinding, bodyDataBinding : ViewDataBinding>
@@ -73,8 +74,6 @@ abstract class BaseAddDialog<titleDataBinding : ViewDataBinding, bodyDataBinding
 
         sizeDialog()
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
         animation = AnimationUtils.loadAnimation(context, R.anim.button_click_anim)
     }
 
@@ -96,8 +95,15 @@ abstract class BaseAddDialog<titleDataBinding : ViewDataBinding, bodyDataBinding
         dialog.window?.attributes = params as WindowManager.LayoutParams
     }
 
+    override fun onKeyboardDismiss(view: View)
+    {
+        view.context.hideKeyboard(view = view)
+    }
+
     override fun onAddClicked(view: View)
     {
+        view.startAnimation(animation)
+
         dialog.dismiss()
 
         menuViewModel.addToOrder(
@@ -115,6 +121,8 @@ abstract class BaseAddDialog<titleDataBinding : ViewDataBinding, bodyDataBinding
 
     override fun onCancelClicked(view: View)
     {
+        view.startAnimation(animation)
+
         dialog.dismiss()
     }
 
@@ -123,6 +131,12 @@ abstract class BaseAddDialog<titleDataBinding : ViewDataBinding, bodyDataBinding
         quantityNumber.set(quantityNumber.get() + 1)
 
         orderCost.set(item.cost.toDouble().times(quantityNumber.get()))
+
+        when (quantityNumber.get() < 99)
+        {
+            true  -> view.startAnimation(animation)
+            false -> view.clearAnimation()
+        }
     }
 
     override fun onMinusClicked(view: View)
@@ -130,5 +144,11 @@ abstract class BaseAddDialog<titleDataBinding : ViewDataBinding, bodyDataBinding
         quantityNumber.set(quantityNumber.get() - 1)
 
         orderCost.set(item.cost.toDouble().times(quantityNumber.get()))
+
+        when (quantityNumber.get() > 1)
+        {
+            true  -> view.startAnimation(animation)
+            false -> view.clearAnimation()
+        }
     }
 }

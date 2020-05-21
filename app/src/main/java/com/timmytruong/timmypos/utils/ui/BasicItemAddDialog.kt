@@ -34,6 +34,8 @@ open class BasicItemAddDialog(
 
         bodyDataBinding.item = item
 
+        bodyDataBinding.listener = this
+
         bodyDataBinding.alertPicQuantity.item = item
 
         bodyDataBinding.alertPicQuantity.quantity = quantityNumber

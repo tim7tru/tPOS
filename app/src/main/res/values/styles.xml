@@ -28,21 +28,56 @@
     </style>
 
     <style name="DialogOptionItemTitles">
-        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textSize">@dimen/text_small_medium</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="DialogOptionItemChip" parent="Widget.MaterialComponents.Chip.Choice">
+    <style name="DialogOptionItemChipSizeBroth" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="checkedIconEnabled">false</item>
         <item name="closeIconEnabled">false</item>
         <item name="iconSpaceReserved">false</item>
         <item name="closeIconSize">0dp</item>
         <item name="iconStartPadding">0dp</item>
         <item name="iconEndPadding">0dp</item>
+        <item name="android:checkable">true</item>
+        <item name="rippleColor">@color/secondary</item>
+        <item name="chipCornerRadius">@dimen/chip_radius</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:padding">@dimen/padding_small</item>
         <item name="closeIconStartPadding">0dp</item>
         <item name="closeIconEndPadding">0dp</item>
         <item name="closeIcon">@null</item>
         <item name="checkedIcon">@null</item>
+    </style>
+
+    <style name="DialogOptionItemExtra" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="checkedIconEnabled">false</item>
+        <item name="closeIconEnabled">false</item>
+        <item name="iconSpaceReserved">false</item>
+        <item name="closeIconSize">0dp</item>
+        <item name="iconStartPadding">0dp</item>
+        <item name="android:checkable">true</item>
+        <item name="iconEndPadding">0dp</item>
+        <item name="rippleColor">@color/secondary</item>
+        <item name="chipCornerRadius">@dimen/chip_radius</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="closeIconStartPadding">0dp</item>
+        <item name="closeIconEndPadding">0dp</item>
+        <item name="closeIcon">@null</item>
+        <item name="checkedIcon">@null</item>
+    </style>
+
+    <style name="DialogDescriptionText" parent="android:Widget.TextView">
+        <item name="android:maxLines">2</item>
+        <item name="android:lines">2</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/text_small_small</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
     </style>
 </resources>

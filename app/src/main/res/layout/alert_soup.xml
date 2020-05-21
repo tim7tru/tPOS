@@ -13,11 +13,16 @@
         <variable
             name="broth"
             type="androidx.databinding.ObservableBoolean" />
+
+        <variable
+            name="listener"
+            type="com.timmytruong.timmypos.interfaces.DialogClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{listener::onKeyboardDismiss}"
         android:background="@color/primaryLight">
 
         <include
@@ -26,16 +31,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
+            style="@style/DialogDescriptionText"
             android:id="@+id/description_text_soup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:gravity="center"
             android:text="@{item.description}"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_small_small"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/alert_pic_quantity_soup"
@@ -54,29 +55,23 @@
 
             <TextView
                 android:id="@+id/size_title_soup"
+                style="@style/DialogOptionItemTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/orders_dialog_sizes_title"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small_medium"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/broth_title_soup"
+                style="@style/DialogOptionItemTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/orders_dialog_broth_title"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small_medium"
-                android:textStyle="bold"
                 android:visibility="@{broth ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -115,8 +110,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="@{broth ? View.VISIBLE : View.GONE}"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="@{broth ? View.VISIBLE : View.GONE}">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/broth_chip_group"
@@ -133,40 +128,50 @@
 
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xsmall"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/soup_broth_chips"
-        app:layout_constraintStart_toStartOf="@id/soup_broth_chips"
-        app:layout_constraintTop_toBottomOf="@id/soup_broth_chips">
-
-        <TextView
-            android:id="@+id/extras_title_soup"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/extras_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/orders_dialog_extra_title"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_small_medium"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/soup_broth_chips"
+            app:layout_constraintStart_toStartOf="@id/soup_broth_chips"
+            app:layout_constraintTop_toBottomOf="@id/soup_broth_chips">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/extra_chip_group"
+            <TextView
+                android:id="@+id/extras_title_soup"
+                style="@style/DialogOptionItemTitles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/orders_dialog_extra_title"
+                android:textAlignment="center" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/extra_chip_group"
+                app:singleSelection="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/notes_soups"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            layout="@layout/alert_notes"
+            app:layout_constraintEnd_toEndOf="@id/description_text_soup"
+            app:layout_constraintStart_toStartOf="@id/description_text_soup"
+            app:layout_constraintTop_toBottomOf="@id/extras_container"
+            app:layout_constraintBottom_toTopOf="@id/final_actions_soup"/>
+
+        <include
+            android:id="@+id/final_actions_soup"
+            layout="@layout/alert_final_actions"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </LinearLayout>
-
-    <include
-        android:id="@+id/final_actions_soup"
-        layout="@layout/alert_final_actions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/alert_pic_quantity_soup" />
-
-</androidx.constraintlayout.widget.ConstraintLayout></layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

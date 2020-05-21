@@ -7,34 +7,49 @@
         <variable
             name="item"
             type="com.timmytruong.timmypos.model.MenuItem" />
+
+        <variable
+            name="listener"
+            type="com.timmytruong.timmypos.interfaces.DialogClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
+        android:focusableInTouchMode="true"
+        android:onClick="@{listener::onKeyboardDismiss}"
         android:background="@color/primaryLight">
 
         <include
             android:id="@+id/alert_pic_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             layout="@layout/alert_pic_quantity"
+            android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            style="@style/DialogDescriptionText"
             android:id="@+id/description_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{item.description}"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="@dimen/text_small_small"
-            android:layout_margin="@dimen/margin_small"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/alert_pic_quantity"
             app:layout_constraintTop_toTopOf="@id/alert_pic_quantity"/>
 
+        <include
+            android:id="@+id/notes_basic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            layout="@layout/alert_notes"
+            app:layout_constraintTop_toBottomOf="@id/description_text"
+            app:layout_constraintStart_toStartOf="@id/description_text"
+            app:layout_constraintEnd_toEndOf="@id/description_text"
+            app:layout_constraintBottom_toTopOf="@id/final_actions"/>
 
         <include
             android:id="@+id/final_actions"
